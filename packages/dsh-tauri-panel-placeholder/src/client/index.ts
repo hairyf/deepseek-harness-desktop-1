@@ -18,7 +18,7 @@ import { mountStyle } from 'dsh-tauri-ui/client'
 import { PLUGIN_ID, STYLE_ID } from './constants'
 import { installPanelLocale } from './locales'
 import { installPanel } from './register/panel'
-import placeholderStyle from './styles/placeholder.cssr'
+import placeholderStyle from './styles/index.cssr'
 
 /** 插件显示名（诊断元数据）。 */
 export const name = PLUGIN_ID

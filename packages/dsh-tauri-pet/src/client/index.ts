@@ -20,7 +20,7 @@ import { PET_CLIENT_PLUGIN, PET_STYLES_EFFECT } from './constants'
 import { installLocale } from './locales'
 import { installPetIconPatch, registerPetPrefill, registerPetSection } from './register/pet'
 import { installPetSessionForwarder } from './service/activity'
-import petStyle from './styles/pet.cssr'
+import petEntryStyle from './styles/index.cssr'
 
 /** 插件显示名（诊断元数据）。 */
 export const name = PET_CLIENT_PLUGIN
@@ -33,7 +33,7 @@ export const inject = ['slots', 'locale', 'sessions', 'workspaces']
  * @param ctx - 客户端根上下文（须已注入 slots/locale）。
  */
 export function apply(ctx: ClientContext): void {
-  ctx.effect(() => mountStyle(petStyle, `${PET_CLIENT_PLUGIN}-styles`), PET_STYLES_EFFECT)
+  ctx.effect(() => mountStyle(petEntryStyle, `${PET_CLIENT_PLUGIN}-styles`), PET_STYLES_EFFECT)
 
   installLocale(ctx)
 

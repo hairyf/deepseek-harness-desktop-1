@@ -6,13 +6,11 @@
  */
 
 import type { ClientContext } from 'dsh-tauri/client'
-import { mountStyle } from 'dsh-tauri-ui/client'
 import { compat } from 'dsh-tauri/client'
-import { SESSION_ARCHIVE_PATCH_EFFECT, SESSION_STYLE_ID, SESSION_STYLES_EFFECT } from './constants'
+import { SESSION_ARCHIVE_PATCH_EFFECT } from './constants'
 import { installWorkspaceArchivePatch } from './dom/workspace-patch'
 import { installLocale } from './locales'
 import { registerArchiveSection } from './register/archive-section'
-import sessionArchiveStyle from './styles/session-archive.cssr'
 
 /** 插件显示名（诊断元数据）。 */
 export const name = 'dsh-tauri-session'
@@ -27,8 +25,6 @@ export const inject = ['slots', 'locale', 'sessions', 'workspaces']
 export function apply(ctx: ClientContext): void {
   const cx = compat(ctx)
   installLocale(cx)
-
-  ctx.effect(() => mountStyle(sessionArchiveStyle, SESSION_STYLE_ID), SESSION_STYLES_EFFECT)
 
   // 1) 设置页「归档」分区（settings.section 单槽注册；导航行/内容由官方设置侧边栏投影）。
   registerArchiveSection(cx)

@@ -42,7 +42,7 @@ import { installSettingsSections } from './register/sections'
 import { registerSettingsSidebar } from './register/sidebar'
 import { registerSettingsTrigger } from './register/trigger'
 import { mountStyle } from './style'
-import turnNavigationStyle from './styles/turn-navigation.cssr'
+import turnNavigationStyle from './styles/index.cssr'
 
 /** 插件显示名（诊断元数据）。 */
 export const name = SETTINGS_UI_PLUGIN

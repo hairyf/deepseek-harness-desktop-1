@@ -21,8 +21,9 @@ import type { MenuEntry } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { ReactElement } from 'react'
 import type { ArchivePanelProps, ArchiveSort } from '../types'
 import { Button, Input, Menu, Modal, Toast } from '@deepseek-ai/dsh-client-ui-primitives'
-import { Ellipsis, FolderOpen, Icon, Magnifier, MenuSelect, TrashBin } from 'dsh-tauri-ui/client'
+import { Ellipsis, FolderOpen, Icon, Magnifier, MenuSelect, TrashBin, useMountStyle } from 'dsh-tauri-ui/client'
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
+import { SESSION_STYLE_ID } from '../constants'
 import { text, useLocale } from '../locales'
 import {
   clearArchive,
@@ -41,12 +42,14 @@ import {
 } from '../store'
 import { buildRows, formatTime, projectOptions, unionIds } from '../utils/archive-rows'
 import { groupArchive } from '../utils/sort'
+import archivePanelStyle from './archive-panel.cssr'
 
 /** 打开的删除确认弹窗：null 关闭；'single' 删除单个会话；'all' 删除全部。 */
 type DeleteConfirm = null | { kind: 'single', sessionId: string } | { kind: 'all' } | { kind: 'workspace', workspaceTitle: string, sessionIds: string[] }
 
 /** 设置页「归档」分区。 */
 export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
+  useMountStyle(archivePanelStyle, SESSION_STYLE_ID)
   const ui = useArchiveUi()
   useLocale()
   const [confirm, setConfirm] = useState<DeleteConfirm>(null)

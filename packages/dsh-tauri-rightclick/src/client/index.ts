@@ -20,12 +20,10 @@ import {
   RIGHTCLICK_MENU_EFFECT,
   RIGHTCLICK_MENU_STYLE_ID,
   RIGHTCLICK_STYLES_EFFECT,
-  RIGHTCLICK_TOAST_STYLE_ID,
 } from './constants'
 import { installLocale } from './locales'
 import { installContextMenu } from './service/menu'
-import rightClickMenuStyle from './styles/rightclick-menu.cssr'
-import rightClickToastStyle from './styles/rightclick-toast.cssr'
+import rightClickStyle from './styles/index.cssr'
 
 /** 插件显示名（诊断元数据）。 */
 export const name = RIGHTCLICK_CLIENT_PLUGIN
@@ -41,8 +39,7 @@ export function apply(ctx: ClientContext): void {
   const cx = compat(ctx)
   installLocale(cx)
 
-  ctx.effect(() => mountStyle(rightClickMenuStyle, RIGHTCLICK_MENU_STYLE_ID), RIGHTCLICK_STYLES_EFFECT)
-  ctx.effect(() => mountStyle(rightClickToastStyle, RIGHTCLICK_TOAST_STYLE_ID), RIGHTCLICK_STYLES_EFFECT)
+  ctx.effect(() => mountStyle(rightClickStyle, RIGHTCLICK_MENU_STYLE_ID), RIGHTCLICK_STYLES_EFFECT)
 
   ctx.effect(() => installContextMenu(cx), RIGHTCLICK_MENU_EFFECT)
 }
