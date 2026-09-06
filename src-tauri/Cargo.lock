@@ -911,6 +911,8 @@ dependencies = [
  "async-trait",
  "auto-launch",
  "base64 0.22.1",
+ "core-foundation 0.9.4",
+ "core-graphics 0.25.0",
  "dunce",
  "flate2",
  "futures-util",
