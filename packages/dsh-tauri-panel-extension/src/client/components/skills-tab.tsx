@@ -9,14 +9,16 @@
 import type { ReactElement } from 'react'
 import type { OpenTarget, SkillEditorState, SkillRowView, SkillsTabProps } from '../types'
 import { Button, Modal, StateDot } from '@deepseek-ai/dsh-client-ui-primitives'
-import { ArrowRotateRight, GraduationCap, Icon, LogoGithub } from 'dsh-tauri-ui/client'
+import { ArrowRotateRight, GraduationCap, Icon, LogoGithub, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useMemo, useState } from 'react'
 import { MarkdownPreview } from '../components/markdown'
-import { IMPORT_REFRESH_DELAYS_MS, SKILL_REFRESH_INTERVAL_MS, SKILL_REFRESH_TIMEOUT_MS, SOURCE_LOCALE_KEYS } from '../constants'
+import { IMPORT_REFRESH_DELAYS_MS, SKILL_REFRESH_INTERVAL_MS, SKILL_REFRESH_TIMEOUT_MS, SKILLS_TAB_STYLE_ID, SOURCE_LOCALE_KEYS } from '../constants'
 import { useTimers } from '../hooks/use-timers'
 import { normalizeRepository, policyTag } from '../utils/skills'
+import skillsTabStyle from './skills-tab.cssr'
 
 export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactElement {
+  useMountStyle(skillsTabStyle, SKILLS_TAB_STYLE_ID)
   const [skills, setSkills] = useState<SkillRowView[] | null>(null)
   const [editor, setEditor] = useState<SkillEditorState | null>(null)
   const [preview, setPreview] = useState(false)

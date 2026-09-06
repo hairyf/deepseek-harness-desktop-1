@@ -7,6 +7,9 @@
 import type { ReactElement } from 'react'
 import type { McpEditorMode, McpEditorState, Translate } from '../types'
 import { Button } from '@deepseek-ai/dsh-client-ui-primitives'
+import { useMountStyle } from 'dsh-tauri-ui/client'
+import { MCP_EDITOR_FORM_STYLE_ID } from '../constants'
+import mcpEditorFormStyle from './mcp-editor-form.cssr'
 
 export interface McpEditorFormProps {
   t: Translate
@@ -25,6 +28,7 @@ export interface McpEditorFormProps {
 }
 
 export function McpEditorForm(props: McpEditorFormProps): ReactElement {
+  useMountStyle(mcpEditorFormStyle, MCP_EDITOR_FORM_STYLE_ID)
   const { t, editor, mode, busy, pasteJson, pasteError, formError, onModeChange, onEditorChange, onPasteJsonChange, onPasteFill, onCancel, onSave } = props
   return (
     <div className="dshp-extension__form">

@@ -15,7 +15,7 @@ import { installExtensionPanel } from './register/extension-panel'
 import { registerSkillCreatorPrefill } from './register/skill-creator-prefill'
 import { createMcpInjected } from './service/mcp'
 import { createSkillsInjected } from './service/skills'
-import extensionPanelStyle from './styles/extension-panel.cssr'
+import extensionIndexStyle from './styles/index.cssr'
 
 export const name = PLUGIN_ID
 export const inject = ['slots', 'locale', 'sessions', 'workspaces']
@@ -23,7 +23,7 @@ export const inject = ['slots', 'locale', 'sessions', 'workspaces']
 export function apply(ctx: ExtensionClientContext): void {
   const cx = compat(ctx)
   installExtensionLocale(ctx)
-  ctx.effect(() => mountStyle(extensionPanelStyle, STYLE_ID), `${PLUGIN_ID}: styles`)
+  ctx.effect(() => mountStyle(extensionIndexStyle, STYLE_ID), `${PLUGIN_ID}: styles`)
   const t = ctx.locale.bind(LOCALE_NAMESPACE) as Translate
   registerSkillCreatorPrefill(ctx)
   installExtensionPanel(cx as ExtensionClientContext, t, createSkillsInjected(), createMcpInjected())

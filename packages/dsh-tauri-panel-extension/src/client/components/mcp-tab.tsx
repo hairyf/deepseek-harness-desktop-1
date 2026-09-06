@@ -11,16 +11,18 @@
 import type { ReactElement } from 'react'
 import type { McpEditorMode, McpEditorState, McpImportItem, McpRow, McpTabProps } from '../types'
 import { Button, Modal, StateDot } from '@deepseek-ai/dsh-client-ui-primitives'
-import { ArrowRotateRight, Icon, PlugConnection } from 'dsh-tauri-ui/client'
+import { ArrowRotateRight, Icon, PlugConnection, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
-import { MCP_RESTART_INITIAL_DELAY_MS, MCP_RESTART_POLL_INTERVAL_MS, MCP_RESTART_TIMEOUT_MS } from '../constants'
+import { MCP_RESTART_INITIAL_DELAY_MS, MCP_RESTART_POLL_INTERVAL_MS, MCP_RESTART_TIMEOUT_MS, MCP_TAB_STYLE_ID } from '../constants'
 import { useTimers } from '../hooks/use-timers'
 import { mapToPairs, parseMcpJson, parsePairs } from '../utils/mcp'
 import { McpEditorForm } from './mcp-editor-form'
 import { McpImportDialog } from './mcp-import-dialog'
+import mcpTabStyle from './mcp-tab.cssr'
 
 export function McpTab(props: McpTabProps): ReactElement {
   const { t, injected } = props
+  useMountStyle(mcpTabStyle, MCP_TAB_STYLE_ID)
   const [servers, setServers] = useState<McpRow[] | null>(null)
   const [editor, setEditor] = useState<McpEditorState | null>(null)
   const [confirmId, setConfirmId] = useState<string | null>(null)

@@ -7,7 +7,10 @@
 
 import type { ReactElement } from 'react'
 import type { McpInjected, SkillsInjected, Translate } from '../types'
+import { useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useId, useRef, useState } from 'react'
+import { EXTENSION_PANEL_STYLE_ID } from '../constants'
+import extensionPanelStyle from './extension-panel.cssr'
 import { McpTab } from './mcp-tab'
 import { SkillsTab } from './skills-tab'
 
@@ -19,6 +22,7 @@ export interface ExtensionPanelProps {
 }
 
 export function ExtensionPanel({ t, skills, mcp, createSkill }: ExtensionPanelProps): ReactElement {
+  useMountStyle(extensionPanelStyle, EXTENSION_PANEL_STYLE_ID)
   const tabsId = useId()
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
   const rows = [{ id: 'skills', label: t('skillsTab') }, { id: 'mcp', label: t('mcpTab') }]

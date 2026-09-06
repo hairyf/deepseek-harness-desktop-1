@@ -7,7 +7,10 @@
 import type { ReactElement } from 'react'
 import type { McpImportItem, Translate } from '../types'
 import { Button, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
+import { useMountStyle } from 'dsh-tauri-ui/client'
+import { MCP_IMPORT_DIALOG_STYLE_ID } from '../constants'
 import { importGroups } from '../utils/mcp'
+import mcpImportDialogStyle from './mcp-import-dialog.cssr'
 
 export interface McpImportDialogProps {
   t: Translate
@@ -22,6 +25,7 @@ export interface McpImportDialogProps {
 }
 
 export function McpImportDialog(props: McpImportDialogProps): ReactElement {
+  useMountStyle(mcpImportDialogStyle, MCP_IMPORT_DIALOG_STYLE_ID)
   const { t, open, items, busy, formError, onClose, onToggle, onToggleGroup, onImport } = props
   return (
     <Modal
