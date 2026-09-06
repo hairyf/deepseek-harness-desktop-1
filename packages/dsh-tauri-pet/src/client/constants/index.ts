@@ -43,6 +43,8 @@ export const PET_SIZE_STEP = 5
 
 /** 实时活动折叠：流式 delta 事件逐 token 触发，按会话做 trailing 节流合并推送。 */
 export const PET_ACTIVITY_THROTTLE_MS = 300
+/** 会话快照转发合并节流：多个会话的更新事件一次突发只触发一次批量 flush，避免背压。 */
+export const PET_SESSION_UPDATE_THROTTLE_MS = 100
 /** 思考文本只保留尾部窗口：展示「最新思考内容」，同时限制跨窗口传输体积。 */
 export const PET_REASONING_TAIL_LENGTH = 160
 /** 流式累积的工具参数最大长度：tool/call 离散事件随后会携带完整 arguments 替换，截断只影响 streaming 期间的一瞬展示。 */
