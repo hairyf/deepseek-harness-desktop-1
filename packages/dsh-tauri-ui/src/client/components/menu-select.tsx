@@ -44,7 +44,6 @@ export function MenuSelect({
       items={items}
       selectedId={value}
       portal
-      closeOnPointerLeave
       align="end"
       anchor={(
         <button

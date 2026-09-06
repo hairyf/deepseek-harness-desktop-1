@@ -1,4 +1,3 @@
-import type { Context } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-client-ui-renderer'
 import type { ClientContext } from 'dsh-tauri/client'
 import type { PetRuntimeContext } from '../types'
@@ -37,7 +36,7 @@ export function registerPetSection(ctx: ClientContext): void {
   )
 }
 
-export function registerPetIconPatch(ctx: Context): void {
+export function registerPetIconPatch(ctx: ClientContext): void {
   ctx.effect(() => registerSidebarPetIcon(), PET_ICON_PATCH_EFFECT)
 }
 

@@ -1,3 +1,4 @@
+import type { SkillRootEntry } from '../storage/index.ts'
 /**
  * Custom skill repositories the user registers from the Settings page:
  * a local directory (scanned in place, zero-copy) or a GitHub repo (tarball
@@ -8,7 +9,6 @@
  * provider.
  */
 
-import type { SkillRootEntry } from '../storage/index.ts'
 import { Buffer } from 'node:buffer'
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, symlinkSync } from 'node:fs'
 import process from 'node:process'

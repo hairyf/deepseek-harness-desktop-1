@@ -28,7 +28,7 @@ export function ModelPicker({
   readonly modelKey: string
   readonly reasoningEffort: string
   readonly onSelection: (modelKey: string, reasoningEffort: string) => void
-}): JSX.Element {
+}) {
   useMountStyle(modelPickerStyle, MODEL_PICKER_STYLE_ID)
   const menu = useMenuState()
   const [pane, setPane] = useState<'root' | 'model' | 'effort'>('root')

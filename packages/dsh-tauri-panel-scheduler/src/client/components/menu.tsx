@@ -25,8 +25,8 @@ const MenuHostContext = createContext<HTMLElement | null>(null)
 function useMenuOpen(): {
   readonly open: boolean
   readonly setOpen: (value: boolean | ((current: boolean) => boolean)) => void
-  readonly root: React.RefObject<HTMLDivElement>
-  readonly menu: React.RefObject<HTMLDivElement>
+  readonly root: React.RefObject<HTMLDivElement | null>
+  readonly menu: React.RefObject<HTMLDivElement | null>
 } {
   const [open, setOpen] = useState(false)
   const root = useRef<HTMLDivElement>(null)
@@ -78,15 +78,15 @@ export function MenuPopup({
   onClick,
 }: {
   readonly open: boolean
-  readonly anchor: RefObject<HTMLElement>
-  readonly menuRef: RefObject<HTMLDivElement>
+  readonly anchor: RefObject<HTMLElement | null>
+  readonly menuRef: RefObject<HTMLDivElement | null>
   readonly up?: boolean | undefined
   readonly end?: boolean | undefined
   readonly className: string
   readonly ariaLabel?: string
   readonly children: ReactNode
   readonly onClick?: () => void
-}): JSX.Element | null {
+}) {
   const host = useContext(MenuHostContext)
   const [style, setStyle] = useState<CSSProperties>({})
 
@@ -137,7 +137,7 @@ export function MenuHostProvider({
 }: {
   readonly host: HTMLElement | null
   readonly children: ReactNode
-}): JSX.Element {
+}) {
   useMountStyle(menuStyle, MENU_STYLE_ID)
   return <MenuHostContext.Provider value={host}>{children}</MenuHostContext.Provider>
 }
@@ -158,7 +158,7 @@ export function MenuRow({
   readonly chevron?: boolean
   readonly kv?: boolean
   readonly onClick: () => void
-}): JSX.Element {
+}) {
   return (
     <button type="button" className={`${'dshp-scheduler__menu-row'}${active === true ? ' is-on' : ''}${kv === true ? ' is-kv' : ''}`} onClick={onClick}>
       <span className="dshp-scheduler__menu-row-main">
@@ -190,7 +190,7 @@ export function MenuSelect<T extends string>({
   readonly pill?: boolean
   readonly up?: boolean
   readonly icon?: ReactNode
-}): JSX.Element {
+}) {
   const menu = useMenuOpen()
   const current = options.find(item => item.value === value)?.label ?? value
   return (
@@ -242,7 +242,7 @@ export function MenuPanel({
   readonly ghost?: boolean
   readonly up?: boolean
   readonly persist?: boolean
-}): JSX.Element {
+}) {
   const menu = useMenuOpen()
   return (
     <div className={`${'dshp-scheduler__menu-select'}${ghost === true ? ' is-pill' : ''}${menu.open ? ' is-open' : ''}`} ref={menu.root}>

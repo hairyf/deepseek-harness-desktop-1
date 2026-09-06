@@ -156,7 +156,7 @@ export function registerContextMenu(ctx: ClientContext): () => void {
     }
     else if (workspaceTarget) {
       const workspace = workspaceTarget.workspace
-      add(root, text('newSession'), () => workspaces.startSession?.(workspace.workspaceId))
+      add(root, text('newSession'), () => workspaces.startSession?.(workspace.workspaceId as unknown as Parameters<NonNullable<typeof workspaces.startSession>>[0]))
       add(root, text('openInExplorer'), () => openInExplorer(workspace.path))
       split(root)
       add(root, text('renameWorkspace'), () => officialSelect(

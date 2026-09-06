@@ -12,6 +12,7 @@ import type { TaskView, Translate } from '../types'
 import { Menu, Modal, Toast, IconWarningOutline16 as Warning } from '@deepseek-ai/dsh-client-ui-primitives'
 import { CirclePause, CirclePlay, EllipsisVertical, Icon, TrashBin, useMountStyle } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
+import { TASK_CARD_STYLE_ID } from '../constants'
 import { applyDeleteTask, applyRunTask, applyToggleTask } from '../service/scheduler'
 import taskCardStyle from './task-card.cssr'
 

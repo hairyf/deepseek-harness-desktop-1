@@ -66,9 +66,17 @@ interface PluginFiber {
   dispose: () => Promise<void>
 }
 
-export function apply(ctx: Context, config?: Config): void {
+/** cordis Context 类型发布缺陷兜底：apply 依赖的注册表/日志成员。 */
+interface HostContext {
+  effect: (callback: () => void | (() => void), id?: string) => void
+  inject: (services: readonly string[], setup: (hostCtx: HostContext) => void) => void
+  plugin: (plugin: unknown, config?: unknown) => PluginFiber
+  logger: { error: (message: string) => void }
+}
+
+export function apply(ctx: HostContext, config?: Config): void {
   const profile = config?.profile ?? argvProfile() ?? 'web'
-  ctx.inject(['webServer', 'skills', 'connection'], (hostCtx: Context) => {
+  ctx.inject(['webServer', 'skills', 'connection'], (hostCtx: HostContext) => {
     // The web bundle disables the host-plane `skill-filesystem` row on
     // purpose (presets own per-session discovery). The Settings manager
     // mounts its own host-plane provider as a CHILD of this plugin: it dies
@@ -101,7 +109,7 @@ export function apply(ctx: Context, config?: Config): void {
           // no node_modules. Resolve DSH-owned packages through the platform
           // loader (the same path used by preset rows), not native ESM relative
           // to this linked plugin's real path.
-          const loader = (hostCtx as Context & { loader: PlatformPluginLoader }).loader
+          const loader = (hostCtx as unknown as { loader: PlatformPluginLoader }).loader
           const plugin = await loadFilesystemSkillPlugin(loader)
           if (providerFiber !== undefined) {
             const old = providerFiber

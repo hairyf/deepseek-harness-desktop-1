@@ -15,6 +15,7 @@ import { clockSvg, mountStyle } from 'dsh-tauri-ui/client'
  */
 import { createLifecycleController } from 'dsh-tauri/client'
 import {
+  SESSION_ICON_ATTRIBUTE,
   SESSION_ICON_STYLE_ID,
   SIDEBAR_SELECTOR,
 } from '../constants'

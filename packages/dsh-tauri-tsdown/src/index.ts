@@ -2,14 +2,27 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import process from 'node:process'
 
+/** tsdown 单条构建配置（宽松面；运行时由 tsdown 校验）。 */
+type TsdownOptions = Record<string, unknown> & { noExternal?: Array<string | RegExp> }
+
 /** 是否处于 watch/dev 模式（dev:plugins → `tsdown --watch` 常驻）：跳过 minify 加速热重建。 */
 const isWatchMode = process.argv.includes('--watch') || process.argv.includes('-w')
+
+/** defineDshConfig 的入参（client 可扩展 noExternal）。 */
+export interface DshConfigOptions {
+  /** 宿主 entry 的 tsdown 选项（覆盖 common）。 */
+  server?: TsdownOptions
+  /** client entry 的 tsdown 选项（覆盖 common；noExternal 并入默认内联表）。 */
+  client?: TsdownOptions & { noExternal?: Array<string | RegExp> }
+  /** 是否对 server entry 跑 publint（默认 true）。 */
+  publint?: boolean
+}
 
 function clientBundleRegistration() {
   const packageName = process.env.npm_package_name
   const pkg = packageName
     ? { name: packageName }
-    : JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8'))
+    : JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8')) as { name: string }
   const id = JSON.stringify(pkg.name)
   // Only the JS bundle is a runtime script wrapped in the ModuleLoader factory.
   // Declaration files must stay real ES modules (top-level import/export) —
@@ -25,7 +38,7 @@ function clientBundleRegistration() {
   }
 }
 
-export const dshExternal = [
+export const dshExternal: Array<string | RegExp> = [
   'react',
   'react/jsx-runtime',
   'react-dom',
@@ -48,14 +61,14 @@ export const dshExternal = [
  * 插件 dependencies 解析）。子路径（unstorage/drivers/*）一并覆盖。
  * date-fns 仅作为构建期 devDependency，并按实际使用导出 tree-shake 后内联。
  */
-const dshClientInline = [
+const dshClientInline: Array<string | RegExp> = [
   /^(unstorage|hookable|ofetch|pathe|date-fns)([/-].*)?$/,
   /^@gravity-ui\/icons([/-].*)?$/,
 ]
 
-export function defineDshConfig(options = {}) {
+export function defineDshConfig(options: DshConfigOptions = {}) {
   const { noExternal: clientNoExternal, ...clientOptions } = options.client ?? {}
-  const common = {
+  const common: TsdownOptions = {
     outDir: 'dist',
     format: 'esm',
     outExtensions: () => ({ js: '.js' }),

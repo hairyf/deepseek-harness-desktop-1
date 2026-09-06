@@ -129,4 +129,3 @@ export interface SchedulerPanelProps {
   /** 「通过 Chat 创建」：关闭面板内容区回到会话区，引导用户直接对 Agent 描述任务。 */
   onViaChat: () => void
 }
-
