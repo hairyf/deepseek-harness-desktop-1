@@ -45,15 +45,15 @@ interface PetCardProps {
 
 function PetCard(props: PetCardProps): ReactElement {
   const actionClassName = props.active
-    ? 'dshpet-cardAction dshpet-cardActionActive'
-    : 'dshpet-cardAction'
+    ? 'dshp-pet__card-action dshp-pet__card-actionActive'
+    : 'dshp-pet__card-action'
   const thumbnailClassName = props.thumbnailType === 'spritesheet'
-    ? 'dshpet-cardThumb dshpet-cardThumbSprite'
-    : 'dshpet-cardThumb'
+    ? 'dshp-pet__card-thumb dshp-pet__card-thumbSprite'
+    : 'dshp-pet__card-thumb'
   const percent = props.progress ? progressPercent(props.progress) : null
 
   return (
-    <div className="dshpet-cardItem">
+    <div className="dshp-pet__card-item">
       {props.thumbnail
         ? props.thumbnailType === 'spritesheet'
           ? (
@@ -62,24 +62,24 @@ function PetCard(props: PetCardProps): ReactElement {
               </span>
             )
           : <img className={thumbnailClassName} src={props.thumbnail} alt="" aria-hidden="true" />
-        : <div className="dshpet-cardThumb dshpet-cardThumbPlaceholder" aria-hidden="true">PET</div>}
-      <span className="dshpet-cardBody">
-        <span className="dshpet-cardNameRow">
-          <span className="dshpet-cardName">{props.name}</span>
-          {props.sizeLabel ? <span className="dshpet-cardSize">{props.sizeLabel}</span> : null}
+        : <div className="dshp-pet__card-thumb dshp-pet__card-thumbPlaceholder" aria-hidden="true">PET</div>}
+      <span className="dshp-pet__card-body">
+        <span className="dshp-pet__card-nameRow">
+          <span className="dshp-pet__card-name">{props.name}</span>
+          {props.sizeLabel ? <span className="dshp-pet__cardsize">{props.sizeLabel}</span> : null}
         </span>
-        {props.desc ? <span className="dshpet-cardDesc">{props.desc}</span> : null}
+        {props.desc ? <span className="dshp-pet__card-desc">{props.desc}</span> : null}
         {props.progress
           ? (
               <span
-                className="dshpet-cardProgress"
+                className="dshp-pet__card-progress"
                 role="progressbar"
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={percent ?? undefined}
               >
                 <span
-                  className={percent === null ? 'dshpet-cardProgressFill dshpet-cardProgressIndeterminate' : 'dshpet-cardProgressFill'}
+                  className={percent === null ? 'dshp-pet__card-progressFill dshp-pet__card-progressIndeterminate' : 'dshp-pet__card-progressFill'}
                   style={percent === null ? undefined : { width: `${percent}%` }}
                 />
               </span>
@@ -365,9 +365,9 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
   const petsPanel = (
     <>
       {busy && presetPets.length === 0 && chatPets.length === 0
-        ? <div className="dshpet-loading">{text('loading')}</div>
+        ? <div className="dshp-pet__loading">{text('loading')}</div>
         : (
-            <div className="dshpet-cards">
+            <div className="dshp-pet__cards">
               {presetPets.map((item) => {
                 const progress = downloads[item.id] ?? null
                 const action = presetCardAction(item, active, progress)
@@ -411,9 +411,9 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
   )
 
   const codexPanel = (
-    <div className="dshpet-cards">
+    <div className="dshp-pet__cards">
       {codexPets.length === 0
-        ? <div className="dshpet-empty">{text('emptyImported')}</div>
+        ? <div className="dshp-pet__empty">{text('emptyImported')}</div>
         : codexPets.map(item => (
             <PetCard
               key={item.id}
@@ -431,14 +431,14 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
   )
 
   return (
-    <div className="dshpet-page">
-      <div className="dshpet-tabs">
-        <div className="dshpet-tabList" role="tablist" aria-label={text('name')}>
+    <div className="dshp-pet__page">
+      <div className="dshp-pet__tabs">
+        <div className="dshp-pet__tab-list" role="tablist" aria-label={text('name')}>
           <button
             type="button"
             role="tab"
             aria-selected={tab === 'pets'}
-            className={tab === 'pets' ? 'dshpet-tabBtn dshpet-tabBtnActive' : 'dshpet-tabBtn'}
+            className={tab === 'pets' ? 'dshp-pet__tab-btn dshp-pet__tab-btnActive' : 'dshp-pet__tab-btn'}
             onClick={() => setTab('pets')}
           >
             Pets
@@ -447,27 +447,27 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
             type="button"
             role="tab"
             aria-selected={tab === 'codex'}
-            className={tab === 'codex' ? 'dshpet-tabBtn dshpet-tabBtnActive' : 'dshpet-tabBtn'}
+            className={tab === 'codex' ? 'dshp-pet__tab-btn dshp-pet__tab-btnActive' : 'dshp-pet__tab-btn'}
             onClick={() => setTab('codex')}
           >
             Codex
           </button>
         </div>
-        <div className="dshpet-tabTools">
+        <div className="dshp-pet__tab-tools">
           {tab === 'pets'
             ? (
                 <>
-                  <button type="button" className="dshpet-toolBtn" disabled={busy} onClick={() => { void createPet() }}>
+                  <button type="button" className="dshp-pet__tool-btn" disabled={busy} onClick={() => { void createPet() }}>
                     <Icon as={Plus} />
                     {text('create')}
                   </button>
-                  <button type="button" className="dshpet-toolBtn" disabled={busy} onClick={() => { void toggleVisibility() }}>
+                  <button type="button" className="dshp-pet__tool-btn" disabled={busy} onClick={() => { void toggleVisibility() }}>
                     {visible ? text('collapsePet') : text('wakePet')}
                   </button>
                 </>
               )
             : (
-                <label className="dshpet-toolBtn" aria-disabled={busy}>
+                <label className="dshp-pet__tool-btn" aria-disabled={busy}>
                   <Icon as={ArrowDownToLine} />
                   {text('import')}
                   <input
@@ -481,17 +481,17 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
               )}
         </div>
       </div>
-      <p className="dshpet-tabDesc">
+      <p className="dshp-pet__tab-desc">
         {tab === 'pets' ? text('tabInstalledDesc') : text('tabCodexDesc')}
       </p>
-      <div className="dshpet-divider" role="separator" />
+      <div className="dshp-pet__divider" role="separator" />
       {tab === 'pets' ? petsPanel : codexPanel}
-      {error ? <div className="dshpet-error" role="alert">{error}</div> : null}
-      <div className="dshpet-sizeRow">
-        <span className="dshpet-sizeLabel">{text('sizeLabel')}</span>
+      {error ? <div className="dshp-pet__error" role="alert">{error}</div> : null}
+      <div className="dshp-pet__size-row">
+        <span className="dshp-pet__size-label">{text('sizeLabel')}</span>
         <input
           type="range"
-          className="dshpet-sizeSlider"
+          className="dshp-pet__size-slider"
           min={PET_SIZE_MIN}
           max={PET_SIZE_MAX}
           step={PET_SIZE_STEP}
@@ -504,7 +504,7 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
           }}
         />
       </div>
-      <p className="dshpet-hint">{text('sizeHint')}</p>
+      <p className="dshp-pet__hint">{text('sizeHint')}</p>
     </div>
   )
 }

@@ -15,14 +15,18 @@
  * 与 node half（host/）经 /api/dsh-worktree/* 通信（create/status/checkout/discard）。
  */
 import type { ClientContext } from 'dsh-tauri/client'
+import { mountStyle } from 'dsh-tauri-ui/client'
 import { compat } from 'dsh-tauri/client'
+import modeSelectStyle from './components/mode-select.cssr'
 import {
   HYDRATION_EFFECT,
   MODE_SELECT_EFFECT,
+  MODE_SELECT_STYLE_ID,
   SESSION_ICONS_EFFECT,
   STYLES_EFFECT,
   SURFACE_EFFECT,
   WORKTREE_PLUGIN_NAME,
+  WORKTREE_STYLE_ID,
 } from './constants'
 import { installLocale } from './locales'
 import { registerDialog } from './register/dialog'
@@ -31,7 +35,7 @@ import { registerModeSelect } from './register/mode-select'
 import { installSessionIcons } from './register/session-icons'
 import { registerSurface } from './register/surface'
 import { hydratePreferredMode } from './store'
-import { mountModeSelectStyles, mountWorktreeStyles } from './styles'
+import worktreeStyle from './styles/worktree.cssr'
 
 export { WORKTREE_API_PREFIX } from '../shared/constants'
 export type * from './types'
@@ -53,11 +57,11 @@ export function apply(ctx: ClientContext): void {
   void hydratePreferredMode()
   ctx.effect(
     () => {
-      const unmountModeSelectStyles = mountModeSelectStyles()
-      const unmountWorktreeStyles = mountWorktreeStyles()
+      const disposeModeSelect = mountStyle(modeSelectStyle, MODE_SELECT_STYLE_ID)
+      const disposeWorktree = mountStyle(worktreeStyle, WORKTREE_STYLE_ID)
       return () => {
-        unmountModeSelectStyles()
-        unmountWorktreeStyles()
+        disposeModeSelect()
+        disposeWorktree()
       }
     },
     STYLES_EFFECT,

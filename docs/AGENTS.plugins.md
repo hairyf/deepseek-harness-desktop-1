@@ -140,6 +140,7 @@ export const PANEL_STYLE_ID = 'dsh-tauri-panel-styles'
 - **统一 cssr 实例**：不各自 `new CssRender()`，一律从 `dsh-tauri-ui/client` 取：
   - `cssr.c(...)` 普通选择器
   - `cssr.bem.b('block')` / `cssr.bem.e('elem')` / `cssr.bem.m('mod')`（blockPrefix `.dshp-`，生成 `.dshp-block` / `__elem` / `--mod`，参考 naive-ui `alert/src/styles/index.cssr.ts`）
+  - 例外：`dsh-tauri` 底座（纯消息桥，不依赖 dsh-tauri-ui 以免环依赖）保留自身 `CssRender()` 的侧栏微调样式；其余所有插件必须走共享实例。
 - **统一挂载路线**（`dsh-tauri-ui/client` 暴露）：
   - 组件内：`useMountStyle(cnode, styleId)` —— 挂载时自动挂、卸载时自动卸。
   - 命令式（Controller / `ctx.effect`）：`mountStyle(cnode, styleId)` 返回 disposer，交由 `controller.add` 或 `ctx.effect` 返回。

@@ -31,9 +31,9 @@ export const BUILTIN_PET_DESC_ZH = '一只小小的七比蓝头发的鲸鱼女�
 export const BUILTIN_PET_DESC_EN = 'A tiny blue-haired whale maid Codex pet in a navy dress with white ruffles, blue eyes, side fins, and a whale tail.'
 export const DEFAULT_PETS = [{ id: BUILTIN_PET_ID, label: BUILTIN_PET_NAME }] as const
 export const SIDEBAR_SELECTOR = '[data-slot="sidebar"]'
-export const SETTINGS_TRIGGER_SELECTOR = '.dsh-tu-settingsTrigger'
+export const SETTINGS_TRIGGER_SELECTOR = '.dshp-settings-trigger'
 export const PET_ICON_ATTRIBUTE = 'data-dsh-tauri-pet-icon'
-export const PET_SETTINGS_ROW_CLASS = 'dshpet-settingsRow'
+export const PET_SETTINGS_ROW_CLASS = 'dshp-pet__settings-row'
 export const PET_ICON_RETRY_MS = 500
 export const PET_ICON_RETRY_MAX = 30
 export const PET_DEFAULT_SIZE = 100

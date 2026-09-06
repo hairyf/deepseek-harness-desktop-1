@@ -16,10 +16,10 @@ import type { WorkspacesRuntime, WorktreeDialogProps } from '../types'
  * 职责拆分：slot 注册在 register/dialog.ts，工作区顶部插入逻辑在 lib/worktree.ts。
  */
 import { useEffect } from 'react'
+import { worktreeStyles } from '../constants'
 import { text, useLocale } from '../locales'
 import { applyCheckout, applyDiscard } from '../service/actions'
 import { patchSession, useWorktreeSession } from '../store'
-import { worktreeStyles } from '../styles'
 import { resolveWorkspaceTopInsertion } from '../utils/worktree'
 
 /**

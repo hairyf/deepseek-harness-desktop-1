@@ -192,11 +192,11 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
   const readOnly = editor?.mode === 'view'
 
   return (
-    <div className="dpte-section">
-      <div className="dpte-head">
+    <div className="dshp-extension__section">
+      <div className="dshp-extension__head">
         <Icon as={GraduationCap} />
         <h3>{t('skillsTitle')}</h3>
-        <span className="dpte-spacer" />
+        <span className="dshp-extension__spacer" />
         <Button variant="ghost" size="sm" onClick={() => void doOpen({ target: 'user-skills' })}>{t('openUserSkills')}</Button>
         <Button
           variant="ghost"
@@ -212,46 +212,46 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
         <Button variant="primary" size="sm" disabled={busy} onClick={() => void doCreate()}>{t('newSkill')}</Button>
 
       </div>
-      <p className="dpte-intro">{t('skillsIntro')}</p>
+      <p className="dshp-extension__intro">{t('skillsIntro')}</p>
       {outcome && (
-        <div className="dpte-banner" data-kind={outcome.ok ? 'ok' : 'error'} role="status">
+        <div className="dshp-extension__banner" data-kind={outcome.ok ? 'ok' : 'error'} role="status">
           <StateDot state={outcome.ok ? 'done' : 'error'} size={10} />
-          <div className="dpte-bannerBody">{outcome.text}</div>
+          <div className="dshp-extension__bannerBody">{outcome.text}</div>
         </div>
       )}
-      <div className="dpte-listHead">
+      <div className="dshp-extension__list-head">
         <h3>{t('skillsTab')}</h3>
         {skills && (
-          <span className="dpte-count">
+          <span className="dshp-extension__count">
             {filtered.length}
             /
             {skills.length}
           </span>
         )}
-        <span className="dpte-spacer" />
-        <input className="dpte-search" type="search" placeholder={t('searchSkills')} aria-label={t('searchSkills')} value={query} onChange={event => setQuery(event.target.value)} />
-        <button type="button" className="dpte-refresh" aria-label={t('refresh')} title={t('refresh')} disabled={busy} onClick={() => void doRefresh()}><Icon as={ArrowRotateRight} /></button>
+        <span className="dshp-extension__spacer" />
+        <input className="dshp-extension__search" type="search" placeholder={t('searchSkills')} aria-label={t('searchSkills')} value={query} onChange={event => setQuery(event.target.value)} />
+        <button type="button" className="dshp-extension__refresh" aria-label={t('refresh')} title={t('refresh')} disabled={busy} onClick={() => void doRefresh()}><Icon as={ArrowRotateRight} /></button>
       </div>
-      {sources.length > 1 && <div className="dpte-chips" role="group" aria-label={t('source')}>{[{ id: 'all', label: t('filterAll') }, ...sources.map(source => ({ id: source, label: t(SOURCE_LOCALE_KEYS[source] ?? 'sourceCustom') }))].map(chip => <button key={chip.id} type="button" className="dpte-chip" data-active={sourceFilter === chip.id ? 'true' : undefined} onClick={() => setSourceFilter(chip.id)}>{chip.label}</button>)}</div>}
-      {skills === null && <p className="dpte-empty">{t('loading')}</p>}
-      {skills !== null && filtered.length === 0 && <p className="dpte-empty">{skills.length === 0 ? t('emptySkills') : t('noMatch')}</p>}
+      {sources.length > 1 && <div className="dshp-extension__chips" role="group" aria-label={t('source')}>{[{ id: 'all', label: t('filterAll') }, ...sources.map(source => ({ id: source, label: t(SOURCE_LOCALE_KEYS[source] ?? 'sourceCustom') }))].map(chip => <button key={chip.id} type="button" className="dshp-extension__chip" data-active={sourceFilter === chip.id ? 'true' : undefined} onClick={() => setSourceFilter(chip.id)}>{chip.label}</button>)}</div>}
+      {skills === null && <p className="dshp-extension__empty">{t('loading')}</p>}
+      {skills !== null && filtered.length === 0 && <p className="dshp-extension__empty">{skills.length === 0 ? t('emptySkills') : t('noMatch')}</p>}
       {filtered.length > 0 && (
-        <ul className="dpte-cards">
+        <ul className="dshp-extension__cards">
           {filtered.map((skill) => {
             const tag = policyTag(skill)
             return (
-              <li className="dpte-card" key={`${skill.source}/${skill.name}`}>
-                <div className="dpte-cardTop">
-                  <strong className="dpte-cardTitle" title={skill.name}>{skill.name}</strong>
-                  <span className="dpte-tag" data-kind="source">{t(SOURCE_LOCALE_KEYS[skill.source] ?? 'sourceCustom')}</span>
-                  {tag.key && <span className="dpte-tag" data-kind={tag.off ? 'off' : undefined}>{t(tag.key)}</span>}
+              <li className="dshp-extension__card" key={`${skill.source}/${skill.name}`}>
+                <div className="dshp-extension__card-top">
+                  <strong className="dshp-extension__card-title" title={skill.name}>{skill.name}</strong>
+                  <span className="dshp-extension__tag" data-kind="source">{t(SOURCE_LOCALE_KEYS[skill.source] ?? 'sourceCustom')}</span>
+                  {tag.key && <span className="dshp-extension__tag" data-kind={tag.off ? 'off' : undefined}>{t(tag.key)}</span>}
                 </div>
-                <p className="dpte-cardDesc" title={skill.description}>{skill.description}</p>
-                <div className="dpte-cardRow">
-                  {skill.policyEditable && <button type="button" className="dpte-switch" role="switch" aria-checked={skill.invocation.modelInvocable || skill.invocation.userInvocable} aria-label={t('toggleSkill')} title={t('toggleSkillHint')} disabled={busy} onClick={() => void doToggle(skill)}><span className="dpte-switchKnob" /></button>}
-                  {skill.dir && <button type="button" className="dpte-link" onClick={() => void doOpen({ target: 'skill', name: skill.name })}>{t('openFolder')}</button>}
-                  <span className="dpte-spacer" />
-                  {skill.repository?.githubUrl && <a className="dpte-iconLink" href={skill.repository.githubUrl} target="_blank" rel="noreferrer" aria-label={t('githubRepository')} title={t('githubRepository')}><Icon as={LogoGithub} /></a>}
+                <p className="dshp-extension__card-desc" title={skill.description}>{skill.description}</p>
+                <div className="dshp-extension__card-row">
+                  {skill.policyEditable && <button type="button" className="dshp-extension__switch" role="switch" aria-checked={skill.invocation.modelInvocable || skill.invocation.userInvocable} aria-label={t('toggleSkill')} title={t('toggleSkillHint')} disabled={busy} onClick={() => void doToggle(skill)}><span className="dshp-extension__switch-knob" /></button>}
+                  {skill.dir && <button type="button" className="dshp-extension__link" onClick={() => void doOpen({ target: 'skill', name: skill.name })}>{t('openFolder')}</button>}
+                  <span className="dshp-extension__spacer" />
+                  {skill.repository?.githubUrl && <a className="dshp-extension__icon-link" href={skill.repository.githubUrl} target="_blank" rel="noreferrer" aria-label={t('githubRepository')} title={t('githubRepository')}><Icon as={LogoGithub} /></a>}
                   <Button variant="ghost" size="sm" disabled={busy} onClick={() => void openExisting(skill)}>{skill.editable ? t('edit') : t('view')}</Button>
                   {skill.removable && <Button variant="ghost" size="sm" disabled={busy} onClick={() => setConfirmName(skill.name)}>{t('delete')}</Button>}
                 </div>
@@ -261,22 +261,22 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
         </ul>
       )}
 
-      <Modal open={editor !== null} onClose={() => setEditor(null)} closeLabel={t('close')} title={editor?.mode === 'edit' ? t('editSkill') : t('viewSkill')} className="dpte-modalForm" contentClassName="dpte-modalScroll">
+      <Modal open={editor !== null} onClose={() => setEditor(null)} closeLabel={t('close')} title={editor?.mode === 'edit' ? t('editSkill') : t('viewSkill')} className="dshp-extension__modal-form" contentClassName="dshp-extension__modal-scroll">
         {editor && (
-          <div className="dpte-form">
-            <label className="dpte-label">
+          <div className="dshp-extension__form">
+            <label className="dshp-extension__label">
               <span>{t('skillName')}</span>
-              <input className="dpte-input" value={editor.name} disabled />
+              <input className="dshp-extension__input" value={editor.name} disabled />
             </label>
-            <label className="dpte-label">
+            <label className="dshp-extension__label">
               <span>{t('skillDescription')}</span>
-              <input className="dpte-input" value={editor.description} disabled={readOnly} onChange={event => setEditor({ ...editor, description: event.target.value })} />
+              <input className="dshp-extension__input" value={editor.description} disabled={readOnly} onChange={event => setEditor({ ...editor, description: event.target.value })} />
             </label>
-            <label className="dpte-label">
+            <label className="dshp-extension__label">
               <span>{t('skillWhenToUse')}</span>
-              <input className="dpte-input" value={editor.whenToUse} disabled={readOnly} onChange={event => setEditor({ ...editor, whenToUse: event.target.value })} />
+              <input className="dshp-extension__input" value={editor.whenToUse} disabled={readOnly} onChange={event => setEditor({ ...editor, whenToUse: event.target.value })} />
             </label>
-            <div className="dpte-checks">
+            <div className="dshp-extension__checks">
               <label>
                 <input type="checkbox" checked={editor.modelInvocable} disabled={readOnly} onChange={event => setEditor({ ...editor, modelInvocable: event.target.checked })} />
                 {t('modelInvocable')}
@@ -286,20 +286,20 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
                 {t('userInvocable')}
               </label>
             </div>
-            <div className="dpte-label">
-              <div className="dpte-cardRow">
+            <div className="dshp-extension__label">
+              <div className="dshp-extension__card-row">
                 <span>{t('skillContent')}</span>
-                <span className="dpte-spacer" />
-                <div className="dpte-segments" role="tablist" aria-label={t('skillContent')}>
-                  <button type="button" role="tab" aria-selected={preview} className="dpte-segment" data-active={preview ? 'true' : undefined} onClick={() => setPreview(true)}>{t('skillPreview')}</button>
-                  <button type="button" role="tab" aria-selected={!preview} className="dpte-segment" data-active={!preview ? 'true' : undefined} onClick={() => setPreview(false)}>{readOnly ? t('skillPlainText') : t('edit')}</button>
+                <span className="dshp-extension__spacer" />
+                <div className="dshp-extension__segments" role="tablist" aria-label={t('skillContent')}>
+                  <button type="button" role="tab" aria-selected={preview} className="dshp-extension__segment" data-active={preview ? 'true' : undefined} onClick={() => setPreview(true)}>{t('skillPreview')}</button>
+                  <button type="button" role="tab" aria-selected={!preview} className="dshp-extension__segment" data-active={!preview ? 'true' : undefined} onClick={() => setPreview(false)}>{readOnly ? t('skillPlainText') : t('edit')}</button>
                 </div>
               </div>
-              {preview ? <div className="dpte-mdPreview"><MarkdownPreview text={editor.content} /></div> : <textarea className="dpte-textarea" value={editor.content} readOnly={readOnly} onChange={event => setEditor({ ...editor, content: event.target.value })} />}
+              {preview ? <div className="dshp-extension__md-preview"><MarkdownPreview text={editor.content} /></div> : <textarea className="dshp-extension__textarea" value={editor.content} readOnly={readOnly} onChange={event => setEditor({ ...editor, content: event.target.value })} />}
             </div>
-            {formError && <p className="dpte-formError">{formError}</p>}
-            <div className="dpte-cardRow">
-              <span className="dpte-spacer" />
+            {formError && <p className="dshp-extension__formError">{formError}</p>}
+            <div className="dshp-extension__card-row">
+              <span className="dshp-extension__spacer" />
               <Button variant="ghost" onClick={() => setEditor(null)}>{readOnly ? t('close') : t('cancel')}</Button>
               {!readOnly && <Button variant="primary" disabled={busy} onClick={() => void doSave()}>{t('save')}</Button>}
             </div>
@@ -321,14 +321,14 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
       >
         <p>{t('deleteWarn')}</p>
       </Modal>
-      <Modal open={importOpen} onClose={() => setImportOpen(false)} closeLabel={t('close')} title={t('importRepositoryTitle')} className="dpte-modalWide">
-        <div className="dpte-form">
-          <p className="dpte-intro">{t('importRepositoryHint')}</p>
-          <label className="dpte-label">
+      <Modal open={importOpen} onClose={() => setImportOpen(false)} closeLabel={t('close')} title={t('importRepositoryTitle')} className="dshp-extension__modal-wide">
+        <div className="dshp-extension__form">
+          <p className="dshp-extension__intro">{t('importRepositoryHint')}</p>
+          <label className="dshp-extension__label">
             <span>{t('repository')}</span>
             <input
               autoFocus
-              className="dpte-input"
+              className="dshp-extension__input"
               placeholder={t('importRepositoryPlaceholder')}
               value={repositoryUrl}
               onChange={event => setRepositoryUrl(event.target.value)}
@@ -338,9 +338,9 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
               }}
             />
           </label>
-          {formError && <p className="dpte-formError">{formError}</p>}
-          <div className="dpte-cardRow">
-            <span className="dpte-spacer" />
+          {formError && <p className="dshp-extension__formError">{formError}</p>}
+          <div className="dshp-extension__card-row">
+            <span className="dshp-extension__spacer" />
             <Button variant="ghost" disabled={busy} onClick={() => setImportOpen(false)}>{t('cancel')}</Button>
             <Button variant="primary" disabled={busy || repositoryUrl.trim() === ''} onClick={() => void doImport()}>{t('importRepository')}</Button>
           </div>

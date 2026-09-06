@@ -27,8 +27,8 @@ export function ExtensionPanel({ t, skills, mcp, createSkill }: ExtensionPanelPr
   useEffect(() => setVisited(previous => previous.has(activeId) ? previous : new Set([...previous, activeId])), [activeId])
 
   return (
-    <div className="dpte-section">
-      <div className="dpte-tabs" role="tablist" aria-label={t('extension')}>
+    <div className="dshp-extension__section">
+      <div className="dshp-extension__tabs" role="tablist" aria-label={t('extension')}>
         {rows.map((row, index) => {
           const selected = row.id === activeId
           return (
@@ -38,7 +38,7 @@ export function ExtensionPanel({ t, skills, mcp, createSkill }: ExtensionPanelPr
               id={`${tabsId}-tab-${row.id}`}
               type="button"
               role="tab"
-              className="dpte-tab"
+              className="dshp-extension__tab"
               aria-selected={selected}
               aria-controls={`${tabsId}-panel-${row.id}`}
               data-active={selected ? 'true' : undefined}
@@ -67,7 +67,7 @@ export function ExtensionPanel({ t, skills, mcp, createSkill }: ExtensionPanelPr
       </div>
       {rows.filter(row => row.id === activeId || visited.has(row.id)).map((row) => {
         const selected = row.id === activeId
-        return <div key={row.id} id={`${tabsId}-panel-${row.id}`} className="dpte-tabPanel" role="tabpanel" aria-labelledby={`${tabsId}-tab-${row.id}`} hidden={!selected}>{row.id === 'skills' ? <SkillsTab t={t} injected={skills} createSkill={createSkill} /> : <McpTab t={t} injected={mcp} />}</div>
+        return <div key={row.id} id={`${tabsId}-panel-${row.id}`} className="dshp-extension__tabPanel" role="tabpanel" aria-labelledby={`${tabsId}-tab-${row.id}`} hidden={!selected}>{row.id === 'skills' ? <SkillsTab t={t} injected={skills} createSkill={createSkill} /> : <McpTab t={t} injected={mcp} />}</div>
       })}
     </div>
   )

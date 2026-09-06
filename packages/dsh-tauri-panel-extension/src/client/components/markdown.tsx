@@ -9,5 +9,5 @@ function parseMarkdown(text: string): string {
 
 export function MarkdownPreview(props: { text: string }): ReactElement {
   const html = useMemo(() => parseMarkdown(props.text), [props.text])
-  return <div className="dpte-mdBody" dangerouslySetInnerHTML={{ __html: html }} />
+  return <div className="dshp-extension__md-body" dangerouslySetInnerHTML={{ __html: html }} />
 }

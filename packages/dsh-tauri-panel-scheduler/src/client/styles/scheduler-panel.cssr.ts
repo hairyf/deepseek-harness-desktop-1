@@ -1,6 +1,5 @@
-import { styles as sharedStyles } from 'dsh-tauri-ui/client'
-import { CssRender } from 'dsh-tauri/client'
-import { SCHEDULER_CLASSES as K, STYLE_ID } from '../constants'
+import { cssr, styles as sharedStyles } from 'dsh-tauri-ui/client'
+import { SCHEDULER_CLASSES as K } from '../constants'
 
 /**
  * styles/index.ts — 定时任务面板样式（官方控件样式复刻 + 布局补充）。
@@ -13,7 +12,6 @@ import { SCHEDULER_CLASSES as K, STYLE_ID } from '../constants'
  * 本文件仅做布局 / 边框 / 圆角 / 填充补充，mount 只在 apply() 里经 ctx.effect 调用。
  */
 
-const cssr = CssRender()
 const { c } = cssr
 
 const {
@@ -42,7 +40,7 @@ const {
   focusRing,
 } = sharedStyles
 
-const styles = c([
+export default c([
   // —— 面板外壳 / 页头 ——
   c(`.${K.shell}`, { boxSizing: 'border-box', maxWidth: '1080px', width: '100%', margin: '0 auto', padding: '0 0 32px', color: primary, fontFamily: font, fontSize: '13px', lineHeight: '1.5' }),
   c(`.${K.top}`, { display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '12px' }),
@@ -216,12 +214,3 @@ const styles = c([
   c(`.${K.recName} strong`, { color: secondary, fontWeight: '600' }),
   c(`.${K.recPrompt}`, { color: tertiary, fontSize: '12px', lineHeight: '18px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }),
 ])
-
-export function mountSchedulerStyles(): () => void {
-  if (typeof document === 'undefined')
-    return () => {}
-  if (cssr.find(STYLE_ID) !== null)
-    return () => {}
-  styles.mount({ id: STYLE_ID, head: true })
-  return () => styles.unmount({ id: STYLE_ID })
-}

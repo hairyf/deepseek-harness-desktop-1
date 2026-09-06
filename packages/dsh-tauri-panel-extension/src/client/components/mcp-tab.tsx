@@ -273,11 +273,11 @@ export function McpTab(props: McpTabProps): ReactElement {
   }
 
   const restartBanner = (
-    <div className="dpte-banner" data-kind="info" role="status">
+    <div className="dshp-extension__banner" data-kind="info" role="status">
       <StateDot state="ongoing" size={10} />
-      <div className="dpte-bannerBody">
+      <div className="dshp-extension__bannerBody">
         <span>{restarting ? t('restarting') : t('restartNeeded')}</span>
-        <span className="dpte-bannerHint">
+        <span className="dshp-extension__bannerHint">
           {restarting
             ? (!injected.desktop && t('restartPortHint'))
             : injected.desktop
@@ -295,50 +295,50 @@ export function McpTab(props: McpTabProps): ReactElement {
   )
 
   return (
-    <div className="dpte-section">
-      <div className="dpte-head">
+    <div className="dshp-extension__section">
+      <div className="dshp-extension__head">
         <Icon as={PlugConnection} />
         <h3>{t('mcpTitle')}</h3>
-        <span className="dpte-spacer" />
+        <span className="dshp-extension__spacer" />
         <Button variant="ghost" size="sm" disabled={restarting} onClick={() => setRestartConfirm(true)}>{t('restart')}</Button>
         <Button variant="ghost" size="sm" onClick={() => void openImport()}>{t('importServers')}</Button>
         <Button variant="primary" size="sm" onClick={openCreate}>{t('addServer')}</Button>
       </div>
-      <p className="dpte-intro">{t('mcpIntro')}</p>
+      <p className="dshp-extension__intro">{t('mcpIntro')}</p>
 
       {outcome !== null && (
-        <div className="dpte-banner" data-kind={outcome.ok ? 'ok' : 'error'} role="status">
+        <div className="dshp-extension__banner" data-kind={outcome.ok ? 'ok' : 'error'} role="status">
           <StateDot state={outcome.ok ? 'done' : 'error'} size={10} />
-          <div className="dpte-bannerBody"><span>{outcome.text}</span></div>
+          <div className="dshp-extension__bannerBody"><span>{outcome.text}</span></div>
         </div>
       )}
       {(pending || restarting) && restartBanner}
 
-      <div className="dpte-listHead">
+      <div className="dshp-extension__list-head">
         <h3>{t('mcpTab')}</h3>
-        {servers !== null && <span className="dpte-count">{servers.length}</span>}
-        <span className="dpte-spacer" />
-        <button type="button" className="dpte-refresh" aria-label={t('view')} title={t('view')} disabled={busy} onClick={() => setReload(value => value + 1)}>
+        {servers !== null && <span className="dshp-extension__count">{servers.length}</span>}
+        <span className="dshp-extension__spacer" />
+        <button type="button" className="dshp-extension__refresh" aria-label={t('view')} title={t('view')} disabled={busy} onClick={() => setReload(value => value + 1)}>
           <Icon as={ArrowRotateRight} />
         </button>
       </div>
 
-      {servers === null && <p className="dpte-empty">{t('loading')}</p>}
-      {servers !== null && servers.length === 0 && <p className="dpte-empty">{t('emptyMcp')}</p>}
+      {servers === null && <p className="dshp-extension__empty">{t('loading')}</p>}
+      {servers !== null && servers.length === 0 && <p className="dshp-extension__empty">{t('emptyMcp')}</p>}
       {servers !== null && servers.length > 0 && (
-        <ul className="dpte-cards">
+        <ul className="dshp-extension__cards">
           {servers.map(row => (
-            <li className="dpte-card" key={row.id}>
-              <div className="dpte-cardTop">
-                <strong className="dpte-cardTitle" title={row.id}>{row.serverName}</strong>
-                <span className="dpte-tag">{row.transport}</span>
-                <span className="dpte-tag" data-kind={row.disabled ? 'off' : undefined}>{row.disabled ? t('disabled') : t('enabled')}</span>
+            <li className="dshp-extension__card" key={row.id}>
+              <div className="dshp-extension__card-top">
+                <strong className="dshp-extension__card-title" title={row.id}>{row.serverName}</strong>
+                <span className="dshp-extension__tag">{row.transport}</span>
+                <span className="dshp-extension__tag" data-kind={row.disabled ? 'off' : undefined}>{row.disabled ? t('disabled') : t('enabled')}</span>
               </div>
-              <p className="dpte-cardDesc">
+              <p className="dshp-extension__card-desc">
                 {row.transport === 'stdio' ? `${row.command ?? ''} ${(row.args ?? []).join(' ')}` : row.url ?? ''}
               </p>
-              <div className="dpte-cardRow">
-                <span className="dpte-spacer" />
+              <div className="dshp-extension__card-row">
+                <span className="dshp-extension__spacer" />
                 <Button variant="ghost" size="sm" disabled={busy} onClick={() => void doToggle(row)}>{t('toggle')}</Button>
                 <Button variant="ghost" size="sm" disabled={busy} onClick={() => openEdit(row)}>{t('edit')}</Button>
                 <Button variant="ghost" size="sm" disabled={busy} onClick={() => setConfirmId(row.id)}>{t('delete')}</Button>
@@ -353,8 +353,8 @@ export function McpTab(props: McpTabProps): ReactElement {
         onClose={() => setEditor(null)}
         closeLabel={t('close')}
         title={editor !== null && editor.id !== '' ? t('editServer') : t('addServer')}
-        className="dpte-modalForm"
-        contentClassName="dpte-modalScroll"
+        className="dshp-extension__modal-form"
+        contentClassName="dshp-extension__modal-scroll"
       >
         {editor !== null && (
           <McpEditorForm

@@ -1,4 +1,4 @@
-import { clockSvg } from 'dsh-tauri-ui/client'
+import { clockSvg, mountStyle } from 'dsh-tauri-ui/client'
 /**
  * register/session-icons.ts — 侧边栏会话行给定时任务会话加时钟图标（DOM 补丁）。
  *
@@ -13,13 +13,13 @@ import { clockSvg } from 'dsh-tauri-ui/client'
  * 自建会话 id 是 `task-<uuid>`，前缀过滤会漏掉自己的行；改为集合精确匹配，
  * 非会话行（工作区分组头等）天然不在集合内。
  */
-import { createLifecycleController, CssRender } from 'dsh-tauri/client'
+import { createLifecycleController } from 'dsh-tauri/client'
 import {
-  SESSION_ICON_ATTRIBUTE,
   SESSION_ICON_STYLE_ID,
   SIDEBAR_SELECTOR,
 } from '../constants'
 import { schedulerStore } from '../store'
+import sessionIconStyle from '../styles/scheduler.icon.cssr'
 
 /**
  * 安装会话行时钟图标（CSS + DOM 观察器）。返回卸载函数。
@@ -29,26 +29,7 @@ export function installSessionIcons(): () => void {
   if (typeof document === 'undefined')
     return () => {}
   const controller = createLifecycleController()
-  const cssr = CssRender()
-  if (cssr.find(SESSION_ICON_STYLE_ID) !== null)
-    return () => {}
-  const { c } = cssr
-  const iconStyle = c([
-    c(`[${SESSION_ICON_ATTRIBUTE}]`, {
-      width: '16px',
-      height: '20px',
-      flex: 'none',
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft: '2px',
-      marginRight: '5px',
-      color: 'var(--dsw-alias-label-secondary)',
-    }),
-    c('[role="treeitem"]', { position: 'relative' }),
-  ])
-  iconStyle.mount({ id: SESSION_ICON_STYLE_ID, head: true })
-  controller.add(() => iconStyle.unmount({ id: SESSION_ICON_STYLE_ID }))
+  controller.add(mountStyle(sessionIconStyle, SESSION_ICON_STYLE_ID))
 
   /**
    * HARDCODE: DSH 0.1.1-rc.2 does not expose a per-session-row slot or data id,

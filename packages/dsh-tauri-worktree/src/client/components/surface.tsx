@@ -7,9 +7,9 @@ import { CircleTree, Icon } from 'dsh-tauri-ui/client'
  * 职责拆分：slot 注册在 register/surface.ts，样式在 styles.ts。
  */
 import { useState } from 'react'
+import { worktreeStyles } from '../constants'
 import { text, useLocale } from '../locales'
 import { patchSession, useWorktreeSession } from '../store'
-import { worktreeStyles } from '../styles'
 
 export function WorktreeSurface({ sessionId }: SurfaceBarProps): ReactElement | null {
   useLocale()

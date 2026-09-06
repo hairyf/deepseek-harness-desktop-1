@@ -1,11 +1,10 @@
 /** Archive page styles generated as css-render nodes. */
-import { CssRender } from 'dsh-tauri/client'
-import { SESSION_CLASSES as K, SESSION_STYLE_ID } from '../constants'
+import { cssr } from 'dsh-tauri-ui/client'
+import { SESSION_CLASSES as K } from '../constants'
 
-const cssr = CssRender()
 const { c } = cssr
 
-const archiveStyle = c([
+export default c([
   c(`.${K.page}`, {
     display: 'flex',
     flexDirection: 'column',
@@ -261,12 +260,3 @@ const archiveStyle = c([
     c('&:hover', { textDecoration: 'underline' }),
   ]),
 ])
-
-export function mountSessionStyles(): () => void {
-  if (typeof document === 'undefined')
-    return () => {}
-  if (cssr.find(SESSION_STYLE_ID) !== null)
-    return () => {}
-  archiveStyle.mount({ id: SESSION_STYLE_ID, head: true })
-  return () => archiveStyle.unmount({ id: SESSION_STYLE_ID })
-}
