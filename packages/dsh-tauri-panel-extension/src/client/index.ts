@@ -13,8 +13,6 @@ import { LOCALE_NAMESPACE, PLUGIN_ID, STYLE_ID } from './constants'
 import { registerExtensionLocale } from './locales'
 import { registerExtensionPanel } from './register/extension-panel'
 import { registerSkillCreatorPrefill } from './register/skill-creator-prefill'
-import { createMcpInjected } from './service/mcp'
-import { createSkillsInjected } from './service/skills'
 import extensionIndexStyle from './styles/index.cssr'
 
 export const name = PLUGIN_ID
@@ -26,5 +24,5 @@ export function apply(ctx: ExtensionClientContext): void {
   ctx.effect(() => mountStyle(extensionIndexStyle, STYLE_ID), `${PLUGIN_ID}: styles`)
   const t = ctx.locale.bind(LOCALE_NAMESPACE) as Translate
   registerSkillCreatorPrefill(ctx)
-  registerExtensionPanel(cx as ExtensionClientContext, t, createSkillsInjected(), createMcpInjected())
+  registerExtensionPanel(cx as ExtensionClientContext, t)
 }

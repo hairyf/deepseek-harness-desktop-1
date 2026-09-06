@@ -11,13 +11,14 @@ import type { OpenTarget, SkillEditorState, SkillRowView, SkillsTabProps } from 
 import { Button, Modal, StateDot } from '@deepseek-ai/dsh-client-ui-primitives'
 import { ArrowRotateRight, GraduationCap, Icon, LogoGithub, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useMemo, useState } from 'react'
+import { getSkill, getSkills, postOpen, postRootsAdd, postSkillDelete, postSkillPolicy, postSkillSave, postSkillsRefresh } from '../apis'
 import { MarkdownPreview } from '../components/markdown'
 import { IMPORT_REFRESH_DELAYS_MS, SKILL_REFRESH_INTERVAL_MS, SKILL_REFRESH_TIMEOUT_MS, SKILLS_TAB_STYLE_ID, SOURCE_LOCALE_KEYS } from '../constants'
 import { useTimers } from '../hooks/use-timers'
 import { normalizeRepository, policyTag } from '../utils/skills'
 import skillsTabStyle from './skills-tab.cssr'
 
-export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactElement {
+export function SkillsTab({ t, createSkill }: SkillsTabProps): ReactElement {
   useMountStyle(skillsTabStyle, SKILLS_TAB_STYLE_ID)
   const [skills, setSkills] = useState<SkillRowView[] | null>(null)
   const [editor, setEditor] = useState<SkillEditorState | null>(null)
@@ -35,7 +36,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
 
   useEffect(() => {
     let current = true
-    void injected.list().then(
+    void getSkills().then(
       (body) => {
         if (current)
           setSkills(body.skills)
@@ -50,12 +51,12 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
     return () => {
       current = false
     }
-  }, [injected, reload, t])
+  }, [reload, t])
 
   const doRefresh = async (): Promise<void> => {
     setBusy(true)
     try {
-      const body = await injected.refresh()
+      const body = await postSkillsRefresh()
       setSkills(body.skills)
       setOutcome({ ok: true, text: t('refreshed') })
     }
@@ -72,7 +73,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
     const tick = (): void => {
       if (Date.now() > deadline)
         return
-      later(() => void injected.list().then((body) => {
+      later(() => void getSkills().then((body) => {
         if (!mounted.current)
           return
         setSkills(body.skills)
@@ -86,7 +87,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
   const openExisting = async (skill: SkillRowView): Promise<void> => {
     setBusy(true)
     try {
-      const body = await injected.get(skill.name)
+      const body = await getSkill(skill.name)
       setPreview(!skill.editable)
       setEditor({ mode: skill.editable ? 'edit' : 'view', name: skill.name, description: skill.description, whenToUse: skill.whenToUse ?? '', modelInvocable: skill.invocation.modelInvocable, userInvocable: skill.invocation.userInvocable, content: body.content })
     }
@@ -101,7 +102,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
     setBusy(true)
     setFormError(null)
     try {
-      await injected.save({ name, description: editor.description, whenToUse: editor.whenToUse.trim() || undefined, modelInvocable: editor.modelInvocable, userInvocable: editor.userInvocable, content: editor.content })
+      await postSkillSave({ name: editor.name.trim(), description: editor.description, whenToUse: editor.whenToUse.trim() || undefined, modelInvocable: editor.modelInvocable, userInvocable: editor.userInvocable, content: editor.content })
       setEditor(null)
       setOutcome({ ok: true, text: t('saved') })
       refreshUntil(rows => rows.some(row => row.name === name))
@@ -116,7 +117,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
     const name = confirmName
     setBusy(true)
     try {
-      await injected.remove(name)
+      await postSkillDelete({ name })
       setOutcome({ ok: true, text: t('saved') })
       refreshUntil(rows => !rows.some(row => row.name === name))
     }
@@ -131,7 +132,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
     const enabled = skill.invocation.modelInvocable || skill.invocation.userInvocable
     setBusy(true)
     try {
-      await injected.policy(skill.name, !enabled)
+      await postSkillPolicy({ name: skill.name, enabled: !enabled })
       setOutcome({ ok: true, text: t(enabled ? 'skillDisabledMsg' : 'skillEnabled') })
       refreshUntil((rows) => {
         const row = rows.find(item => item.name === skill.name)
@@ -144,7 +145,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
 
   const doOpen = async (target: OpenTarget): Promise<void> => {
     try {
-      await injected.open(target)
+      await postOpen(target)
     }
     catch (error) { setOutcome({ ok: false, text: `${t('failed')}: ${error instanceof Error ? error.message : String(error)}` }) }
   }
@@ -170,7 +171,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
     setBusy(true)
     setFormError(null)
     try {
-      await injected.importRepository(url)
+      await postRootsAdd(url)
       setOutcome({ ok: true, text: t('importRepositorySuccess') })
       setImportOpen(false)
       setRepositoryUrl('')
@@ -178,7 +179,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
         await new Promise<void>(resolve => later(resolve, delay))
         if (!mounted.current)
           return
-        setSkills((await injected.list()).skills)
+        setSkills((await getSkills()).skills)
       }
     }
     catch (error) { setFormError(error instanceof Error ? error.message : String(error)) }

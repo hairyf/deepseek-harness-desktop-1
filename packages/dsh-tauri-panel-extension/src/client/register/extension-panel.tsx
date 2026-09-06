@@ -7,7 +7,7 @@
 
 import type { ClientContext } from 'dsh-tauri/client'
 import type { ReactElement } from 'react'
-import type { ExtensionRuntimeContext, McpInjected, PanelProtocol, SkillsInjected, Translate } from '../types'
+import type { ExtensionRuntimeContext, PanelProtocol, Translate } from '../types'
 import { Icon, Puzzle } from 'dsh-tauri-ui/client'
 import { compat } from 'dsh-tauri/client'
 import { ExtensionPanel } from '../components/extension-panel'
@@ -24,7 +24,7 @@ import {
 } from '../constants'
 import { chooseWorkspace } from '../utils/workspace'
 
-export function registerExtensionPanel(ctx: ClientContext, t: Translate, skills: SkillsInjected, mcp: McpInjected): void {
+export function registerExtensionPanel(ctx: ClientContext, t: Translate): void {
   ctx.slots.inject(PANEL_SLOT_NAME as never, () => {
     let registration: (() => void) | undefined
     let retryTimer: number | undefined
@@ -50,8 +50,6 @@ export function registerExtensionPanel(ctx: ClientContext, t: Translate, skills:
       const Content = (): ReactElement => (
         <ExtensionPanel
           t={t}
-          skills={skills}
-          mcp={mcp}
           createSkill={createSkill}
         />
       )

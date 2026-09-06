@@ -130,16 +130,3 @@ export interface SchedulerPanelProps {
   onViaChat: () => void
 }
 
-/** 客户端注入的能力面（由 apis 装配）。 */
-export interface SchedulerInjected {
-  listTasks: (search?: string) => Promise<{ tasks: TaskView[] }>
-  createTask: (input: Record<string, unknown>) => Promise<{ ok: boolean, task?: TaskView, error?: string }>
-  updateTask: (id: string, input: Record<string, unknown>) => Promise<{ ok: boolean, task?: TaskView, error?: string }>
-  toggleTask: (id: string, enabled: boolean) => Promise<{ ok: boolean, task?: TaskView, error?: string }>
-  deleteTask: (id: string) => Promise<{ ok: boolean, error?: string }>
-  runTask: (id: string) => Promise<{ ok: boolean, error?: string }>
-  listRuns: (taskId?: string) => Promise<{ runs: RunView[] }>
-  deleteRun: (id: string) => Promise<{ ok: boolean, error?: string }>
-  fetchOptions: () => Promise<SchedulerOptions>
-  recover: () => Promise<void>
-}

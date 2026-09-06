@@ -3,9 +3,8 @@ import type { SchedulerUiState } from '../store'
  * service/scheduler.ts — 调度器领域的组合逻辑（刷新代际 / 动作后刷新）。
  *
  * 错误归一由 dsh-tauri 的 JSON 客户端统一承担，apis/ 直接返回解析后的类型；
- * 本文件只做 SchedulerInjected 组装、store 写入与「动作 → 刷新」串联。
+ * 本文件只做 store 写入与「动作 → 刷新」串联。
  */
-import type { SchedulerInjected } from '../types'
 import {
   getHistory,
   getOptions,
@@ -21,19 +20,6 @@ import {
 import { schedulerStore } from '../store'
 
 /** 领域 injected（模块级单例，与面板注册共享）。 */
-export const schedulerApi: SchedulerInjected = {
-  listTasks: search => getTasks({ search }),
-  createTask: input => postTasksCreate(input),
-  updateTask: (id, input) => postTasksUpdate({ id, input }),
-  toggleTask: (id, enabled) => postTasksToggle({ id, enabled }),
-  deleteTask: id => postTasksDelete({ id }),
-  runTask: id => postTasksRun({ id }),
-  listRuns: taskId => getHistory({ taskId }),
-  deleteRun: id => postHistoryDelete({ id }),
-  fetchOptions: () => getOptions(),
-  recover: async () => { await postRecover() },
-}
-
 /** 合并状态（merge 语义）。 */
 function patchState(patch: Partial<SchedulerUiState>): void {
   schedulerStore.set(state => ({ ...state, ...patch }))
@@ -48,14 +34,14 @@ export async function refreshScheduler(loadOptions = false): Promise<void> {
   patchState({ loading: true, error: '' })
   try {
     const [tasks, runs] = await Promise.all([
-      schedulerApi.listTasks(),
-      schedulerApi.listRuns(),
+      getTasks(),
+      getHistory(),
     ])
     if (generation !== refreshGeneration)
       return
     patchState({ tasks: tasks.tasks, runs: runs.runs, loading: false, refreshedAt: Date.now() })
     if (loadOptions) {
-      const options = await schedulerApi.fetchOptions()
+      const options = await getOptions()
       if (generation !== refreshGeneration)
         return
       patchState({ options })
@@ -70,7 +56,7 @@ export async function refreshScheduler(loadOptions = false): Promise<void> {
 
 /** 新建任务（成功则刷新）。返回 { ok, error? }。 */
 export async function applyCreateTask(input: Record<string, unknown>): Promise<{ ok: boolean, error?: string }> {
-  const result = await schedulerApi.createTask(input)
+  const result = await postTasksCreate(input)
   if (!result.ok)
     return { ok: false, error: result.error }
   await refreshScheduler()
@@ -79,7 +65,7 @@ export async function applyCreateTask(input: Record<string, unknown>): Promise<{
 
 /** 更新任务。 */
 export async function applyUpdateTask(id: string, input: Record<string, unknown>): Promise<{ ok: boolean, error?: string }> {
-  const result = await schedulerApi.updateTask(id, input)
+  const result = await postTasksUpdate({ id, input })
   if (!result.ok)
     return { ok: false, error: result.error }
   await refreshScheduler()
@@ -88,7 +74,7 @@ export async function applyUpdateTask(id: string, input: Record<string, unknown>
 
 /** 暂停/恢复。 */
 export async function applyToggleTask(id: string, enabled: boolean): Promise<{ ok: boolean, error?: string }> {
-  const result = await schedulerApi.toggleTask(id, enabled)
+  const result = await postTasksToggle({ id, enabled })
   if (!result.ok)
     return { ok: false, error: result.error }
   await refreshScheduler()
@@ -97,7 +83,7 @@ export async function applyToggleTask(id: string, enabled: boolean): Promise<{ o
 
 /** 删除任务。 */
 export async function applyDeleteTask(id: string): Promise<{ ok: boolean, error?: string }> {
-  const result = await schedulerApi.deleteTask(id)
+  const result = await postTasksDelete({ id })
   if (!result.ok)
     return { ok: false, error: result.error }
   await refreshScheduler()
@@ -106,7 +92,7 @@ export async function applyDeleteTask(id: string): Promise<{ ok: boolean, error?
 
 /** 立即运行。 */
 export async function applyDeleteRun(id: string): Promise<{ ok: boolean, error?: string }> {
-  const result = await schedulerApi.deleteRun(id)
+  const result = await postHistoryDelete({ id })
   if (!result.ok)
     return result
   await refreshScheduler()
@@ -114,7 +100,7 @@ export async function applyDeleteRun(id: string): Promise<{ ok: boolean, error?:
 }
 
 export async function applyRunTask(id: string): Promise<{ ok: boolean, error?: string }> {
-  const result = await schedulerApi.runTask(id)
+  const result = await postTasksRun({ id })
   if (!result.ok)
     return { ok: false, error: result.error }
   await refreshScheduler()
@@ -123,5 +109,5 @@ export async function applyRunTask(id: string): Promise<{ ok: boolean, error?: s
 
 /** 启动自愈（应用启动时调用一次）。 */
 export function hydrateScheduler(): void {
-  void schedulerApi.recover().then(() => refreshScheduler(true)).catch(() => {})
+  void postRecover().then(() => refreshScheduler(true)).catch(() => {})
 }

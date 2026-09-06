@@ -26,17 +26,6 @@ export interface ImportedServerView {
   headers?: Record<string, string>
 }
 
-export interface McpInjected {
-  list: () => Promise<{ servers: McpRow[] }>
-  save: (input: Record<string, unknown>) => Promise<{ ok: boolean, id: string }>
-  toggle: (id: string, disabled: boolean) => Promise<{ ok: boolean }>
-  remove: (id: string) => Promise<{ ok: boolean }>
-  scanImport: () => Promise<{ servers: ImportedServerView[], existing: string[] }>
-  applyImport: (items: Array<{ agent: string, name: string }>) => Promise<{ ok: boolean, results: Array<{ name: string, ok: boolean, error?: string }> }>
-  restart: () => Promise<void>
-  desktop: boolean
-}
-
 export type McpEditorMode = 'json' | 'form'
 
 export interface McpEditorState {
@@ -68,5 +57,4 @@ export interface ParsedMcpJson {
 
 export interface McpTabProps {
   t: Translate
-  injected: McpInjected
 }

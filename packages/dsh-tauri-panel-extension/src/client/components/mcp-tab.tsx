@@ -13,15 +13,16 @@ import type { McpEditorMode, McpEditorState, McpImportItem, McpRow, McpTabProps 
 import { Button, Modal, StateDot } from '@deepseek-ai/dsh-client-ui-primitives'
 import { ArrowRotateRight, Icon, PlugConnection, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
+import { getMcp, getMcpImportScan, postMcpImportApply, postMcpRemove, postMcpSave, postMcpToggle } from '../apis'
 import { MCP_RESTART_INITIAL_DELAY_MS, MCP_RESTART_POLL_INTERVAL_MS, MCP_RESTART_TIMEOUT_MS, MCP_TAB_STYLE_ID } from '../constants'
 import { useTimers } from '../hooks/use-timers'
+import { handlePostMcpRestart, isMcpDesktop } from '../service/handle-post-mcp-restart'
 import { mapToPairs, parseMcpJson, parsePairs } from '../utils/mcp'
 import { McpEditorForm } from './mcp-editor-form'
 import { McpImportDialog } from './mcp-import-dialog'
 import mcpTabStyle from './mcp-tab.cssr'
 
-export function McpTab(props: McpTabProps): ReactElement {
-  const { t, injected } = props
+export function McpTab({ t }: McpTabProps): ReactElement {
   useMountStyle(mcpTabStyle, MCP_TAB_STYLE_ID)
   const [servers, setServers] = useState<McpRow[] | null>(null)
   const [editor, setEditor] = useState<McpEditorState | null>(null)
@@ -42,7 +43,7 @@ export function McpTab(props: McpTabProps): ReactElement {
 
   useEffect(() => {
     let current = true
-    void injected.list().then(
+    void getMcp().then(
       (body) => {
         if (current)
           setServers(body.servers)
@@ -57,13 +58,13 @@ export function McpTab(props: McpTabProps): ReactElement {
     return () => {
       current = false
     }
-  }, [injected, reload, t])
+  }, [reload, t])
 
   const openImport = async (): Promise<void> => {
     setImportOpen(true)
     setImportItems(null)
     try {
-      const body = await injected.scanImport()
+      const body = await getMcpImportScan()
       const existing = new Set(body.existing)
       setImportItems(body.servers.map(server => ({
         server,
@@ -83,7 +84,7 @@ export function McpTab(props: McpTabProps): ReactElement {
     const items = importItems.filter(item => item.checked && !item.existing).map(item => ({ agent: item.server.agent, name: item.server.name }))
     setBusy(true)
     try {
-      const body = await injected.applyImport(items)
+      const body = await postMcpImportApply({ items })
       const failed = body.results.filter(item => !item.ok)
       setOutcome(failed.length === 0
         ? null
@@ -207,7 +208,7 @@ export function McpTab(props: McpTabProps): ReactElement {
     setFormError(null)
     setPasteError(null)
     try {
-      await injected.save(input)
+      await postMcpSave(input)
       setEditor(null)
       setOutcome(null)
       reloadList(true)
@@ -223,7 +224,7 @@ export function McpTab(props: McpTabProps): ReactElement {
   const doToggle = async (row: McpRow): Promise<void> => {
     setBusy(true)
     try {
-      await injected.toggle(row.id, !row.disabled)
+      await postMcpToggle({ id: row.id, disabled: !row.disabled })
       setOutcome(null)
       reloadList(true)
     }
@@ -240,7 +241,7 @@ export function McpTab(props: McpTabProps): ReactElement {
       return
     setBusy(true)
     try {
-      await injected.remove(confirmId)
+      await postMcpRemove({ id: confirmId })
       setOutcome(null)
       reloadList(true)
     }
@@ -256,16 +257,16 @@ export function McpTab(props: McpTabProps): ReactElement {
   const doRestart = (): void => {
     setRestartConfirm(false)
     setRestarting(true)
-    void injected.restart()
+    void handlePostMcpRestart()
     // 桌面模式：壳层重启完成后会重载窗口。独立模式：轮询本源，恢复即刷新。
-    if (injected.desktop)
+    if (isMcpDesktop())
       return
     const deadline = Date.now() + MCP_RESTART_TIMEOUT_MS
     const poll = (): void => {
       if (Date.now() > deadline)
         return
       later(() => {
-        void injected.list().then(
+        void getMcp().then(
           () => { window.location.reload() },
           () => { poll() },
         )
@@ -281,8 +282,8 @@ export function McpTab(props: McpTabProps): ReactElement {
         <span>{restarting ? t('restarting') : t('restartNeeded')}</span>
         <span className="dshp-extension__bannerHint">
           {restarting
-            ? (!injected.desktop && t('restartPortHint'))
-            : injected.desktop
+            ? (!isMcpDesktop() && t('restartPortHint'))
+            : isMcpDesktop()
               ? (
                   <>
                     {t('restartDesktopHint')}
