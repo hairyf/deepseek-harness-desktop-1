@@ -19,7 +19,7 @@ import {
   SIDEBAR_SELECTOR,
 } from '../constants'
 import { schedulerStore } from '../store'
-import sessionIconStyle from '../styles/scheduler.icon.cssr'
+import sessionIconStyle from '../styles/index.cssr'
 
 /**
  * 安装会话行时钟图标（CSS + DOM 观察器）。返回卸载函数。
