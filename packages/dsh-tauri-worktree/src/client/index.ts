@@ -35,7 +35,7 @@ import { registerModeSelect } from './register/mode-select'
 import { installSessionIcons } from './register/session-icons'
 import { registerSurface } from './register/surface'
 import { hydratePreferredMode } from './store'
-import worktreeStyle from './styles/worktree.cssr'
+import worktreeIndexStyle from './styles/index.cssr'
 
 export { WORKTREE_API_PREFIX } from '../shared/constants'
 export type * from './types'
@@ -58,7 +58,7 @@ export function apply(ctx: ClientContext): void {
   ctx.effect(
     () => {
       const disposeModeSelect = mountStyle(modeSelectStyle, MODE_SELECT_STYLE_ID)
-      const disposeWorktree = mountStyle(worktreeStyle, WORKTREE_STYLE_ID)
+      const disposeWorktree = mountStyle(worktreeIndexStyle, WORKTREE_STYLE_ID)
       return () => {
         disposeModeSelect()
         disposeWorktree()

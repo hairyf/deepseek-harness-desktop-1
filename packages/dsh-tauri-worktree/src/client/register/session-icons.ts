@@ -18,7 +18,7 @@ import {
   SIDEBAR_SELECTOR,
 } from '../constants'
 import { worktreeStore } from '../store'
-import sessionIconStyle from '../styles/worktree.icon.cssr'
+import sessionIconStyle from '../styles/index.cssr'
 
 /**
  * 安装会话行分支图标（CSS + DOM 观察器）。返回卸载函数。

@@ -1,16 +1,19 @@
 import type { ReactElement } from 'react'
 import type { SurfaceBarProps } from '../types'
-import { CircleTree, Icon } from 'dsh-tauri-ui/client'
+import { CircleTree, Icon, useMountStyle } from 'dsh-tauri-ui/client'
 /**
  * surface.tsx — 聊天框正上方、仅会话内容区内的工作树状态条。
  *
  * 职责拆分：slot 注册在 register/surface.ts，样式在 styles.ts。
  */
 import { useState } from 'react'
+import { SURFACE_STYLE_ID } from '../constants'
 import { text, useLocale } from '../locales'
 import { patchSession, useWorktreeSession } from '../store'
+import surfaceStyle from './surface.cssr'
 
 export function WorktreeSurface({ sessionId }: SurfaceBarProps): ReactElement | null {
+  useMountStyle(surfaceStyle, SURFACE_STYLE_ID)
   useLocale()
   const state = useWorktreeSession(sessionId)
   const [logOpen, setLogOpen] = useState(false)
