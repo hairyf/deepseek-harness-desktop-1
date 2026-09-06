@@ -2,7 +2,6 @@ import type { IconComponent } from 'dsh-tauri-ui/client'
 import type { ReactElement } from 'react'
 import type { ScheduleForm, TaskFormState, TaskView, Translate } from '../types'
 import { Calendar, Icon } from 'dsh-tauri-ui/client'
-import { SCHEDULER_CLASSES as K } from '../constants'
 import { applyCreateTask } from '../service/scheduler'
 import { recommendationMatchesTask } from '../utils/recommendations'
 import { describeSchedule } from '../utils/schedule'
@@ -70,25 +69,25 @@ export function Recommendations({ t, tasks }: RecommendationsProps): ReactElemen
   const visible = RECOMMENDATIONS.filter(rec => !tasks.some(task => recommendationMatchesTask(rec, task, t)))
 
   return (
-    <section className={K.recs} aria-label={t('recommended')}>
-      <h2 className={K.recTitle}>{t('recommended')}</h2>
+    <section className="dshp-scheduler__recs" aria-label={t('recommended')}>
+      <h2 className="dshp-scheduler__recs-title">{t('recommended')}</h2>
       {visible.length === 0
-        ? <p className={K.muted}>{t('recommendedEmpty')}</p>
+        ? <p className="dshp-scheduler__muted">{t('recommendedEmpty')}</p>
         : (
-            <ul className={K.recList}>
+            <ul className="dshp-scheduler__recs-list">
               {visible.map(rec => (
                 <li key={rec.id}>
-                  <button type="button" className={K.recItem} onClick={() => void add(rec)}>
-                    <span className={K.recIcon} style={{ color: rec.accent }}>
+                  <button type="button" className="dshp-scheduler__recs-item" onClick={() => void add(rec)}>
+                    <span className="dshp-scheduler__recs-icon" style={{ color: rec.accent }}>
                       <Icon as={rec.icon} />
                     </span>
-                    <span className={K.recBody}>
-                      <span className={K.recName}>
+                    <span className="dshp-scheduler__recs-body">
+                      <span className="dshp-scheduler__recs-name">
                         {t(rec.nameKey)}
                         {' '}
                         <span style={{ color: 'var(--dsw-alias-label-tertiary)' }}>{describeSchedule(rec.schedule, t)}</span>
                       </span>
-                      <span className={K.recPrompt}>{t(rec.promptKey)}</span>
+                      <span className="dshp-scheduler__recs-prompt">{t(rec.promptKey)}</span>
                     </span>
                   </button>
                 </li>

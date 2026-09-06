@@ -19,7 +19,6 @@ import type {
 import { compat, createLifecycleController } from 'dsh-tauri/client'
 import {
   CONTEXT_MENU_EVENT,
-  RIGHTCLICK_CLASSES as K,
 } from '../constants'
 import { editableFrom, externalUrl, officialAction, resolveSession, rowFrom, selectedText, selectedUrl, ungroupedRowFrom, workspaceForSession, workspaceFrom } from '../dom/locate'
 import { createMenuItem, createMenuRoot, createSeparator, positionMenu } from '../dom/menu-item'
@@ -79,7 +78,7 @@ export function installContextMenu(ctx: ClientContext): () => void {
   }
   /** 追加分隔线（已有条目且末项不是分隔线时才加）。 */
   const split = (root: HTMLElement): void => {
-    if (!root.childElementCount || root.lastElementChild?.classList.contains(K.separator))
+    if (!root.childElementCount || root.lastElementChild?.classList.contains('dshp-menu__separator'))
       return
     root.appendChild(createSeparator())
   }

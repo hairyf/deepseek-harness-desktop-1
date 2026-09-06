@@ -16,7 +16,7 @@ import type { ReactElement } from 'react'
 import type { PanelWidthController } from '../service/width'
 import type { PanelContentSpec } from '../types'
 import { useEffect, useRef } from 'react'
-import { PANEL_CLASSES, PANEL_DATA_ATTRIBUTES } from '../constants'
+import { PANEL_DATA_ATTRIBUTES } from '../constants'
 import { WidthHandle } from './width-handle'
 
 export function ConversationSeat({
@@ -42,11 +42,11 @@ export function ConversationSeat({
     return null
   const View = spec.render
   return (
-    <div ref={rootRef} {...{ [PANEL_DATA_ATTRIBUTES.view]: '' }} className={PANEL_CLASSES.panelView}>
+    <div ref={rootRef} {...{ [PANEL_DATA_ATTRIBUTES.view]: '' }} className="dshp-panel__panel-view">
       {/* 内容列：对齐官方内容列宽度（max-width var(--dsh-chat-content-width, 780px)），
           子插件零宽度关注，只负责内容自身布局（垂直方向自定）。 */}
       <div style={{ padding: '16px 16px 16px 8px' }}>
-        <div className={PANEL_CLASSES.panelViewColumn}>
+        <div className="dshp-panel__panel-view-column">
           <View t={t} />
         </div>
       </div>

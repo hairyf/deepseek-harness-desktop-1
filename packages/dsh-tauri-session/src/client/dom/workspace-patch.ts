@@ -24,7 +24,6 @@ import { createElement } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   DELETE_WORKSPACE_LABELS,
-  SESSION_CLASSES as K,
   MENU_ITEM_SELECTOR,
   SIDEBAR_SELECTOR,
   WORKSPACE_MENU_ANCHOR_ATTRIBUTE,
@@ -208,7 +207,7 @@ export function installWorkspaceArchivePatch(workspacesRuntime: WorkspacesRuntim
     if (icon)
       icon.innerHTML = ARCHIVE_ICON_SVG
     // 删除条目带 danger 样式，归档条目需要还原成普通条目外观。
-    archiveItem.classList.add(K.archiveMenuItem)
+    archiveItem.classList.add('dshp-session__archive-menu-item')
     archiveItem.style.setProperty('color', 'var(--dsw-alias-label-primary)', 'important')
     archiveItem.style.setProperty('background', 'transparent', 'important')
     icon?.style.setProperty('color', 'var(--dsw-alias-label-tertiary)', 'important')

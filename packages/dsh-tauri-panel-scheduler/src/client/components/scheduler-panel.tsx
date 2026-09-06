@@ -12,7 +12,7 @@ import type { ReactElement } from 'react'
 import type { SchedulerPanelProps, TaskFormState, TaskView } from '../types'
 import { CommentPlus, Icon, Magnifier, Plus } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
-import { SCHEDULER_CLASSES as K, REFRESH_INTERVAL_MS } from '../constants'
+import { REFRESH_INTERVAL_MS } from '../constants'
 import { applyDeleteRun, refreshScheduler } from '../service/scheduler'
 import { useSchedulerState } from '../store'
 import { describeSchedule, formatRelative, isTaskPaused } from '../utils/schedule'
@@ -65,17 +65,17 @@ export function SchedulerPanel({ t, onViaChat }: SchedulerPanelProps): ReactElem
     : state.tasks
 
   return (
-    <div className={K.shell}>
-      <header className={K.top}>
-        <div className={K.heading}>
+    <div className="dshp-scheduler__shell">
+      <header className="dshp-scheduler__top">
+        <div className="dshp-scheduler__heading">
           <h1>{t('scheduler')}</h1>
           <p>{t('subtitle')}</p>
         </div>
-        <div className={K.toolbar}>
-          <div className={K.searchWrap}>
-            <Icon as={Magnifier} className={K.searchIcon} />
+        <div className="dshp-scheduler__toolbar">
+          <div className="dshp-scheduler__search-wrap">
+            <Icon as={Magnifier} className="dshp-scheduler__search-icon" />
             <input
-              className={K.input}
+              className="dshp-scheduler__input"
               type="search"
               aria-label={t('searchPlaceholder')}
               placeholder={t('searchPlaceholder')}
@@ -83,24 +83,24 @@ export function SchedulerPanel({ t, onViaChat }: SchedulerPanelProps): ReactElem
               onChange={event => setSearch(event.target.value)}
             />
           </div>
-          <div className={K.toolbarSpacer} />
-          <button className={K.btn} type="button" onClick={onViaChat}>
+          <div className="dshp-scheduler__toolbar-spacer" />
+          <button className="dshp-scheduler__btn" type="button" onClick={onViaChat}>
             <Icon as={CommentPlus} />
             {t('viaChat')}
           </button>
-          <button className={`${K.btn} ${K.btnPrimary}`} type="button" onClick={() => setDialog({})}>
+          <button className={`${'dshp-scheduler__btn'} ${'dshp-scheduler__btn--primary'}`} type="button" onClick={() => setDialog({})}>
             <Icon as={Plus} />
             {t('createManual')}
           </button>
         </div>
       </header>
 
-      <div className={K.tabs} role="tablist" aria-label={t('scheduler')}>
+      <div className="dshp-scheduler__tabs" role="tablist" aria-label={t('scheduler')}>
         <button
           type="button"
           role="tab"
           aria-selected={tab === 'tasks'}
-          className={tab === 'tasks' ? `${K.tab} ${K.tabActive}` : K.tab}
+          className={tab === 'tasks' ? `${'dshp-scheduler__tab'} ${'dshp-scheduler__tab--active'}` : 'dshp-scheduler__tab'}
           onClick={() => setTab('tasks')}
         >
           {t('tasksTab')}
@@ -109,22 +109,22 @@ export function SchedulerPanel({ t, onViaChat }: SchedulerPanelProps): ReactElem
           type="button"
           role="tab"
           aria-selected={tab === 'runs'}
-          className={tab === 'runs' ? `${K.tab} ${K.tabActive}` : K.tab}
+          className={tab === 'runs' ? `${'dshp-scheduler__tab'} ${'dshp-scheduler__tab--active'}` : 'dshp-scheduler__tab'}
           onClick={() => setTab('runs')}
         >
           {t('runsTab')}
         </button>
       </div>
 
-      {state.error ? <p className={K.error} role="alert">{state.error}</p> : null}
+      {state.error ? <p className="dshp-scheduler__error" role="alert">{state.error}</p> : null}
 
       {tab === 'tasks'
         ? (
             <>
               {filtered.length === 0
-                ? <p className={K.empty}>{search ? t('noMatch') : t('emptyTasks')}</p>
+                ? <p className="dshp-scheduler__empty">{search ? t('noMatch') : t('emptyTasks')}</p>
                 : (
-                    <ul className={K.cards}>
+                    <ul className="dshp-scheduler__cards">
                       {filtered.map(task => (
                         <TaskCard
                           key={task.id}

@@ -17,37 +17,6 @@ export const WORKSPACE_GROUP_SELECTOR = '[role="treeitem"][aria-expanded]'
  */
 export const SIDEBAR_KEEP_OPEN_SELECTOR = 'button[aria-label="视图选项"],button[aria-label="View options"],button[aria-label="添加工作区"],button[aria-label="Add workspace"]'
 
-export const PANEL_CLASSES = {
-  root: 'dshp-panel',
-  collapsed: 'dshp-panel--collapsed',
-  railIn: 'dshp-panel--rail-in',
-  fading: 'dshp-panel--fading',
-  quietBars: 'dshp-panel--quiet-bars',
-  wide: 'dshp-panel--wide',
-  logoRow: 'dshp-panel__logo-row',
-  brand: 'dshp-panel__brand',
-  brandIdentity: 'dshp-panel__brand-identity',
-  brandMark: 'dshp-panel__brand-mark',
-  brandName: 'dshp-panel__brand-name',
-  fallbackBrandName: 'dshp-panel__fallback-brand-name',
-  iconButton: 'dshp-panel__icon-button',
-  toggle: 'dshp-panel__toggle',
-  railMark: 'dshp-panel__rail-mark',
-  panelArea: 'dshp-panel__panel-area',
-  menuItem: 'dshp-panel__menu-item',
-  menuItemSelected: 'dshp-panel__menu-item--selected',
-  newSession: 'dshp-panel__new-session',
-  menuItemIcon: 'dshp-panel__menu-item-icon',
-  menuItemLabel: 'dshp-panel__menu-item-label',
-  regionArea: 'dshp-panel__region-area',
-  footArea: 'dshp-panel__foot-area',
-  footerActions: 'dshp-panel__footer-actions',
-  settingsArea: 'dshp-panel__settings-area',
-  panelView: 'dshp-panel__panel-view',
-  panelViewColumn: 'dshp-panel__panel-view-column',
-  widthHandle: 'dshp-panel__width-handle',
-} as const
-
 export const PANEL_DATA_ATTRIBUTES = {
   sidebar: 'data-dshp-panel-sidebar',
   active: 'data-dshp-panel-active',

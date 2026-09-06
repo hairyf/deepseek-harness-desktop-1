@@ -19,7 +19,6 @@ import {
   COMPOSER_SEAT_SELECTOR,
   HERO_PRESET_SLOT_SELECTOR,
   MODE_ANCHOR_ATTRIBUTE,
-  MODE_SELECT_CLASSES,
 } from '../constants'
 import { text, useLocale } from '../locales'
 import { attachWorktreeSession, createWorktree } from '../service/actions'
@@ -66,7 +65,7 @@ export function WorktreeModeSelect(props: ModeSelectProps): ReactElement {
       if (!host) {
         host = document.createElement('span')
         host.dataset.dshTauriWorktreeMode = sessionId
-        host.className = MODE_SELECT_CLASSES.host
+        host.className = 'dshp-mode-select__host'
       }
       if (target.nextElementSibling !== host)
         target.after(host)
@@ -84,7 +83,7 @@ export function WorktreeModeSelect(props: ModeSelectProps): ReactElement {
 
   return (
     <>
-      <span ref={anchorRef} className={MODE_SELECT_CLASSES.anchor} {...{ [MODE_ANCHOR_ATTRIBUTE]: sessionId }} />
+      <span ref={anchorRef} className="dshp-mode-select__anchor" {...{ [MODE_ANCHOR_ATTRIBUTE]: sessionId }} />
       {portalHost && createPortal(<WorktreeModeControl {...props} />, portalHost)}
     </>
   )
@@ -216,13 +215,13 @@ function WorktreeModeControl({ sessionId, useInput, inputActions, sessionsRuntim
       aria-haspopup="menu"
       aria-expanded={open}
       onClick={() => setOpen(value => !value)}
-      className={open ? `${MODE_SELECT_CLASSES.trigger} ${MODE_SELECT_CLASSES.triggerOpen}` : MODE_SELECT_CLASSES.trigger}
+      className={open ? `${'dshp-mode-select__trigger'} ${'dshp-mode-select__trigger--open'}` : 'dshp-mode-select__trigger'}
     >
-      <span className={MODE_SELECT_CLASSES.icon}>
+      <span className="dshp-mode-select__icon">
         <Icon as={CircleTree} size={13} />
       </span>
       <span>{activeLabel}</span>
-      <Icon as={ChevronDown} className={MODE_SELECT_CLASSES.chevron} />
+      <Icon as={ChevronDown} className="dshp-mode-select__chevron" />
     </button>
   )
 

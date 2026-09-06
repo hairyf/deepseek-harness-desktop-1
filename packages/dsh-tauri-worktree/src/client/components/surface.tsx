@@ -7,7 +7,6 @@ import { CircleTree, Icon } from 'dsh-tauri-ui/client'
  * 职责拆分：slot 注册在 register/surface.ts，样式在 styles.ts。
  */
 import { useState } from 'react'
-import { worktreeStyles } from '../constants'
 import { text, useLocale } from '../locales'
 import { patchSession, useWorktreeSession } from '../store'
 
@@ -32,27 +31,27 @@ export function WorktreeSurface({ sessionId }: SurfaceBarProps): ReactElement | 
         : text('surfaceWorktree')
 
   return (
-    <div className={worktreeStyles.surface}>
-      <div className={worktreeStyles.surfaceBar} data-dsh-worktree-surface={sessionId}>
+    <div className="dshp-worktree__surface">
+      <div className="dshp-worktree__surface-bar" data-dsh-worktree-surface={sessionId}>
         <Icon as={CircleTree} size={14} />
-        <div className={worktreeStyles.surfaceContent}>
-          <span className={worktreeStyles.surfaceLabel}>
+        <div className="dshp-worktree__surface-content">
+          <span className="dshp-worktree__surface-label">
             {label}
             {creating && `...`}
           </span>
           {bound && state.log.length > 0 && (
-            <button type="button" className={`${worktreeStyles.action} ${worktreeStyles.actionLog}`} onClick={() => setLogOpen(value => !value)}>
+            <button type="button" className={`${'dshp-worktree__action'} ${'dshp-worktree__action--log'}`} onClick={() => setLogOpen(value => !value)}>
               {text('progressViewLogs')}
             </button>
           )}
         </div>
-        <span className={worktreeStyles.spacer} />
+        <span className="dshp-worktree__spacer" />
         {bound && !deleting && (
           <>
-            <button type="button" className={worktreeStyles.action} onClick={() => patchSession(sessionId, { checkoutOpen: true })}>
+            <button type="button" className="dshp-worktree__action" onClick={() => patchSession(sessionId, { checkoutOpen: true })}>
               {text('surfaceCheckout')}
             </button>
-            <button type="button" className={`${worktreeStyles.action} ${worktreeStyles.actionDanger}`} onClick={() => patchSession(sessionId, { abandonOpen: true })}>
+            <button type="button" className={`${'dshp-worktree__action'} ${'dshp-worktree__action--danger'}`} onClick={() => patchSession(sessionId, { abandonOpen: true })}>
               {text('surfaceAbandon')}
             </button>
           </>
@@ -67,11 +66,11 @@ export function Logs({ log, open }: { log: string[], open: boolean }): ReactElem
   return (
     <div
       aria-hidden={!open}
-      className={`${worktreeStyles.logs} ${open ? worktreeStyles.logsOpen : ''}`}
+      className={`${'dshp-worktree__logs'} ${open ? 'dshp-worktree__logs--open' : ''}`}
     >
-      <div className={worktreeStyles.logsInner}>
-        <div className={worktreeStyles.logsPanel}>
-          {log.map((line, index) => <div key={`${index}:${line}`} className={worktreeStyles.logLine}>{line}</div>)}
+      <div className="dshp-worktree__logs-inner">
+        <div className="dshp-worktree__logs-panel">
+          {log.map((line, index) => <div key={`${index}:${line}`} className="dshp-worktree__log-line">{line}</div>)}
         </div>
       </div>
     </div>

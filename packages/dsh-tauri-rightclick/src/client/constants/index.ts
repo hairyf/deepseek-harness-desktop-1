@@ -22,14 +22,6 @@ export const RIGHTCLICK_MENU_EFFECT = `${RIGHTCLICK_CLIENT_PLUGIN}: context menu
  * css-render class 前缀（bem blockPrefix `.dshp-`，跨插件协议暴露给扩展事件
  * detail 的 DOM 结构保持稳定——修改必须同步 styles/*.cssr.ts）。
  */
-export const RIGHTCLICK_CLASSES = {
-  menu: 'dshp-menu',
-  item: 'dshp-menu__item',
-  itemDanger: 'dshp-menu__item--danger',
-  shortcut: 'dshp-menu__shortcut',
-  separator: 'dshp-menu__separator',
-  toast: 'dshp-toast',
-} as const
 
 /** 扩展注册表协议（其他 Web 插件经 globalThis[Symbol.for(KEY)] 登记扩展项）。 */
 export const EXTENSIONS_REGISTRY_KEY = 'dsh.rightclick-menu.extensions'

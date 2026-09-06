@@ -7,7 +7,7 @@
 
 import type { ReactElement } from 'react'
 import type { PanelActionItemProps } from '../types'
-import { PANEL_CLASSES, PANEL_DATA_ATTRIBUTES } from '../constants'
+import { PANEL_DATA_ATTRIBUTES } from '../constants'
 import { usePanelViewId } from '../hooks/panel'
 
 export function PanelActionItem({ id, icon, onClick, children }: PanelActionItemProps): ReactElement {
@@ -15,12 +15,12 @@ export function PanelActionItem({ id, icon, onClick, children }: PanelActionItem
   return (
     <button
       type="button"
-      className={active ? `${PANEL_CLASSES.menuItem} ${PANEL_CLASSES.menuItemSelected}` : PANEL_CLASSES.menuItem}
+      className={active ? `${'dshp-panel__menu-item'} ${'dshp-panel__menu-item--selected'}` : 'dshp-panel__menu-item'}
       {...{ [PANEL_DATA_ATTRIBUTES.action]: '' }}
       onClick={onClick}
     >
-      {icon !== undefined && <span className={PANEL_CLASSES.menuItemIcon}>{icon}</span>}
-      <span className={PANEL_CLASSES.menuItemLabel}>{children}</span>
+      {icon !== undefined && <span className="dshp-panel__menu-item-icon">{icon}</span>}
+      <span className="dshp-panel__menu-item-label">{children}</span>
     </button>
   )
 }

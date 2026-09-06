@@ -10,7 +10,6 @@
 import type { CSSProperties, ReactNode, RefObject } from 'react'
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { SCHEDULER_CLASSES as K } from '../constants'
 
 export interface MenuOption<T extends string> {
   readonly value: T
@@ -110,7 +109,7 @@ export function MenuPopup({
   const node = (
     <div
       ref={menuRef}
-      className={`${className}${host !== null ? ` ${K.menuFloat}` : ''}`}
+      className={`${className}${host !== null ? ` ${'dshp-scheduler__menu-float'}` : ''}`}
       role="menu"
       aria-label={ariaLabel}
       style={host !== null ? style : undefined}
@@ -157,15 +156,15 @@ export function MenuRow({
   readonly onClick: () => void
 }): JSX.Element {
   return (
-    <button type="button" className={`${K.menuRow}${active === true ? ' is-on' : ''}${kv === true ? ' is-kv' : ''}`} onClick={onClick}>
-      <span className={K.menuRowMain}>
+    <button type="button" className={`${'dshp-scheduler__menu-row'}${active === true ? ' is-on' : ''}${kv === true ? ' is-kv' : ''}`} onClick={onClick}>
+      <span className="dshp-scheduler__menu-row-main">
         {icon}
         <span>{label}</span>
       </span>
-      <span className={K.menuRowSide}>
+      <span className="dshp-scheduler__menu-row-side">
         {hint}
-        {active === true && chevron !== true && <i className={K.menuTick} />}
-        {chevron === true && <i className={K.menuNext} />}
+        {active === true && chevron !== true && <i className="dshp-scheduler__menu-tick" />}
+        {chevron === true && <i className="dshp-scheduler__menu-next" />}
       </span>
     </button>
   )
@@ -191,10 +190,10 @@ export function MenuSelect<T extends string>({
   const menu = useMenuOpen()
   const current = options.find(item => item.value === value)?.label ?? value
   return (
-    <div className={`${K.menuSelect}${wide === true ? ' is-wide' : ''}${pill === true ? ' is-pill' : ''}${menu.open ? ' is-open' : ''}`} ref={menu.root}>
+    <div className={`${'dshp-scheduler__menu-select'}${wide === true ? ' is-wide' : ''}${pill === true ? ' is-pill' : ''}${menu.open ? ' is-open' : ''}`} ref={menu.root}>
       <button
         type="button"
-        className={K.menuSelectBtn}
+        className="dshp-scheduler__menu-select-btn"
         onMouseDown={event => event.stopPropagation()}
         onClick={() => menu.setOpen(value => !value)}
       >
@@ -208,7 +207,7 @@ export function MenuSelect<T extends string>({
         menuRef={menu.menu}
         up={up}
         end={up}
-        className={`${K.menuSelectMenu}${pill === true ? ' is-composer' : ''}${up === true ? ' is-up' : ''}${up === true ? ' is-end' : ''}`}
+        className={`${'dshp-scheduler__menu-select-menu'}${pill === true ? ' is-composer' : ''}${up === true ? ' is-up' : ''}${up === true ? ' is-end' : ''}`}
       >
         {options.map(item => (
           <MenuRow
@@ -242,10 +241,10 @@ export function MenuPanel({
 }): JSX.Element {
   const menu = useMenuOpen()
   return (
-    <div className={`${K.menuSelect}${ghost === true ? ' is-pill' : ''}${menu.open ? ' is-open' : ''}`} ref={menu.root}>
+    <div className={`${'dshp-scheduler__menu-select'}${ghost === true ? ' is-pill' : ''}${menu.open ? ' is-open' : ''}`} ref={menu.root}>
       <button
         type="button"
-        className={K.chipBtn}
+        className="dshp-scheduler__chip-btn"
         onMouseDown={event => event.stopPropagation()}
         onClick={() => menu.setOpen(value => !value)}
       >
@@ -257,7 +256,7 @@ export function MenuPanel({
         anchor={menu.root}
         menuRef={menu.menu}
         up={up}
-        className={`${K.menuSelectMenu} is-composer${up === true ? ' is-up' : ''}`}
+        className={`${'dshp-scheduler__menu-select-menu'} is-composer${up === true ? ' is-up' : ''}`}
         onClick={() => {
           if (persist !== true)
             menu.setOpen(false)

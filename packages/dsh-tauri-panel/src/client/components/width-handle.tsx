@@ -10,7 +10,7 @@
 import type { ReactElement } from 'react'
 import type { PanelWidthHandleCallbacks } from '../service/width'
 import { useCallback, useRef, useState } from 'react'
-import { PANEL_CLASSES, PANEL_DATA_ATTRIBUTES, PANEL_WIDTH_VARS } from '../constants'
+import { PANEL_DATA_ATTRIBUTES, PANEL_WIDTH_VARS } from '../constants'
 
 export interface WidthHandleProps {
   /** 手柄所在侧（决定外向拖拽方向）。 */
@@ -84,7 +84,7 @@ export function WidthHandle({ side, handle }: WidthHandleProps): ReactElement {
 
   return (
     <div
-      className={PANEL_CLASSES.widthHandle}
+      className="dshp-panel__width-handle"
       data-side={side}
       {...{ [PANEL_DATA_ATTRIBUTES.widthHandle]: side }}
       data-dragging={dragging || undefined}

@@ -14,7 +14,6 @@ import type { ModelTranslate, ScheduleForm, SchedulerOptions, TaskFormState, Tra
 import { Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import { MenuSelect } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
-import { SCHEDULER_CLASSES as K } from '../constants'
 import { applyCreateTask, applyUpdateTask } from '../service/scheduler'
 import { MenuHostProvider } from './menu'
 import { ModelPicker } from './model-picker'
@@ -180,21 +179,21 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
         title={taskId ? t('editDialogTitle') : t('createDialogTitle')}
         description={t('dialogHint')}
         closeLabel={t('close')}
-        className={K.modal}
+        className="dshp-scheduler__modal"
         footer={(
           <>
-            <button className={K.btn} type="button" disabled={saving} onClick={closeSafe}>{t('cancel')}</button>
-            <button className={`${K.btn} ${K.btnPrimary}`} type="button" disabled={saving} onClick={() => void onSave()}>
+            <button className="dshp-scheduler__btn" type="button" disabled={saving} onClick={closeSafe}>{t('cancel')}</button>
+            <button className={`${'dshp-scheduler__btn'} ${'dshp-scheduler__btn--primary'}`} type="button" disabled={saving} onClick={() => void onSave()}>
               {t('save')}
             </button>
           </>
         )}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <label className={K.field}>
-            <span className={K.fieldLabel}>{t('taskName')}</span>
+          <label className="dshp-scheduler__field">
+            <span className="dshp-scheduler__field-label">{t('taskName')}</span>
             <input
-              className={K.input}
+              className="dshp-scheduler__input"
               type="text"
               value={form.name}
               placeholder={t('taskNamePlaceholder')}
@@ -202,11 +201,11 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
             />
           </label>
 
-          <div className={K.field}>
-            <span className={K.fieldLabel}>{t('schedule')}</span>
-            <div className={K.inline}>
+          <div className="dshp-scheduler__field">
+            <span className="dshp-scheduler__field-label">{t('schedule')}</span>
+            <div className="dshp-scheduler__inline">
               <select
-                className={`${K.input} ${K.selectInput} ${K.inlineSelect}`}
+                className={`${'dshp-scheduler__input'} ${'dshp-scheduler__select-input'} ${'dshp-scheduler__inline-select'}`}
                 value={scheduleKind}
                 aria-label={t('schedule')}
                 onChange={event => setForm(state => ({ ...state, schedule: defaultScheduleFor(event.target.value as ScheduleForm['kind']) }))}
@@ -219,7 +218,7 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
               {scheduleKind === 'interval'
                 ? (
                     <select
-                      className={`${K.input} ${K.selectInput} ${K.inlineSelectAuto}`}
+                      className={`${'dshp-scheduler__input'} ${'dshp-scheduler__select-input'} ${'dshp-scheduler__inline-select--auto'}`}
                       value={currentEveryMinutes}
                       aria-label={t('scheduleEveryMinutes')}
                       onChange={event => setSchedule({ kind: 'interval', everyMinutes: Number(event.target.value) })}
@@ -231,7 +230,7 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
                   ? (
                       <>
                         <select
-                          className={`${K.input} ${K.selectInput} ${K.inlineSelectAuto}`}
+                          className={`${'dshp-scheduler__input'} ${'dshp-scheduler__select-input'} ${'dshp-scheduler__inline-select--auto'}`}
                           value={currentWeekday}
                           aria-label={t('scheduleWeekdays')}
                           onChange={event => setSchedule({ kind: 'weekly', weekdays: [event.target.value as Weekday], time: currentTime })}
@@ -239,7 +238,7 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
                           {WEEKDAYS.map(day => <option key={day} value={day}>{t(WEEKDAY_KEYS[day])}</option>)}
                         </select>
                         <select
-                          className={`${K.input} ${K.selectInput} ${K.inlineSelectAuto}`}
+                          className={`${'dshp-scheduler__input'} ${'dshp-scheduler__select-input'} ${'dshp-scheduler__inline-select--auto'}`}
                           value={currentTime}
                           aria-label={t('scheduleTime')}
                           onChange={event => setSchedule({ ...form.schedule, time: event.target.value } as ScheduleForm)}
@@ -250,7 +249,7 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
                     )
                   : (
                       <select
-                        className={`${K.input} ${K.selectInput} ${K.inlineSelectAuto}`}
+                        className={`${'dshp-scheduler__input'} ${'dshp-scheduler__select-input'} ${'dshp-scheduler__inline-select--auto'}`}
                         value={currentTime}
                         aria-label={t('scheduleTime')}
                         onChange={event => setSchedule({ ...form.schedule, time: event.target.value } as ScheduleForm)}
@@ -261,16 +260,16 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
             </div>
           </div>
 
-          <div className={K.field}>
-            <span className={K.fieldLabel}>{t('schedulePrompt')}</span>
-            <div className={K.promptWrap}>
+          <div className="dshp-scheduler__field">
+            <span className="dshp-scheduler__field-label">{t('schedulePrompt')}</span>
+            <div className="dshp-scheduler__prompt-wrap">
               <textarea
-                className={K.textarea}
+                className="dshp-scheduler__textarea"
                 value={form.prompt}
                 placeholder={t('schedulePromptPlaceholder')}
                 onChange={event => setForm(state => ({ ...state, prompt: event.target.value }))}
               />
-              <div className={K.composer}>
+              <div className="dshp-scheduler__composer">
                 <MenuSelect
                   variant="pill"
                   label={t('workspace')}
@@ -311,8 +310,8 @@ export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskC
             </div>
           </div>
         </div>
-        {error ? <p className={K.error} role="alert">{error}</p> : null}
-        <div className={K.flyoutRoot} ref={setMenuHost} />
+        {error ? <p className="dshp-scheduler__error" role="alert">{error}</p> : null}
+        <div className="dshp-scheduler__flyout-root" ref={setMenuHost} />
       </Modal>
     </MenuHostProvider>
   )

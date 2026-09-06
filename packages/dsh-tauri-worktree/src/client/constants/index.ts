@@ -43,49 +43,6 @@ export const MODE_SELECT_STYLE_ID = '@deepseek-ai/dsh-tauri-worktree/ModeSelect.
 export const WORKTREE_STYLE_ID = '@deepseek-ai/dsh-tauri-worktree/SurfaceDialog.module.css'
 export const SESSION_ICON_STYLE_ID = '@deepseek-ai/dsh-tauri-worktree/SessionBranchIcon.module.css'
 
-export const MODE_SELECT_CLASSES = {
-  anchor: 'dshp-mode-select__anchor',
-  chevron: 'dshp-mode-select__chevron',
-  host: 'dshp-mode-select__host',
-  icon: 'dshp-mode-select__icon',
-  trigger: 'dshp-mode-select__trigger',
-  triggerOpen: 'dshp-mode-select__trigger--open',
-} as const
-
-export const worktreeStyles = {
-  surface: 'dshp-worktree__surface',
-  surfaceBar: 'dshp-worktree__surface-bar',
-  surfaceContent: 'dshp-worktree__surface-content',
-  surfaceLabel: 'dshp-worktree__surface-label',
-  action: 'dshp-worktree__action',
-  actionLog: 'dshp-worktree__action--log',
-  actionDanger: 'dshp-worktree__action--danger',
-  spacer: 'dshp-worktree__spacer',
-  logs: 'dshp-worktree__logs',
-  logsOpen: 'dshp-worktree__logs--open',
-  logsInner: 'dshp-worktree__logs-inner',
-  logsPanel: 'dshp-worktree__logs-panel',
-  logLine: 'dshp-worktree__log-line',
-  modal: 'dshp-worktree__modal',
-  card: 'dshp-worktree__dialog-card',
-  title: 'dshp-worktree__dialog-title',
-  body: 'dshp-worktree__dialog-body',
-  field: 'dshp-worktree__dialog-field',
-  fieldLabel: 'dshp-worktree__dialog-field-label',
-  inputWrap: 'dshp-worktree__dialog-input-wrap',
-  input: 'dshp-worktree__dialog-input',
-  pathRow: 'dshp-worktree__dialog-path-row',
-  pathKey: 'dshp-worktree__dialog-path-key',
-  pathValue: 'dshp-worktree__dialog-path-value',
-  error: 'dshp-worktree__dialog-error',
-  footer: 'dshp-worktree__dialog-footer',
-  button: 'dshp-worktree__dialog-button',
-  buttonGhost: 'dshp-worktree__dialog-button--ghost',
-  buttonPrimary: 'dshp-worktree__dialog-button--primary',
-  buttonDanger: 'dshp-worktree__dialog-button--danger',
-  buttonDisabled: 'dshp-worktree__dialog-button--disabled',
-} as const
-
 export const SESSION_ICON_ATTRIBUTE = 'data-dsh-worktree-icon'
 export const SIDEBAR_SELECTOR = '[data-slot="sidebar"]'
 export const COMPOSER_SEAT_SELECTOR = '[data-composer-seat]'
