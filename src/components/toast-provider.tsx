@@ -8,7 +8,6 @@ import { activeQueues, placements } from '@/utils/toast'
 
 interface ToastProviderProps {
   children?: ReactNode
-  hideCloseButton?: boolean
 }
 
 /**
@@ -36,33 +35,28 @@ export function ToastProvider(props: ToastProviderProps) {
           placement={placement}
           queue={activeQueues[placement]}
         >
-          {props.hideCloseButton
-            ? ({ toast: item }) => {
-                const content = { ...item.content, ...updates.get(item.key) }
-
-                // 对齐 HeroUI 默认渲染（getDefaultChildren）：indicator === null
-                // 隐藏图标；isLoading 时显示 Spinner；否则显示内容或按 variant 的
-                // 默认图标（default/accent→Info、success→Success、warning→Warning、
-                // danger→Danger）。
-                return (
-                  <Toast toast={item} variant={content?.variant}>
-                    <If cond={content?.isLoading} else={<Toast.Indicator variant={content?.variant} />}>
-                      <Toast.Indicator variant={content?.variant}>
-                        <Spinner color="current" size="sm" />
-                      </Toast.Indicator>
-                    </If>
-                    <Toast.Content>
-                      <If cond={content?.title !== undefined}>
-                        <Toast.Title>{content?.title}</Toast.Title>
-                      </If>
-                      <If cond={content?.description !== undefined}>
-                        <Toast.Description>{content?.description}</Toast.Description>
-                      </If>
-                    </Toast.Content>
-                  </Toast>
-                )
-              }
-            : undefined}
+          {({ toast: item }) => {
+            const content = { ...item.content, ...updates.get(item.key) }
+            return (
+              <Toast toast={item} variant={content?.variant}>
+                <If cond={content?.isLoading} else={<Toast.Indicator variant={content?.variant} />}>
+                  <Toast.Indicator variant={content?.variant}>
+                    <Spinner color="current" size="sm" />
+                  </Toast.Indicator>
+                </If>
+                <Toast.Content>
+                  <If cond={content?.title !== undefined}>
+                    <Toast.Title>{content?.title}</Toast.Title>
+                  </If>
+                  <If cond={content?.description !== undefined}>
+                    <Toast.Description className="line-clamp-2">
+                      {content?.description}
+                    </Toast.Description>
+                  </If>
+                </Toast.Content>
+              </Toast>
+            )
+          }}
         </Toast.Provider>
       ))}
       {props.children}
