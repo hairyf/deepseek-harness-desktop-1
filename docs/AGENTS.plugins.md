@@ -64,6 +64,7 @@ packages/<plugin>/
   - `createAtomicFsStorage(base)` 从 `dsh-tauri` 根导入（宿主侧 unstorage fs + tmp+rename 原子写）。
 - 后果：`dsh-tauri` 的 client bundle 是唯一内联三库的地方；其他插件 client 走外部 `dsh-tauri/client`，不重复内联。
 - 纯 client 插件（dsh-tauri-panel / rightclick / ui 等）通常只需 `dsh-tauri` 一个依赖。
+- 通用 UI 只允许单向复用：消费插件从 `dsh-tauri-ui/client` 导入 `MenuSelect`、`styles` 和共享图标；`dsh-tauri-ui/client` 不得反向依赖消费插件。Gravity 图标由 `dsh-tauri-ui` 单点内联，消费插件禁止直接导入 `@gravity-ui/icons`。
 
 ## 基本技术约定
 
