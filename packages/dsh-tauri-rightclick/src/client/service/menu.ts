@@ -157,7 +157,7 @@ export function installContextMenu(ctx: ClientContext): () => void {
     }
     else if (workspaceTarget) {
       const workspace = workspaceTarget.workspace
-      add(root, text('newSession'), () => workspaces.startSession(workspace.workspaceId))
+      add(root, text('newSession'), () => workspaces.startSession?.(workspace.workspaceId))
       add(root, text('openInExplorer'), () => openInExplorer(workspace.path))
       split(root)
       add(root, text('renameWorkspace'), () => officialSelect(
