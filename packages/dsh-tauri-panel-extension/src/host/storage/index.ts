@@ -74,7 +74,8 @@ export function loadState(dshHome?: string): PluginState {
 
 /** Persist by atomic rename (unstorage fs adapter) so readers never observe partial JSON. */
 export async function saveState(state: PluginState, dshHome?: string): Promise<void> {
-  await stateStore(dshHome).setItem(STATE_KEY, `${JSON.stringify(state, null, 2)}\n`)
+  const storage = stateStore(dshHome)
+  await storage.setItem(STATE_KEY, `${JSON.stringify(state, null, 2)}\n`)
 }
 
 /** New unique entry id. */

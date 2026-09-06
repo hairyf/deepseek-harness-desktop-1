@@ -18,10 +18,6 @@ export function sessionStateDir(dshHome?: string): string {
   return join(dshHome ?? process.env.DSH_HOME ?? join(homedir(), '.dsh'), SESSION_STATE_DIRECTORY)
 }
 
-function archiveStore(dshHome?: string) {
-  return createAtomicFsStorage(sessionStateDir(dshHome))
-}
-
 /** Fresh empty archive document. */
 export function emptyArchive(): ArchiveDocument {
   return {}
@@ -29,8 +25,9 @@ export function emptyArchive(): ArchiveDocument {
 
 /** Load the archive; missing/corrupt files yield an empty archive. */
 export async function loadArchive(dshHome?: string): Promise<ArchiveDocument> {
+  const storage = createAtomicFsStorage(sessionStateDir(dshHome))
   try {
-    const parsed = await archiveStore(dshHome).getItem<ArchiveDocument>(SESSION_ARCHIVE_FILE)
+    const parsed = await storage.getItem<ArchiveDocument>(SESSION_ARCHIVE_FILE)
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed))
       return emptyArchive()
     const out: ArchiveDocument = {}
@@ -48,5 +45,6 @@ export async function loadArchive(dshHome?: string): Promise<ArchiveDocument> {
 
 /** Persist by atomic rename so readers never observe partial JSON. */
 export async function saveArchive(archive: ArchiveDocument, dshHome?: string): Promise<void> {
-  await archiveStore(dshHome).setItem(SESSION_ARCHIVE_FILE, `${JSON.stringify(archive, null, 2)}\n`)
+  const storage = createAtomicFsStorage(sessionStateDir(dshHome))
+  await storage.setItem(SESSION_ARCHIVE_FILE, `${JSON.stringify(archive, null, 2)}\n`)
 }

@@ -2,7 +2,7 @@ import type {
   WorktreeSessionState,
   WorktreeUiState,
 } from '../types'
-import { createExternalStore, createLocalStorage } from 'dsh-tauri/client'
+import { createExternalStore, createStorage, localStorageDriver } from 'dsh-tauri/client'
 /**
  * store/index.ts — dsh-tauri-worktree 的共享客户端状态（per-session 工作树状态 + 偏好）。
  *
@@ -11,7 +11,7 @@ import { createExternalStore, createLocalStorage } from 'dsh-tauri/client'
  * 变更动作（检出/放弃 + job 轮询）在 service/actions.ts，自动交接编排在
  * service/handoff.ts；本文件只保留状态源、订阅与偏好持久化。
  *
- * 新会话偏好（local/pending）经 dsh-tauri/client 的 createLocalStorage（unstorage
+ * 新会话偏好（local/pending）经 dsh-tauri/client 的 createStorage + localStorageDriver（unstorage
  * localStorage driver，base 拼 `base:` 前缀防串扰，兼容旧 key）持久化，apply 时
  * hydrate 一次缓存到模块级；写入即改即存。客户端依赖统一由 dsh-tauri 加载，本包
  * 不再直接 import unstorage。
@@ -19,8 +19,8 @@ import { createExternalStore, createLocalStorage } from 'dsh-tauri/client'
 import { useSyncExternalStore } from 'react'
 import { WORKTREE_PLUGIN_NAME } from '../../shared/constants'
 
-/** 偏好存储（unstorage localStorage driver，base 由 driver 拼 `base:` 前缀防串扰，兼容旧 key）。 */
-const prefsStorage = createLocalStorage(WORKTREE_PLUGIN_NAME)
+/** 插件范围内 key-value 存储（unstorage localStorage driver，base 由 driver 拼 `base:` 前缀防串扰，兼容旧 key）。 */
+const storage = createStorage({ driver: localStorageDriver({ base: WORKTREE_PLUGIN_NAME }) })
 
 const PREFERRED_MODE_KEY = 'preferred-mode'
 /** 模块级偏好缓存；未被 hydrate 前保持官方默认「本地」。 */
@@ -33,7 +33,7 @@ export async function hydratePreferredMode(): Promise<void> {
     return
   prefsHydrated = true
   try {
-    preferredMode = (await prefsStorage.getItem(PREFERRED_MODE_KEY)) === 'pending' ? 'pending' : 'local'
+    preferredMode = (await storage.getItem(PREFERRED_MODE_KEY)) === 'pending' ? 'pending' : 'local'
   }
   catch {
     /* 存储不可用（隐私模式等）不影响会话功能 */
@@ -47,7 +47,7 @@ export function preferredNewSessionMode(): 'local' | 'pending' {
 
 export function rememberNewSessionMode(mode: 'local' | 'pending'): void {
   preferredMode = mode
-  void prefsStorage.setItem(PREFERRED_MODE_KEY, mode).catch(() => {})
+  void storage.setItem(PREFERRED_MODE_KEY, mode).catch(() => {})
 }
 
 /** 无绑定会话的初始状态。 */

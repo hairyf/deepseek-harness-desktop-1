@@ -69,21 +69,23 @@ export function loadState(dshHome?: string): SchedulerState {
 
 /** 原子持久化整个状态文档。 */
 export async function saveState(state: SchedulerState, dshHome?: string): Promise<void> {
-  const store = stateStore(dshHome)
-  await store.setItem(TASKS_KEY, `${JSON.stringify({ version: 1, tasks: state.tasks }, null, 2)}\n`)
+  const storage = stateStore(dshHome)
+  await storage.setItem(TASKS_KEY, `${JSON.stringify({ version: 1, tasks: state.tasks }, null, 2)}\n`)
   // runs 单独落盘，避免每次任务变更都重写大历史。
-  await store.setItem(RUNS_KEY, `${JSON.stringify({ version: 1, runs: state.runs }, null, 2)}\n`)
+  await storage.setItem(RUNS_KEY, `${JSON.stringify({ version: 1, runs: state.runs }, null, 2)}\n`)
 }
 
 /** 只持久化任务列表（runs 不动）。 */
 export async function saveTasks(tasks: SchedulerTask[], dshHome?: string): Promise<void> {
-  await stateStore(dshHome).setItem(TASKS_KEY, `${JSON.stringify({ version: 1, tasks }, null, 2)}\n`)
+  const storage = stateStore(dshHome)
+  await storage.setItem(TASKS_KEY, `${JSON.stringify({ version: 1, tasks }, null, 2)}\n`)
 }
 
 /** 只持久化执行记录（超限裁剪）。 */
 export async function saveRuns(runs: SchedulerRun[], dshHome?: string): Promise<void> {
   const trimmed = runs.slice(-RUNS_HISTORY_LIMIT)
-  await stateStore(dshHome).setItem(RUNS_KEY, `${JSON.stringify({ version: 1, runs: trimmed }, null, 2)}\n`)
+  const storage = stateStore(dshHome)
+  await storage.setItem(RUNS_KEY, `${JSON.stringify({ version: 1, runs: trimmed }, null, 2)}\n`)
 }
 
 /** 状态目录是否已存在（供启动迁移/自愈判定）。 */
