@@ -20,6 +20,13 @@ export const INPUT_PREFILL_ORDER = 40
 export const INPUT_PREFILL_PRIORITY = 0
 
 export const STYLE_ID = 'dsh-tauri-panel-scheduler-styles'
+export const SCHEDULER_PANEL_STYLE_ID = 'dsh-tauri-panel-scheduler-panel-styles'
+export const TASK_CARD_STYLE_ID = 'dsh-tauri-panel-scheduler-task-card-styles'
+export const RUNS_TAB_STYLE_ID = 'dsh-tauri-panel-scheduler-runs-tab-styles'
+export const RECOMMENDATIONS_STYLE_ID = 'dsh-tauri-panel-scheduler-recommendations-styles'
+export const MODEL_PICKER_STYLE_ID = 'dsh-tauri-panel-scheduler-model-picker-styles'
+export const MENU_STYLE_ID = 'dsh-tauri-panel-scheduler-menu-styles'
+export const TASK_CREATE_DIALOG_STYLE_ID = 'dsh-tauri-panel-scheduler-task-create-dialog-styles'
 
 export const STYLES_EFFECT = `${SCHEDULER_PLUGIN_NAME}: styles`
 export const PANEL_EFFECT = `${SCHEDULER_PLUGIN_NAME}: panel slot`

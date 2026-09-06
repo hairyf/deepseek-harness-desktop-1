@@ -1,10 +1,12 @@
 import type { IconComponent } from 'dsh-tauri-ui/client'
 import type { ReactElement } from 'react'
 import type { ScheduleForm, TaskFormState, TaskView, Translate } from '../types'
-import { Calendar, Icon } from 'dsh-tauri-ui/client'
+import { Calendar, Icon, useMountStyle } from 'dsh-tauri-ui/client'
+import { RECOMMENDATIONS_STYLE_ID } from '../constants'
 import { applyCreateTask } from '../service/scheduler'
 import { recommendationMatchesTask } from '../utils/recommendations'
 import { describeSchedule } from '../utils/schedule'
+import recommendationsStyle from './recommendations.cssr'
 
 /**
  * components/recommendations.tsx — 推荐（预置）定时任务，展示在任务列表下方。
@@ -54,6 +56,7 @@ export interface RecommendationsProps {
 
 /** 推荐（预置）定时任务列表：点击直接创建，成功后该项从任务列表中消失。 */
 export function Recommendations({ t, tasks }: RecommendationsProps): ReactElement {
+  useMountStyle(recommendationsStyle, RECOMMENDATIONS_STYLE_ID)
   async function add(rec: Recommendation): Promise<void> {
     const form = rec.form(t)
     await applyCreateTask({

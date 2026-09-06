@@ -8,9 +8,11 @@
 
 import type { ModelCatalogFailure, ModelOption, ModelTranslate } from '../types'
 import { IconCheckOutline16 as Check, IconChevronDownOutline14 as ChevronDown } from '@deepseek-ai/dsh-client-ui-primitives'
-import { Icon } from 'dsh-tauri-ui/client'
+import { Icon, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
+import { MODEL_PICKER_STYLE_ID } from '../constants'
 import { MenuPopup, MenuRow, useMenuState } from './menu'
+import modelPickerStyle from './model-picker.cssr'
 
 export function ModelPicker({
   modelT,
@@ -27,6 +29,7 @@ export function ModelPicker({
   readonly reasoningEffort: string
   readonly onSelection: (modelKey: string, reasoningEffort: string) => void
 }): JSX.Element {
+  useMountStyle(modelPickerStyle, MODEL_PICKER_STYLE_ID)
   const menu = useMenuState()
   const [pane, setPane] = useState<'root' | 'model' | 'effort'>('root')
   const selected = models.find(item => `${item.provider}::${item.model}` === modelKey)

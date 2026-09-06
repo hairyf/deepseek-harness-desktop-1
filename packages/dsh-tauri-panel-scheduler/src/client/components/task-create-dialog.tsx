@@ -12,11 +12,13 @@
 import type { ReactElement } from 'react'
 import type { ModelTranslate, ScheduleForm, SchedulerOptions, TaskFormState, Translate, Weekday } from '../types'
 import { Modal } from '@deepseek-ai/dsh-client-ui-primitives'
-import { MenuSelect } from 'dsh-tauri-ui/client'
+import { MenuSelect, useMountStyle } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
+import { TASK_CREATE_DIALOG_STYLE_ID } from '../constants'
 import { applyCreateTask, applyUpdateTask } from '../service/scheduler'
 import { MenuHostProvider } from './menu'
 import { ModelPicker } from './model-picker'
+import taskCreateDialogStyle from './task-create-dialog.cssr'
 
 export interface TaskCreateDialogProps {
   t: Translate
@@ -89,6 +91,7 @@ function makeModelT(t: Translate): ModelTranslate {
 }
 
 export function TaskCreateDialog({ t, options, onClose, taskId, initial }: TaskCreateDialogProps): ReactElement {
+  useMountStyle(taskCreateDialogStyle, TASK_CREATE_DIALOG_STYLE_ID)
   const [form, setForm] = useState<TaskFormState>(() => initial ?? {
     name: '',
     schedule: { kind: 'daily', time: '09:00' },

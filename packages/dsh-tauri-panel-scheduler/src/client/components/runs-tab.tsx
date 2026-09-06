@@ -4,7 +4,10 @@
 
 import type { ReactElement } from 'react'
 import type { RunView, Translate } from '../types'
+import { useMountStyle } from 'dsh-tauri-ui/client'
+import { RUNS_TAB_STYLE_ID } from '../constants'
 import { formatLocalTime } from '../utils/schedule'
+import runsTabStyle from './runs-tab.cssr'
 
 export interface RunsTabProps {
   t: Translate
@@ -24,6 +27,7 @@ function statusKey(t: Translate, status: RunView['status']): string {
 }
 
 export function RunsTab({ t, runs, onDelete }: RunsTabProps): ReactElement {
+  useMountStyle(runsTabStyle, RUNS_TAB_STYLE_ID)
   if (runs.length === 0)
     return <p className="dshp-scheduler__empty">{t('emptyRuns')}</p>
   return (

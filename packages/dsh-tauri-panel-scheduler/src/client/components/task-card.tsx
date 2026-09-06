@@ -10,9 +10,10 @@ import type { MenuEntry } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { ReactElement } from 'react'
 import type { TaskView, Translate } from '../types'
 import { Menu, Modal, Toast, IconWarningOutline16 as Warning } from '@deepseek-ai/dsh-client-ui-primitives'
-import { CirclePause, CirclePlay, EllipsisVertical, Icon, TrashBin } from 'dsh-tauri-ui/client'
+import { CirclePause, CirclePlay, EllipsisVertical, Icon, TrashBin, useMountStyle } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
 import { applyDeleteTask, applyRunTask, applyToggleTask } from '../service/scheduler'
+import taskCardStyle from './task-card.cssr'
 
 export interface TaskCardProps {
   task: TaskView
@@ -25,6 +26,7 @@ export interface TaskCardProps {
 }
 
 export function TaskCard({ task, t, describe, nextRun, paused, onEdit }: TaskCardProps): ReactElement {
+  useMountStyle(taskCardStyle, TASK_CARD_STYLE_ID)
   const [menuOpen, setMenuOpen] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [actionError, setActionError] = useState('')

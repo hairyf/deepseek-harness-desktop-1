@@ -8,8 +8,11 @@
  */
 
 import type { CSSProperties, ReactNode, RefObject } from 'react'
+import { useMountStyle } from 'dsh-tauri-ui/client'
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { MENU_STYLE_ID } from '../constants'
+import menuStyle from './menu.cssr'
 
 export interface MenuOption<T extends string> {
   readonly value: T
@@ -135,6 +138,7 @@ export function MenuHostProvider({
   readonly host: HTMLElement | null
   readonly children: ReactNode
 }): JSX.Element {
+  useMountStyle(menuStyle, MENU_STYLE_ID)
   return <MenuHostContext.Provider value={host}>{children}</MenuHostContext.Provider>
 }
 

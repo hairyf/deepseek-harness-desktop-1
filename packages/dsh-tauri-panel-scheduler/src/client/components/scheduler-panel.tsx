@@ -10,7 +10,7 @@
 
 import type { ReactElement } from 'react'
 import type { SchedulerPanelProps, TaskFormState, TaskView } from '../types'
-import { CommentPlus, Icon, Magnifier, Plus } from 'dsh-tauri-ui/client'
+import { CommentPlus, Icon, Magnifier, Plus, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
 import { REFRESH_INTERVAL_MS } from '../constants'
 import { applyDeleteRun, refreshScheduler } from '../service/scheduler'
@@ -18,6 +18,7 @@ import { useSchedulerState } from '../store'
 import { describeSchedule, formatRelative, isTaskPaused } from '../utils/schedule'
 import { Recommendations } from './recommendations'
 import { RunsTab } from './runs-tab'
+import schedulerPanelStyle from './scheduler-panel.cssr'
 import { TaskCard } from './task-card'
 import { TaskCreateDialog } from './task-create-dialog'
 
@@ -43,6 +44,7 @@ function taskToForm(task: TaskView): TaskFormState {
 }
 
 export function SchedulerPanel({ t, onViaChat }: SchedulerPanelProps): ReactElement {
+  useMountStyle(schedulerPanelStyle, SCHEDULER_PANEL_STYLE_ID)
   const state = useSchedulerState()
   const [tab, setTab] = useState<'tasks' | 'runs'>('tasks')
   const [search, setSearch] = useState('')

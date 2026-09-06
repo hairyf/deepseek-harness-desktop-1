@@ -13,7 +13,7 @@ import { installSchedulerLocale } from './locales'
 import { installSchedulerPanel } from './register/panel'
 import { registerSchedulerPrefill } from './register/prefill'
 import { installSessionIcons } from './register/session-icons'
-import schedulerPanelStyle from './styles/scheduler-panel.cssr'
+import schedulerIndexStyle from './styles/index.cssr'
 
 export { SCHEDULER_API_PREFIX } from '../shared/constants'
 export type * from './types'
@@ -30,7 +30,7 @@ export const inject = ['slots', 'layout', 'locale', 'sessions', 'workspaces']
  */
 export function apply(ctx: SchedulerClientContext): void {
   installSchedulerLocale(ctx)
-  ctx.effect(() => mountStyle(schedulerPanelStyle, STYLE_ID), STYLES_EFFECT)
+  ctx.effect(() => mountStyle(schedulerIndexStyle, STYLE_ID), STYLES_EFFECT)
   const t = ctx.locale.bind(LOCALE_NAMESPACE) as Translate
   installSchedulerPanel(ctx, t)
   registerSchedulerPrefill(ctx)
