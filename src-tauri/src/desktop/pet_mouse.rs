@@ -143,7 +143,15 @@ fn listen_mouse_macos(store: Arc<Mutex<Option<MouseCursorPos>>>) -> Result<(), S
         CGEventTapOptions::ListenOnly,
         MACOS_MOUSE_EVENTS.to_vec(),
         move |_proxy, event_type, event| {
-            if matches!(event_type, CGEventType::MouseMoved) {
+            // 所有 MACOS_MOUSE_EVENTS 中带位置语义的类型都要更新光标位置。
+            // ScrollWheel 是滚轮 delta 没有位置，跳过。
+            if matches!(
+                event_type,
+                CGEventType::MouseMoved
+                    | CGEventType::LeftMouseDragged
+                    | CGEventType::RightMouseDragged
+                    | CGEventType::OtherMouseDragged
+            ) {
                 let point = event.location();
                 *store.lock().expect("pet mouse store poisoned") = Some(MouseCursorPos {
                     x: point.x,
