@@ -11,7 +11,7 @@
  * providerHooks（hookable）暴露，供诊断与第三方联动。
  */
 
-import type { Context } from '@deepseek-ai/cordis'
+import type { HostContext } from 'dsh-tauri'
 import type { PanelExtensionHost } from './types'
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -46,7 +46,7 @@ export const inject = ['webServer', 'skills', 'connection']
 /** The provider plugin's structural shape (name/apply export). */
 interface FilesystemSkillPlugin {
   name: string
-  apply: (context: Context, config?: unknown) => void
+  apply: (context: unknown, config?: unknown) => void
 }
 
 /** Platform loader subset used to resolve DSH-owned packages from its base URL. */
@@ -64,14 +64,6 @@ export async function loadFilesystemSkillPlugin(loader: PlatformPluginLoader): P
 /** The disposable fiber `ctx.plugin()` returns, as far as we use it. */
 interface PluginFiber {
   dispose: () => Promise<void>
-}
-
-/** cordis Context 类型发布缺陷兜底：apply 依赖的注册表/日志成员。 */
-interface HostContext {
-  effect: (callback: () => void | (() => void), id?: string) => void
-  inject: (services: readonly string[], setup: (hostCtx: HostContext) => void) => void
-  plugin: (plugin: unknown, config?: unknown) => PluginFiber
-  logger: { error: (message: string) => void }
 }
 
 export function apply(ctx: HostContext, config?: Config): void {
