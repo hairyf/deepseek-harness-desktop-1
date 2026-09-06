@@ -14,12 +14,10 @@ import type { ArchivedListPayload, ArchiveDocument, HostContext } from '../types
 import type {
   RegistryArchiveSurface,
 } from './registry'
-import { rmSync } from 'node:fs'
-import { join } from 'pathe'
 import { SESSION_PLUGIN_NAME } from '../../shared/constants'
 import { SESSION_ARCHIVE_FILE } from '../constants'
 import { archiveHooks } from '../hooks'
-import { sessionStateDir, storage } from '../storage'
+import { storage } from '../storage'
 import {
   registryArchiveSurface,
   removeArchivedSessionsFromRegistry,
@@ -142,7 +140,7 @@ export async function migrateLegacyArchive(ctx: HostContext): Promise<void> {
   }
   try {
     if (failed.length === 0) {
-      rmSync(join(sessionStateDir(), SESSION_ARCHIVE_FILE), { force: true })
+      await storage.removeItem(SESSION_ARCHIVE_FILE)
     }
     else {
       // 只保留未迁移成功的记录，避免下次启动重复迁移已成功的会话。

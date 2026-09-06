@@ -9,10 +9,10 @@
  */
 
 import type { HostContext, SessionLike } from '../types'
-import { homedir } from 'node:os'
 import { readdirSync, rmSync } from 'node:fs'
-import { dirname, join, resolve, sep } from 'pathe'
+import { homedir } from 'node:os'
 import process from 'node:process'
+import { dirname, join, resolve, sep } from 'pathe'
 
 /** 会话数据根目录（默认 `$DSH_HOME/sessions`；测试可注入临时根）。 */
 function sessionsRoot(dshHome: string | undefined): string {

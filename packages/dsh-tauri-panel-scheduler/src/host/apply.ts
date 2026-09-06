@@ -13,7 +13,7 @@ import type { HostContext } from './types'
 import { SCHEDULER_TICK_MS } from './constants'
 import { createSchedulerHooks } from './hooks'
 import { buildRoutes } from './routes'
-import { recoverInterruptedRuns } from './service/manager'
+import { recoverInterruptedRuns } from './service/run'
 import { SchedulerEngine } from './service/scheduler'
 import { createToolSet } from './tools'
 

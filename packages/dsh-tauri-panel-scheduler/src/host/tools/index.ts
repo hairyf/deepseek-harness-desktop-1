@@ -7,7 +7,7 @@
  */
 
 import type { SchedulerEngine } from '../service/scheduler'
-import { createTask, deleteTask, listTasks, setTaskEnabled } from '../service/manager'
+import { createTask, deleteTask, getAllTask, setTaskEnabled } from '../service/task'
 
 /** 文本渲染助手。 */
 function textBlock(text: string): Array<{ type: 'text', text: string }> {
@@ -94,7 +94,7 @@ export function createToolSet(engine: SchedulerEngine): any[] {
         },
       },
       async execute() {
-        return { ok: true, tasks: listTasks() }
+        return { ok: true, tasks: getAllTask() }
       },
     },
     {

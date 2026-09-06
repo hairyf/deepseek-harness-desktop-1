@@ -21,7 +21,7 @@ import { providerHooks } from './hooks'
 import { mountPanelExtensionRoutes } from './routes'
 import { agentSkillRoots } from './service/agents'
 import { argvProfile, profileDir } from './service/profile'
-import { loadState } from './storage'
+import { getSkillRoots } from './service/skill-root'
 
 export const name = PLUGIN_NAME
 
@@ -125,7 +125,7 @@ export function apply(ctx: HostContext, config?: Config): void {
             return
           const roots = [
             packagedSkillsDir(),
-            ...loadState().skillRoots.flatMap(entry => entry.roots),
+            ...(await getSkillRoots()).flatMap(entry => entry.roots),
             ...agentSkillRoots(),
           ].filter(dir => existsSync(dir))
           try {
