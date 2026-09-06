@@ -13,15 +13,19 @@
  * 与 node half（src/index.ts）经 /api/dsh-rightclick-menu/* 通信（open-url）。
  */
 import type { ClientContext } from 'dsh-tauri/client'
+import { mountStyle } from 'dsh-tauri-ui/client'
 import { compat } from 'dsh-tauri/client'
 import {
   RIGHTCLICK_CLIENT_PLUGIN,
   RIGHTCLICK_MENU_EFFECT,
+  RIGHTCLICK_MENU_STYLE_ID,
   RIGHTCLICK_STYLES_EFFECT,
+  RIGHTCLICK_TOAST_STYLE_ID,
 } from './constants'
 import { installLocale } from './locales'
 import { installContextMenu } from './service/menu'
-import { mountRightClickStyles } from './styles'
+import rightClickMenuStyle from './styles/rightclick-menu.cssr'
+import rightClickToastStyle from './styles/rightclick-toast.cssr'
 
 /** 插件显示名（诊断元数据）。 */
 export const name = RIGHTCLICK_CLIENT_PLUGIN
@@ -37,7 +41,8 @@ export function apply(ctx: ClientContext): void {
   const cx = compat(ctx)
   installLocale(cx)
 
-  ctx.effect(() => mountRightClickStyles(), RIGHTCLICK_STYLES_EFFECT)
+  ctx.effect(() => mountStyle(rightClickMenuStyle, RIGHTCLICK_MENU_STYLE_ID), RIGHTCLICK_STYLES_EFFECT)
+  ctx.effect(() => mountStyle(rightClickToastStyle, RIGHTCLICK_TOAST_STYLE_ID), RIGHTCLICK_STYLES_EFFECT)
 
   ctx.effect(() => installContextMenu(cx), RIGHTCLICK_MENU_EFFECT)
 }

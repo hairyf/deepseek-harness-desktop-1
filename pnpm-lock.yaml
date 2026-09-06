@@ -711,6 +711,9 @@ importers:
       dsh-tauri:
         specifier: workspace:*
         version: link:../dsh-tauri
+      dsh-tauri-ui:
+        specifier: workspace:*
+        version: link:../dsh-tauri-ui
     devDependencies:
       dsh-tauri-tsdown:
         specifier: workspace:*

@@ -17,10 +17,12 @@ import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
  */
 import type { ClientContext } from 'dsh-tauri/client'
 import { SlotOutlet } from '@deepseek-ai/dsh-client-ui-renderer'
+import { mountStyle } from 'dsh-tauri-ui/client'
+import { PANEL_STYLE_ID } from './constants'
 import { installPanelLocale } from './locales'
 import { installPanelService } from './register/panel-service'
 import { installSidebarRoot } from './register/sidebar'
-import { mountPanelStyles } from './styles'
+import panelStyle from './styles/panel.cssr'
 
 export { PANEL_PROTOCOL_SERVICE } from './constants'
 export type { PanelActionItemProps, PanelContentSpec, SidebarRootProps } from './types'
@@ -44,7 +46,7 @@ export const inject = ['slots', 'layout', 'locale']
  */
 export function apply(ctx: ClientContext): void {
   ctx.effect(
-    () => mountPanelStyles(),
+    () => mountStyle(panelStyle, PANEL_STYLE_ID),
     'dsh-tauri-panel: styles',
   )
   installPanelLocale(ctx)

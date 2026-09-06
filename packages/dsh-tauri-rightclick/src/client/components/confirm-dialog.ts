@@ -3,7 +3,7 @@
  *
  * 内嵌 WebView2 里的 `window.confirm` 会以「127.0.0.1:3080 嵌入页提示」横幅出现，
  * 不随客户端 UI 主题（#235）。这里用与官方一致的 primitives Modal 渲染，
- * Promise 化以便 await；仅依赖宿主提供的 react / primitives。  
+ * Promise 化以便 await；仅依赖宿主提供的 react / primitives。
  */
 import type { ReactElement } from 'react'
 import { Button, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
