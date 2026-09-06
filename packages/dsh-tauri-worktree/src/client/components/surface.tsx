@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import type { SurfaceBarProps } from '../types'
-import { CircleTreeIcon } from 'dsh-tauri-ui/client'
+import { CircleTree, Icon } from 'dsh-tauri-ui/client'
 /**
  * surface.tsx — 聊天框正上方、仅会话内容区内的工作树状态条。
  *
@@ -34,7 +34,7 @@ export function WorktreeSurface({ sessionId }: SurfaceBarProps): ReactElement | 
   return (
     <div className={worktreeStyles.surface}>
       <div className={worktreeStyles.surfaceBar} data-dsh-worktree-surface={sessionId}>
-        <CircleTreeIcon size={14} />
+        <Icon as={CircleTree} size={14} />
         <div className={worktreeStyles.surfaceContent}>
           <span className={worktreeStyles.surfaceLabel}>
             {label}

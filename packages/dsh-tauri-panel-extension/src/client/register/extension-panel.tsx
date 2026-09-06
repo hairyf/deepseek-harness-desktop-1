@@ -8,7 +8,7 @@
 import type { ClientContext } from 'dsh-tauri/client'
 import type { ReactElement } from 'react'
 import type { ExtensionRuntimeContext, McpInjected, PanelProtocol, SkillsInjected, Translate } from '../types'
-import { IconExtension } from 'dsh-tauri-ui/client'
+import { Icon, Puzzle } from 'dsh-tauri-ui/client'
 import { compat } from 'dsh-tauri/client'
 import { ExtensionPanel } from '../components/extension-panel'
 import { pendingPrefills } from '../config'
@@ -48,7 +48,7 @@ export function installExtensionPanel(ctx: ClientContext, t: Translate, skills: 
         runtime.sessions.open(sessionId)
       }
       const Content = (): ReactElement => <ExtensionPanel t={t} skills={skills} mcp={mcp} createSkill={createSkill} />
-      const Action = (): ReactElement => <protocol.ActionItem id={PANEL_ID} icon={<IconExtension />} onClick={() => protocol.renderPanelContent?.({ id: PANEL_ID, render: Content, locale: LOCALE_NAMESPACE })}>{t('extension')}</protocol.ActionItem>
+      const Action = (): ReactElement => <protocol.ActionItem id={PANEL_ID} icon={<Icon as={Puzzle} />} onClick={() => protocol.renderPanelContent?.({ id: PANEL_ID, render: Content, locale: LOCALE_NAMESPACE })}>{t('extension')}</protocol.ActionItem>
       registration = ctx.slots.register({ name: PANEL_SLOT_NAME, id: PANEL_ACTION_ID, registrant: PLUGIN_ID, order: PANEL_ACTION_ORDER, priority: PANEL_ACTION_PRIORITY, locale: LOCALE_NAMESPACE, inject: () => ({}) } as never, Action)
       if (retryTimer !== undefined) {
         window.clearInterval(retryTimer)

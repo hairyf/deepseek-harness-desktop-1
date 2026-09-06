@@ -7,7 +7,8 @@
  */
 
 import type { ModelCatalogFailure, ModelOption, ModelTranslate } from '../types'
-import { IconCheckOutline16, IconChevronDownOutline14 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCheckOutline16 as Check, IconChevronDownOutline14 as ChevronDown } from '@deepseek-ai/dsh-client-ui-primitives'
+import { Icon } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
 import { SCHEDULER_CLASSES as K } from '../constants'
 import { MenuPopup, MenuRow, useMenuState } from './menu'
@@ -103,7 +104,7 @@ export function ModelPicker({
       >
         <span>{trigger}</span>
         {effortLabel !== undefined && <span className={K.modelTriggerEffort}>{effortLabel}</span>}
-        <IconChevronDownOutline14 className={`${K.modelTriggerChevron}${menu.open ? ` ${K.modelTriggerChevronOpen}` : ''}`} />
+        <Icon as={ChevronDown} className={`${K.modelTriggerChevron}${menu.open ? ` ${K.modelTriggerChevronOpen}` : ''}`} />
       </button>
       <MenuPopup open={menu.open} anchor={menu.root} menuRef={menu.menu} up end className={`${K.modelSelectMenu} is-up is-end`} ariaLabel={modelT('menu.aria')}>
         {pane === 'root' && (
@@ -152,7 +153,7 @@ export function ModelPicker({
                         <span className={K.modelName}>{item.label}</span>
                         {item.description !== undefined && <span className={K.modelDescription}>{item.description}</span>}
                       </span>
-                      <span className={K.modelCheck}>{value === modelKey && <IconCheckOutline16 />}</span>
+                      <span className={K.modelCheck}>{value === modelKey && <Icon as={Check} />}</span>
                     </button>
                   )
                 })}
@@ -172,7 +173,7 @@ export function ModelPicker({
                 onClick={() => selectEffort('none')}
               >
                 <span className={K.modelOptionCopy}><span className={K.modelName}>{modelT('effort.providerDefault')}</span></span>
-                <span className={K.modelCheck}>{reasoningEffort === 'none' && <IconCheckOutline16 />}</span>
+                <span className={K.modelCheck}>{reasoningEffort === 'none' && <Icon as={Check} />}</span>
               </button>
             )}
             {reasoning.efforts.map(item => (
@@ -188,7 +189,7 @@ export function ModelPicker({
                   <span className={K.modelName}>{item.name}</span>
                   {item.description !== undefined && <span className={K.modelDescription}>{item.description}</span>}
                 </span>
-                <span className={K.modelCheck}>{effectiveEffort === item.id && <IconCheckOutline16 />}</span>
+                <span className={K.modelCheck}>{effectiveEffort === item.id && <Icon as={Check} />}</span>
               </button>
             ))}
             {reasoning.efforts.length === 0 && reasoning.defaultEffort !== undefined && <div className={K.modelEmpty}>{modelT('empty.efforts')}</div>}

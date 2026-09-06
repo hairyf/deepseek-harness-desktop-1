@@ -1,8 +1,7 @@
 import type { ReactElement } from 'react'
 import type { ModeSelectProps } from '../types'
-import { IconChevronDownOutline14, Menu } from '@deepseek-ai/dsh-client-ui-primitives'
-
-import { CircleTreeIcon } from 'dsh-tauri-ui/client'
+import { IconChevronDownOutline14 as ChevronDown, Menu } from '@deepseek-ai/dsh-client-ui-primitives'
+import { CircleTree, Icon } from 'dsh-tauri-ui/client'
 /**
  * mode-select.tsx — 「标准模式」右侧的会话工作模式选择器。
  *
@@ -221,10 +220,10 @@ function WorktreeModeControl({ sessionId, useInput, inputActions, sessionsRuntim
       className={open ? `${MODE_SELECT_CLASSES.trigger} ${MODE_SELECT_CLASSES.triggerOpen}` : MODE_SELECT_CLASSES.trigger}
     >
       <span className={MODE_SELECT_CLASSES.icon}>
-        <CircleTreeIcon size={13} />
+        <Icon as={CircleTree} size={13} />
       </span>
       <span>{activeLabel}</span>
-      <IconChevronDownOutline14 className={MODE_SELECT_CLASSES.chevron} />
+      <Icon as={ChevronDown} className={MODE_SELECT_CLASSES.chevron} />
     </button>
   )
 

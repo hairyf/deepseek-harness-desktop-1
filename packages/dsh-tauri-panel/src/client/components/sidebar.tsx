@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactElement } from 'react'
 import type { SidebarRootProps } from '../types'
 import { SlotOutlet } from '@deepseek-ai/dsh-client-ui-renderer'
-import { ChatOutline, FishMark, Icon } from 'dsh-tauri-ui/client'
+import { CommentPlus, FishMark, Icon } from 'dsh-tauri-ui/client'
 import { useEffect, useRef, useState } from 'react'
 import { COLLAPSE_SETTLE_MS, PANEL_CLASSES, PANEL_DATA_ATTRIBUTES, SCROLLBAR_LINGER_MS } from '../constants'
 
@@ -154,7 +154,7 @@ export function SidebarRootClone({ collapsed, width, startSession, toggleSidebar
             }
           }}
         >
-          <span className={PANEL_CLASSES.menuItemIcon}><Icon as={ChatOutline} size={wide ? 14 : 18} /></span>
+          <span className={PANEL_CLASSES.menuItemIcon}><Icon as={CommentPlus} size={wide ? 14 : 18} /></span>
           <span className={PANEL_CLASSES.menuItemLabel}>{t('session.new')}</span>
         </button>
         <SlotOutlet slotKey="sidebar.panel.action" ownerProps={{ wide }} />

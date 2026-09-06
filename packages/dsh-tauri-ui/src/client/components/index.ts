@@ -9,7 +9,6 @@ export {
   CirclePlay,
   CircleTree,
   Clock,
-  ChatOutline,
   CommentPlus,
   Ellipsis,
   EllipsisVertical,

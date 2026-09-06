@@ -9,7 +9,7 @@
 import type { MenuEntry } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { ReactElement } from 'react'
 import type { TaskView, Translate } from '../types'
-import { IconWarningOutline16, Menu, Modal, Toast } from '@deepseek-ai/dsh-client-ui-primitives'
+import { Menu, Modal, Toast, IconWarningOutline16 as Warning } from '@deepseek-ai/dsh-client-ui-primitives'
 import { CirclePause, CirclePlay, EllipsisVertical, Icon, TrashBin } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
 import { SCHEDULER_CLASSES as K } from '../constants'
@@ -163,7 +163,7 @@ export function TaskCard({ task, t, describe, nextRun, paused, onEdit }: TaskCar
             <Toast
               key={toast.seq}
               text={toast.text}
-              icon={<IconWarningOutline16 />}
+              icon={<Icon as={Warning} />}
               anchor={cardRef.current}
               onDone={() => setToast(null)}
             />

@@ -246,7 +246,7 @@ export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
                 items={[{
                   id: 'delete',
                   label: text('deleteProjectChats'),
-                  icon: <IconTrashBin />,
+                  icon: <Icon as={TrashBin} />,
                   danger: true,
                 } satisfies MenuEntry]}
                 portal
@@ -288,7 +288,7 @@ export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
                       disabled={busy}
                       onClick={() => setConfirm({ kind: 'single', sessionId: row.sessionId })}
                     >
-                      <IconTrashBin />
+                      <Icon as={TrashBin} />
                     </button>
                     <Button
                       type="button"

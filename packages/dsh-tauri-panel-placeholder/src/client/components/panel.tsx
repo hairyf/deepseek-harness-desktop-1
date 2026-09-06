@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import type { PlaceholderPanelProps } from '../types'
-import { IconPlaceholder } from 'dsh-tauri-ui/client'
+import { Icon, IconPlaceholder } from 'dsh-tauri-ui/client'
 import { LOCALE_NAMESPACE, PANEL_ID, PANEL_LOCALE_KEY } from '../constants'
 import { Content } from './content'
 
@@ -17,7 +17,7 @@ export function PlaceholderPanel(props: PlaceholderPanelProps): ReactElement {
   }
 
   return (
-    <ActionItem id={PANEL_ID} icon={<IconPlaceholder />} onClick={onClick}>
+    <ActionItem id={PANEL_ID} icon={<Icon as={IconPlaceholder} />} onClick={onClick}>
       {t(PANEL_LOCALE_KEY)}
     </ActionItem>
   )
