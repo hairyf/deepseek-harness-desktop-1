@@ -16,6 +16,10 @@ import {
 } from '../pet-config'
 
 const BUILT_IN_PET_ID = 'maid-deepseek-whale'
+/** 默认预设宠物未安装时的提示文案：桌宠窗口无 i18n 基础设施（气泡文案同样硬编码），按窗口语言就近显示。 */
+const PRESET_MISSING_HINT = (document.documentElement.lang || navigator.language || 'zh-CN').toLowerCase().startsWith('zh')
+  ? '预设宠物未安装，请在设置中下载'
+  : 'Preset pet not installed. Download it in Settings.'
 const PET_BASE_WIDTH = 220
 const PET_DEFAULT_SIZE_PERCENT = 100
 const PET_SIZE_MIN_PERCENT = 50
@@ -107,6 +111,8 @@ export function Pet(props: PetProps) {
     pet: string
     config: PetConfig | null
     assets: Record<string, string>
+    /** 预设资源拉取失败的错误信息（如 PET_PRESET_NOT_INSTALLED）；null = 成功。 */
+    error: string | null
   } | null>(null)
   const [reducedMotion, setReducedMotion] = useState(() => globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
   const videoARef = useRef<HTMLVideoElement | null>(null)
@@ -127,13 +133,17 @@ export function Pet(props: PetProps) {
   const isPreset = !activePet.includes(':')
   // 预设宠物资源按当前激活宠物生效：切换宠物时旧资源保持到新 fetch 完成，避免闪烁。
   // 统一 memo 成稳定的 config/assets 引用，避免每次渲染产生新对象导致视频 effect 重跑。
-  const { config, assets } = useMemo(() => {
+  const { config, assets, error } = useMemo(() => {
     const preset = petResources !== null && petResources.pet === activePet ? petResources : null
     return {
       config: preset?.config ?? null,
       assets: preset?.assets ?? {},
+      error: preset?.error ?? null,
     }
   }, [activePet, petResources])
+  // 默认预设宠物未安装（新装环境 active_pet 归一为内置 id，但产物需手动下载）：
+  // 资源拉取失败时视频层静默空白，这里给出可见提示引导去设置页下载（issue #401）。
+  const presetMissing = isPreset && error?.includes('PET_PRESET_NOT_INSTALLED') === true
   // 预设宠物配置驱动动画池：池条目是动画名（webm 文件名主名，如 待机呼吸休闲），
   // 点击/拖拽/待机链按名字从 assets map 取 URL。配置缺失或命令失败时回落与旧
   // 实现一致的默认池（idle/turn/wave），这些名字在 assets 中不存在时自然不播放。
@@ -204,20 +214,23 @@ export function Pet(props: PetProps) {
     if (isPreset === false)
       return undefined
     let disposed = false
+    let loadError: string | null = null
     void Promise.all([
       invoke<PetConfig>('get_preset_pet_config', { id: activePet }).catch((error) => {
         console.warn('[pet] PET_PRESET_CONFIG_LOAD_FAILED:', error)
+        loadError ??= String(error)
         return null
       }),
       invoke<{ assets?: Record<string, string> }>('get_preset_pet_assets', { id: activePet }).catch((error) => {
         console.warn('[pet] PET_PRESET_ASSETS_LOAD_FAILED:', error)
+        loadError ??= String(error)
         return { assets: {} }
       }),
     ]).then(([config, value]) => {
       if (disposed)
         return
       // 一起提交，避免 config 与 assets 不同步导致短暂按旧池解析。
-      setPetResources({ pet: activePet, config, assets: value.assets ?? {} })
+      setPetResources({ pet: activePet, config, assets: value.assets ?? {}, error: loadError })
     })
     return () => {
       disposed = true
@@ -551,6 +564,14 @@ export function Pet(props: PetProps) {
           className="pointer-events-auto absolute cursor-grab touch-none select-none"
           style={PET_HIT_BOX}
         />
+        <If cond={presetMissing}>
+          {/* 预设宠物未安装：视频层无可播放资产会静默空白，用可见提示引导去设置页下载（issue #401）。 */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-full mb-2 flex justify-center select-none">
+            <div className="max-w-[95%] rounded-lg bg-black/60 px-3 py-1.5 text-center text-xs leading-relaxed text-white">
+              {PRESET_MISSING_HINT}
+            </div>
+          </div>
+        </If>
       </div>
     </main>
   )
