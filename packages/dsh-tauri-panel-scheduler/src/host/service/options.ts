@@ -9,7 +9,7 @@
  * 能力探测约定：所有可选服务「探测后调用」，缺失即返回空，绝不断言存在。
  */
 
-import type { HostContext, ModelCatalogFailure, ModelOption, PermissionOption, SchedulerOptions } from '../types/index.js'
+import type { HostContext, ModelCatalogFailure, ModelOption, PermissionOption, SchedulerOptions } from '../types'
 
 /** 收集工作区列表：遍历 workspaceRegistry 的记录（id + path）。无法枚举时返回空数组。 */
 async function collectWorkspaces(ctx: HostContext): Promise<SchedulerOptions['workspaces']> {

@@ -4,47 +4,20 @@
  *
  * 适配 unstorage(fs)：读走 getItem（自动 JSON 解析），写经 dsh-tauri 的
  * createAtomicFsStorage（tmp+rename 原子写），读者永远看不到半份 JSON。
+ * 模块级单例 `storage`：消费方直接 storage.getItem / storage.setItem，
+ * 不关心 DSH_HOME 位置、不传 dshHome 参数。
  */
 
-import type { ArchiveDocument } from '../types/index.js'
 import { homedir } from 'node:os'
 import process from 'node:process'
 import { createAtomicFsStorage } from 'dsh-tauri'
 import { join } from 'pathe'
-import { SESSION_ARCHIVE_FILE, SESSION_STATE_DIRECTORY } from '../constants/index.js'
+import { SESSION_STATE_DIRECTORY } from '../constants'
 
-/** The plugin's own state directory under DSH_HOME (default `~/.dsh`). */
-export function sessionStateDir(dshHome?: string): string {
-  return join(dshHome ?? process.env.DSH_HOME ?? join(homedir(), '.dsh'), SESSION_STATE_DIRECTORY)
+/** 插件自持状态目录（默认 `$DSH_HOME/dsh-tauri-session`）。 */
+export function sessionStateDir(): string {
+  return join(process.env.DSH_HOME ?? join(homedir(), '.dsh'), SESSION_STATE_DIRECTORY)
 }
 
-/** Fresh empty archive document. */
-export function emptyArchive(): ArchiveDocument {
-  return {}
-}
-
-/** Load the archive; missing/corrupt files yield an empty archive. */
-export async function loadArchive(dshHome?: string): Promise<ArchiveDocument> {
-  const storage = createAtomicFsStorage(sessionStateDir(dshHome))
-  try {
-    const parsed = await storage.getItem<ArchiveDocument>(SESSION_ARCHIVE_FILE)
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed))
-      return emptyArchive()
-    const out: ArchiveDocument = {}
-    for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
-      const record = value as Partial<{ sessionId: string, archivedAt: number }>
-      if (typeof key === 'string' && typeof record?.sessionId === 'string' && key === record.sessionId)
-        out[key] = record as ArchiveDocument[string]
-    }
-    return out
-  }
-  catch {
-    return emptyArchive()
-  }
-}
-
-/** Persist by atomic rename so readers never observe partial JSON. */
-export async function saveArchive(archive: ArchiveDocument, dshHome?: string): Promise<void> {
-  const storage = createAtomicFsStorage(sessionStateDir(dshHome))
-  await storage.setItem(SESSION_ARCHIVE_FILE, `${JSON.stringify(archive, null, 2)}\n`)
-}
+/** 旧版归档存储（模块级单例；key 即 base 下相对路径，`:` 为子目录分隔符）。 */
+export const storage = createAtomicFsStorage(sessionStateDir())

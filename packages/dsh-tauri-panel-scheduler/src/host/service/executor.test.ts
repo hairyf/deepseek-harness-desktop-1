@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { loadSchedulerRuntimeModules, unattendedToolGuardReason } from './executor.js'
+import { loadSchedulerRuntimeModules, unattendedToolGuardReason } from './executor'
 
 describe('loadSchedulerRuntimeModules', () => {
   it('resolves DSH-owned modules through the platform loader', async () => {

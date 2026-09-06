@@ -9,12 +9,12 @@
  */
 
 import type { Hookable } from 'hookable'
-import type { SchedulerLifecycleHooks } from '../hooks/index.js'
-import type { HostContext, SchedulerTask } from '../types/index.js'
-import { MAX_CONCURRENT_RUNS } from '../constants/index.js'
-import { loadState, saveTasks, withStateLock } from '../storage/index.js'
-import { executeTask } from './executor.js'
-import { nextOccurrence } from './schedule.js'
+import type { SchedulerLifecycleHooks } from '../hooks'
+import type { HostContext, SchedulerTask } from '../types'
+import { MAX_CONCURRENT_RUNS } from '../constants'
+import { loadState, saveTasks, withStateLock } from '../storage'
+import { executeTask } from './executor'
+import { nextOccurrence } from './schedule'
 
 /** 调度引擎：持有运行中任务集合，暴露 tick() 供 apply 的定时器驱动。 */
 export class SchedulerEngine {

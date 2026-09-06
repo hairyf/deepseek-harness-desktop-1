@@ -2,7 +2,7 @@ import type { Server } from 'node:http'
 import { Buffer } from 'node:buffer'
 import { createServer } from 'node:http'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { fetch } from './index'
+import { fetch } from '.'
 
 let server: Server
 let base: string

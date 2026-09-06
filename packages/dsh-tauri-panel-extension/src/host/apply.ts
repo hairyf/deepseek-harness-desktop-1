@@ -12,16 +12,16 @@
  */
 
 import type { Context } from '@deepseek-ai/cordis'
-import type { PanelExtensionHost } from './types/index.js'
+import type { PanelExtensionHost } from './types'
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'pathe'
-import { PLUGIN_NAME } from '../shared/constants.js'
-import { providerHooks } from './hooks/index.js'
-import { mountPanelExtensionRoutes } from './routes/index.js'
-import { agentSkillRoots } from './service/agents.js'
-import { argvProfile, profileDir } from './service/profile.js'
-import { loadState } from './storage/index.js'
+import { PLUGIN_NAME } from '../shared/constants'
+import { providerHooks } from './hooks'
+import { mountPanelExtensionRoutes } from './routes'
+import { agentSkillRoots } from './service/agents'
+import { argvProfile, profileDir } from './service/profile'
+import { loadState } from './storage'
 
 export const name = PLUGIN_NAME
 

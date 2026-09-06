@@ -6,14 +6,14 @@
  * 同步读面（loadState）保留给路由与调度引擎启动路径。
  */
 
-import type { SchedulerRun, SchedulerState, SchedulerTask } from '../types/index.js'
+import type { SchedulerRun, SchedulerState, SchedulerTask } from '../types'
 import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import process from 'node:process'
 import { createAtomicFsStorage } from 'dsh-tauri'
 import { join } from 'pathe'
-import { RUNS_HISTORY_LIMIT, RUNS_KEY, SCHEDULER_STATE_DIRECTORY, TASKS_KEY } from '../constants/index.js'
-import { validateSchedule } from '../service/schedule.js'
+import { RUNS_HISTORY_LIMIT, RUNS_KEY, SCHEDULER_STATE_DIRECTORY, TASKS_KEY } from '../constants'
+import { validateSchedule } from '../service/schedule'
 
 /** 插件状态目录（默认 `$DSH_HOME/dsh-tauri-panel-scheduler`）。 */
 export function schedulerStateDir(dshHome: string | undefined = process.env.DSH_HOME): string {

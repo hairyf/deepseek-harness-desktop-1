@@ -5,11 +5,11 @@
  * 供 HTTP 路由与 agent 工具复用，避免两处逻辑漂移。
  */
 
-import type { SchedulerRun, SchedulerSchedule, SchedulerTask } from '../types/index.js'
+import type { SchedulerRun, SchedulerSchedule, SchedulerTask } from '../types'
 import { randomUUID } from 'node:crypto'
-import { NAME_MAX_LENGTH, PROMPT_MAX_LENGTH } from '../constants/index.js'
-import { loadState, saveRuns, saveTasks, withStateLock } from '../storage/index.js'
-import { localTimeZone, nextOccurrence, validateSchedule } from './schedule.js'
+import { NAME_MAX_LENGTH, PROMPT_MAX_LENGTH } from '../constants'
+import { loadState, saveRuns, saveTasks, withStateLock } from '../storage'
+import { localTimeZone, nextOccurrence, validateSchedule } from './schedule'
 
 /** 任务创建入参。 */
 export interface TaskInput {

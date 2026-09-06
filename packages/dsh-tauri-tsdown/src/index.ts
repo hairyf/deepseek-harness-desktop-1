@@ -71,7 +71,7 @@ export function defineDshConfig(options: DshConfigOptions = {}) {
   const common: TsdownOptions = {
     outDir: 'dist',
     format: 'esm',
-    outExtensions: () => ({ js: '.js' }),
+    outExtensions: () => ({ js: '' }),
     publint: options.publint ?? true,
     external: dshExternal,
   }

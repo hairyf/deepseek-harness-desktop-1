@@ -10,10 +10,10 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
  *   - 请求体超限即 413，解析失败 400，绝不静默接受。
  */
 
-import type { ConnectionGate, JsonBody, RouteFunction, RouteHandler } from '../types/index.js'
+import type { ConnectionGate, JsonBody, RouteFunction, RouteHandler } from '../types'
 import { Buffer } from 'node:buffer'
 
-export type { ConnectionGate, JsonBody, RouteFunction, RouteHandler, RouteResult } from '../types/index.js'
+export type { ConnectionGate, JsonBody, RouteFunction, RouteHandler, RouteResult } from '../types'
 
 export class HttpError extends Error {
   constructor(message: string, readonly statusCode: number) {

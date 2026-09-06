@@ -6,12 +6,12 @@
  * 并全部经 withConnectionAuth 做 DSH 连接信任边界校验。
  */
 
-import type { SchedulerEngine } from '../service/scheduler.js'
-import type { HostContext, JsonBody, RouteResult } from '../types/index.js'
+import type { SchedulerEngine } from '../service/scheduler'
+import type { HostContext, JsonBody, RouteResult } from '../types'
 import { routeHandler, withConnectionAuth } from 'dsh-tauri'
-import { SCHEDULER_API_PREFIX } from '../../shared/constants.js'
-import { createTask, deleteRun, deleteTask, listRuns, listTasks, recoverInterruptedRuns, setTaskEnabled, updateTask } from '../service/manager.js'
-import { collectSchedulerOptions } from '../service/options.js'
+import { SCHEDULER_API_PREFIX } from '../../shared/constants'
+import { createTask, deleteRun, deleteTask, listRuns, listTasks, recoverInterruptedRuns, setTaskEnabled, updateTask } from '../service/manager'
+import { collectSchedulerOptions } from '../service/options'
 
 /** 从 URL 或 body 提取参数（统一字符串化）。 */
 function stringParam(body: JsonBody, url: URL, key: string): string {

@@ -5,7 +5,7 @@
  * 共用的线协议形状：client 侧另有视图投影（client/types/），本文件保持纯数据模型。
  */
 
-import type { SCHEDULE_KINDS, WEEKDAYS } from '../../shared/constants.js'
+import type { SCHEDULE_KINDS, WEEKDAYS } from '../../shared/constants'
 
 /** 宿主根上下文（Cordis 注入能力；插件侧以 any 消费，类型由 dsh 生态 declare module 增强）。 */
 export type HostContext = any

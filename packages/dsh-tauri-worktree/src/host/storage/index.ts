@@ -16,7 +16,7 @@
  * 工具 execute 与 systemPrompt 渲染路径（小文件同步读可接受）。
  */
 
-import type { Binding, CheckoutContext } from '../types/index.js'
+import type { Binding, CheckoutContext } from '../types'
 import { existsSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { createAtomicFsStorage } from 'dsh-tauri'
 import { join } from 'pathe'
