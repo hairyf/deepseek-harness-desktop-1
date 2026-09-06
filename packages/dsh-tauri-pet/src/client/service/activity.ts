@@ -23,6 +23,7 @@ interface RawSessionBinding {
   session: {
     getSnapshot: () => unknown
     subscribe: (listener: () => void) => () => void
+    open?: () => Promise<unknown>
   }
 }
 
@@ -103,6 +104,15 @@ export function installPetSessionForwarder(ctx: ClientContext): void {
           emit('update', snapshotOf(id, binding))
         }, PET_ACTIVITY_THROTTLE_MS)
       }))
+      // dsh 只在会话被选中（open）时才建立事件流；子代理等未选中会话的
+      // 窗口保持空窗，折叠恒为 null。主动打开会话流（幂等，UI 已开的会话
+      // 直接返回），让任何选中状态下的事件都能进入窗口并触发上面的订阅。
+      if (typeof binding.session.open === 'function') {
+        void binding.session.open().catch((error: unknown) => {
+          if (!disposed)
+            console.warn(`[dsh-tauri-pet] open event stream for ${id} failed:`, error)
+        })
+      }
       watch.disposers.push(() => {
         if (watch.activityTimer !== undefined) {
           globalThis.clearTimeout(watch.activityTimer)
