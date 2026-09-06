@@ -59,7 +59,9 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@css-render/plugin-bem": "catalog:ui",
     "@gravity-ui/icons": "catalog:runtime",
+    "css-render": "catalog:ui",
     "dsh-tauri": "workspace:*"
   },
   "devDependencies": {

@@ -3,7 +3,10 @@ import type { ReactElement } from 'react'
 import type { MenuSelectProps } from '../types'
 import { IconChevronDownOutline14 as ChevronDown, Menu } from '@deepseek-ai/dsh-client-ui-primitives'
 import { useState } from 'react'
+import { MENU_SELECT_STYLE_ID } from '../constants'
+import { useMountStyle } from '../style'
 import { Icon } from './icon'
+import menuSelectStyle from './menu-select.cssr'
 
 /**
  * Shared official-style select pattern: a button anchored to the primitives
@@ -21,11 +24,12 @@ export function MenuSelect({
   chevronClassName,
 }: MenuSelectProps): ReactElement {
   const [open, setOpen] = useState(false)
+  useMountStyle(menuSelectStyle, MENU_SELECT_STYLE_ID)
   const current = options.find(option => option.id === value)
   const items: MenuEntry[] = options.map(option => ({ id: option.id, label: option.label }))
   const triggerClass = [
-    'dsh-tu-menu-select',
-    `dsh-tu-menu-select-${variant}`,
+    'dshp-menu-select',
+    variant === 'pill' ? 'dshp-menu-select--pill' : '',
     triggerClassName,
   ].filter(Boolean).join(' ')
 
