@@ -1,22 +1,24 @@
+import { styles as sharedStyles } from 'dsh-tauri-ui/client'
 /** Placeholder styles generated as structured css-render nodes. */
 import { CssRender } from 'dsh-tauri/client'
 import { PLACEHOLDER_CENTER_CLASS, PLACEHOLDER_TEXT_CLASS, STYLE_ID } from '../constants'
 
 const cssr = CssRender()
 const { c } = cssr
+const { primary, secondary } = sharedStyles
 
 const placeholderStyle = c([
   c(`.${PLACEHOLDER_CENTER_CLASS}`, {
     boxSizing: 'border-box',
     minHeight: '100%',
-    color: 'var(--dsw-alias-label-primary)',
+    color: primary,
     alignItems: 'center',
     justifyContent: 'center',
     display: 'flex',
   }),
   c(`.${PLACEHOLDER_TEXT_CLASS}`, {
     fontSize: '15px',
-    color: 'var(--dsw-alias-label-secondary)',
+    color: secondary,
     userSelect: 'none',
   }),
 ])

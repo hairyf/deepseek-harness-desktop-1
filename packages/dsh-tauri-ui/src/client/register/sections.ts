@@ -1,4 +1,4 @@
-import type { SlotRegistry } from 'dsh-tauri/client'
+import type { SlotRegistry } from '@deepseek-ai/dsh-client-ui-renderer/client'
 
 /**
  * register/sections.ts — 'settings.section' / 'settings.onboarding' 投影的
@@ -10,14 +10,16 @@ import type { SlotRegistry } from 'dsh-tauri/client'
  */
 
 /** apply 时存入的槽注册中心（hooks/sections.ts 在 render 期经它订阅/投影）。 */
-let slotsRef: SlotRegistry | undefined
+type SettingsSlots = SlotRegistry
+
+let slotsRef: SettingsSlots | undefined
 
 /**
  * 在 apply 里安装：把 ctx.slots 引用留给投影 hooks，返回卸载清理。
  * @param slots - 客户端 slota 注册中心（ctx.slots）。
  * @returns 卸载函数（插件卸载后清除模块引用，避免跨实例残留）。
  */
-export function installSettingsSections(slots: SlotRegistry): () => void {
+export function installSettingsSections(slots: SettingsSlots): () => void {
   slotsRef = slots
   return () => {
     if (slotsRef === slots)
@@ -26,6 +28,6 @@ export function installSettingsSections(slots: SlotRegistry): () => void {
 }
 
 /** 读取当前槽注册中心（hooks/sections.ts 投影只读半区用）。 */
-export function getSettingsSlots(): SlotRegistry | undefined {
+export function getSettingsSlots(): SettingsSlots | undefined {
   return slotsRef
 }

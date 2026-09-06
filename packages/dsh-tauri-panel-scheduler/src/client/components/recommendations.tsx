@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react'
 import type { ScheduleForm, TaskFormState, TaskView, Translate } from '../types'
+import { IconCalendar } from 'dsh-tauri-ui/client'
 import { SCHEDULER_CLASSES as K } from '../constants'
 import { applyCreateTask } from '../store'
 import { recommendationMatchesTask } from '../utils/recommendations'
 import { describeSchedule } from '../utils/schedule'
-import { IconCalendar } from './icons'
 
 /**
  * components/recommendations.tsx — 推荐（预置）定时任务，展示在任务列表下方。

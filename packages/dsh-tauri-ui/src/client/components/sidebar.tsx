@@ -46,6 +46,7 @@ import {
   useSettingsUi,
 } from '../store'
 import { ArrowRight } from './icons'
+import { Icon } from './icon'
 import { SettingsNavIcon } from './nav-icon'
 
 /**
@@ -118,7 +119,7 @@ export function SettingsSidebar(_props: SettingsSidebarProps): ReactElement | nu
           className="dsh-tu-settingsBack"
           onClick={() => closeSettings()}
         >
-          <ArrowRight />
+          <Icon as={ArrowRight} />
           {settingsText('back')}
         </button>
         <input

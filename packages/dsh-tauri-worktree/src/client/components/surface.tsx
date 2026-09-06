@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import type { SurfaceBarProps } from '../types'
+import { CircleTreeIcon } from 'dsh-tauri-ui/client'
 /**
  * surface.tsx — 聊天框正上方、仅会话内容区内的工作树状态条。
  *
@@ -9,7 +10,6 @@ import { useState } from 'react'
 import { text, useLocale } from '../locales'
 import { patchSession, useWorktreeSession } from '../store'
 import { worktreeStyles } from '../styles'
-import { CircleTreeIcon } from './icons'
 
 export function WorktreeSurface({ sessionId }: SurfaceBarProps): ReactElement | null {
   useLocale()

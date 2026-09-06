@@ -1,3 +1,4 @@
+import { clockSvg } from 'dsh-tauri-ui/client'
 /**
  * register/session-icons.ts — 侧边栏会话行给定时任务会话加时钟图标（DOM 补丁）。
  *
@@ -13,7 +14,6 @@
  * 非会话行（工作区分组头等）天然不在集合内。
  */
 import { createLifecycleController, CssRender } from 'dsh-tauri/client'
-import { clockSvg } from '../components/icons'
 import {
   SESSION_ICON_ATTRIBUTE,
   SESSION_ICON_STYLE_ID,

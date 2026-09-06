@@ -2,6 +2,7 @@ import type { ReactElement } from 'react'
 import type { ModeSelectProps } from '../types'
 import { IconChevronDownOutline14, Menu } from '@deepseek-ai/dsh-client-ui-primitives'
 
+import { CircleTreeIcon } from 'dsh-tauri-ui/client'
 /**
  * mode-select.tsx — 「标准模式」右侧的会话工作模式选择器。
  *
@@ -30,7 +31,6 @@ import {
   useWorktreeSession,
 } from '../store'
 import { resolveAccessModeGroup, waitForInputActions, waitForSessionListed } from '../utils/worktree'
-import { CircleTreeIcon } from './icons'
 
 export function WorktreeModeSelect(props: ModeSelectProps): ReactElement {
   const { sessionId } = props

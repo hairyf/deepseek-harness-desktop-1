@@ -1,9 +1,9 @@
 import type { CSSProperties, ReactElement } from 'react'
 import type { SidebarRootProps } from '../types'
 import { SlotOutlet } from '@deepseek-ai/dsh-client-ui-renderer'
+import { ChatOutline, FishMark } from 'dsh-tauri-ui/client'
 import { useEffect, useRef, useState } from 'react'
 import { COLLAPSE_SETTLE_MS, PANEL_CLASSES, PANEL_DATA_ATTRIBUTES, SCROLLBAR_LINGER_MS } from '../constants'
-import { ChatOutline, FishMark } from './icons'
 
 /**
  * components/sidebar.tsx — sidebar 槽整槽替换的克隆组件（priority -1 shadow 官方

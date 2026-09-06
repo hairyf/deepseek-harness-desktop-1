@@ -1,3 +1,4 @@
+import { circleTreeSvg } from 'dsh-tauri-ui/client'
 /**
  * register/session-icons.ts — 会话列表里给绑定工作树的会话行加 Git 分支图标（DOM 补丁）。
  *
@@ -11,7 +12,6 @@
  * session id（只读，不移动 React 管理的节点），再读 store 判断是否处于工作树模式。
  */
 import { createLifecycleController, CssRender } from 'dsh-tauri/client'
-import { circleTreeSvg } from '../components/icons'
 import {
   SESSION_ICON_ATTRIBUTE,
   SESSION_ICON_STYLE_ID,

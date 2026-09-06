@@ -1,3 +1,4 @@
+import { styles as sharedStyles } from 'dsh-tauri-ui/client'
 import { CssRender } from 'dsh-tauri/client'
 import { SCHEDULER_CLASSES as K, STYLE_ID } from '../constants'
 
@@ -15,33 +16,31 @@ import { SCHEDULER_CLASSES as K, STYLE_ID } from '../constants'
 const cssr = CssRender()
 const { c } = cssr
 
-const primary = 'var(--dsw-alias-label-primary)'
-const secondary = 'var(--dsw-alias-label-secondary)'
-const tertiary = 'var(--dsw-alias-label-tertiary)'
-const dimmed = 'var(--dsw-alias-label-dimmed)'
-const border = 'var(--dsw-alias-border-l2)'
-const borderL3 = 'var(--dsw-alias-border-l3)'
-const borderL4 = 'var(--dsw-alias-border-l4)'
-const brand = 'var(--dsw-alias-brand-primary)'
-const business = 'var(--dsw-alias-state-business-primary)'
-const layer1 = 'var(--dsw-alias-bg-layer-1)'
-const layer3 = 'var(--dsw-alias-bg-layer-3)'
-const modulePlatform = 'var(--dsw-alias-bg-module-platform)'
-const hover = 'var(--dsw-alias-interactive-bg-hover)'
-const hoverSolid = 'var(--dsw-alias-interactive-bg-hover-solid)'
-const hoverDanger = 'var(--dsw-alias-interactive-bg-hover-danger)'
-const error = 'var(--dsw-alias-state-error-primary)'
-const success = 'var(--dsw-alias-state-success-primary)'
-const primaryFill = 'var(--dsw-alias-button-primary-fill)'
-const primaryHover = 'var(--dsw-alias-button-primary-hover)'
-const primaryFg = 'var(--dsw-alias-label-primary-foreground)'
-const font = 'var(--dsw-font-family)'
-
-/** selectInput 下箭头（官方 ModelsSection 的 data-uri 原样）。 */
-const chevronSvg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`
-
-/** 焦点可见：官方共用焦点环（2px border-l3 描边）。 */
-const focusRing = { boxShadow: '0 0 0 2px var(--dsw-alias-border-l3)', outline: 'none' }
+const {
+  primary,
+  secondary,
+  tertiary,
+  dimmed,
+  borderL2: border,
+  borderL3,
+  borderL4,
+  brand,
+  business,
+  layer1,
+  layer3,
+  modulePlatform,
+  hover,
+  hoverSolid,
+  hoverDanger,
+  error,
+  success,
+  primaryFill,
+  primaryHover,
+  primaryFg,
+  font,
+  chevronSelectSvg: chevronSvg,
+  focusRing,
+} = sharedStyles
 
 const styles = c([
   // —— 面板外壳 / 页头 ——

@@ -10,11 +10,11 @@
 
 import type { ReactElement } from 'react'
 import type { SchedulerPanelProps, TaskFormState, TaskView } from '../types'
+import { CommentPlus, Icon, Magnifier, Plus } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
 import { SCHEDULER_CLASSES as K, REFRESH_INTERVAL_MS } from '../constants'
 import { applyDeleteRun, refreshScheduler, useSchedulerState } from '../store'
 import { describeSchedule, formatRelative, isTaskPaused } from '../utils/schedule'
-import { IconChat, IconPlus, IconSearch } from './icons'
 import { Recommendations } from './recommendations'
 import { RunsTab } from './runs-tab'
 import { TaskCard } from './task-card'
@@ -72,7 +72,7 @@ export function SchedulerPanel({ t, onViaChat }: SchedulerPanelProps): ReactElem
         </div>
         <div className={K.toolbar}>
           <div className={K.searchWrap}>
-            <IconSearch className={K.searchIcon} />
+            <Icon as={Magnifier} className={K.searchIcon} />
             <input
               className={K.input}
               type="search"
@@ -84,11 +84,11 @@ export function SchedulerPanel({ t, onViaChat }: SchedulerPanelProps): ReactElem
           </div>
           <div className={K.toolbarSpacer} />
           <button className={K.btn} type="button" onClick={onViaChat}>
-            <IconChat />
+            <Icon as={CommentPlus} />
             {t('viaChat')}
           </button>
           <button className={`${K.btn} ${K.btnPrimary}`} type="button" onClick={() => setDialog({})}>
-            <IconPlus />
+            <Icon as={Plus} />
             {t('createManual')}
           </button>
         </div>

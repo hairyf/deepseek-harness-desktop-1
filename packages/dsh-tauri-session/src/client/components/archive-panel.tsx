@@ -21,6 +21,7 @@ import type { MenuEntry } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { ReactElement } from 'react'
 import type { ArchivePanelProps, ArchiveSort } from '../types'
 import { Button, Input, Menu, Modal, Toast } from '@deepseek-ai/dsh-client-ui-primitives'
+import { Ellipsis, FolderOpen, Icon, Magnifier, MenuSelect, TrashBin } from 'dsh-tauri-ui/client'
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
 import { postOpenSessionDir } from '../apis'
 import { SESSION_CLASSES as K } from '../constants'
@@ -39,8 +40,6 @@ import {
 } from '../store'
 import { buildRows, formatTime, projectOptions, unionIds } from '../utils/archive-rows'
 import { groupArchive } from '../utils/sort'
-import { IconEllipsis, IconFolderOpen, IconMagnifier, IconTrashBin } from './icons'
-import { MenuSelect } from './menu-select'
 
 /** 打开的删除确认弹窗：null 关闭；'single' 删除单个会话；'all' 删除全部。 */
 type DeleteConfirm = null | { kind: 'single', sessionId: string } | { kind: 'all' } | { kind: 'workspace', workspaceTitle: string, sessionIds: string[] }
@@ -165,7 +164,7 @@ export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
         <Button
           type="button"
           variant="ghost"
-          icon={<IconTrashBin />}
+          icon={<Icon as={TrashBin} />}
           className={K.deleteAll}
           style={{ color: 'var(--dsw-alias-state-error-primary)' }}
           disabled={busy}
@@ -181,10 +180,14 @@ export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
           value={ui.query}
           placeholder={text('searchPlaceholder')}
           aria-label={text('searchPlaceholder')}
-          icon={<IconMagnifier />}
+          icon={<Icon as={Magnifier} />}
           onChange={event => setQuery(event.target.value)}
         />
         <MenuSelect
+          variant="default"
+          triggerClassName={K.menuSelect}
+          labelClassName={K.menuSelectLabel}
+          chevronClassName={K.menuSelectChevron}
           label={text('sortLabel')}
           value={ui.sort}
           onSelect={id => setSort(id as ArchiveSort)}
@@ -195,6 +198,10 @@ export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
           ]}
         />
         <MenuSelect
+          variant="default"
+          triggerClassName={K.menuSelect}
+          labelClassName={K.menuSelectLabel}
+          chevronClassName={K.menuSelectChevron}
           label={text('allProjects')}
           value={ui.workspaceId}
           onSelect={setWorkspaceFilter}
@@ -216,7 +223,7 @@ export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
         {groups.map(group => (
           <section key={group.id} className={K.group}>
             <div className={K.groupHeader}>
-              <IconFolderOpen />
+              <Icon as={FolderOpen} />
               <span className={K.groupTitle}>{group.title || text('ungrouped')}</span>
               <span className={K.groupCount}>
                 {group.rows.length}
@@ -253,7 +260,7 @@ export function ArchivePanel(props: ArchivePanelProps): ReactElement | null {
                     aria-expanded={openGroupMenu === group.id}
                     onClick={() => setOpenGroupMenu(openGroupMenu === group.id ? null : group.id)}
                   >
-                    <IconEllipsis />
+                    <Icon as={Ellipsis} />
                   </button>
                 )}
               />

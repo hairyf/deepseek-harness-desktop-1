@@ -8,7 +8,7 @@
 import type { ClientContext } from 'dsh-tauri/client'
 import type { ReactElement } from 'react'
 import type { PanelProtocol, Translate } from '../types'
-import { IconSchedule } from '../components/icons'
+import { IconSchedule } from 'dsh-tauri-ui/client'
 import { SchedulerPanel } from '../components/scheduler-panel'
 import {
   LOCALE_NAMESPACE,

@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react'
 import type { PlaceholderPanelProps } from '../types'
+import { IconPlaceholder } from 'dsh-tauri-ui/client'
 import { LOCALE_NAMESPACE, PANEL_ID, PANEL_LOCALE_KEY } from '../constants'
 import { Content } from './content'
-import { IconPlaceholder } from './icons'
 
 /**
  * components/panel.tsx — 面板区（sidebar.panel.action 槽）样板条目组件：

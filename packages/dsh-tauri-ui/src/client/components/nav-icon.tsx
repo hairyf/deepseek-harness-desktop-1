@@ -5,6 +5,7 @@ import {
   IconPersonalizationOutline16,
   IconSettingsOutline16,
 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { Icon } from './icon'
 
 /**
  * nav-icon.tsx — 设置导航行的分区图标。
@@ -25,6 +26,6 @@ const NAV_ICONS: Record<string, typeof IconSettingsOutline16> = {
 
 /** 渲染分区导航图标（官方兜底语义：未知 id 显示设置齿轮）。 */
 export function SettingsNavIcon({ id }: { id: string }): ReactElement {
-  const Icon = NAV_ICONS[id] ?? IconSettingsOutline16
-  return <Icon size={16} className="dsh-tu-settingsNavIcon" />
+  const NavIcon = NAV_ICONS[id] ?? IconSettingsOutline16
+  return <Icon as={NavIcon} size={16} className="dsh-tu-settingsNavIcon" />
 }

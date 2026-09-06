@@ -48,6 +48,11 @@ export const name = SETTINGS_UI_PLUGIN
 /** 需要的客户端服务：slots（注册点位）、layout（未来 chrome 的面板动作）、locale（双语文案）。 */
 export const inject = ['slots', 'layout', 'locale']
 
+// The client entry is also the workspace-wide shared UI surface.
+export * from './components'
+export { styles } from './theme'
+export type * from './types'
+
 /**
  * 插件体：注册未来 chrome 的落点座位 + 设置侧边栏功能。
  * @param ctx - 客户端根上下文。
@@ -89,7 +94,7 @@ export function apply(ctx: ClientContext): void {
   installSettingsLocale(ctx)
   // 设置分区投影：引用清理也走 effect（插件卸载后 slotsRef 复位，避免跨实例残留）。
   ctx.effect(
-    () => installSettingsSections(ctx.slots),
+    () => installSettingsSections(ctx.slots as never),
     'dsh-tauri-ui: settings sections projection',
   )
   if (typeof SlotOutlet === 'function') {

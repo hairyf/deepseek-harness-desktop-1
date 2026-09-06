@@ -1,5 +1,6 @@
 import type { ChangeEvent, ReactElement } from 'react'
 import type { PetListItem, PetSettingsProps, PresetDownloadProgress, PresetPetItem } from '../types'
+import { IconImport, IconPlus } from 'dsh-tauri-ui/client'
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { BUILTIN_PET_ID, PET_DEFAULT_SIZE, PET_SIZE_MAX, PET_SIZE_MIN, PET_SIZE_STEP } from '../constants'
 import { text, usePetLocale } from '../locales'
@@ -18,7 +19,6 @@ import {
 } from '../service/pet'
 import { beginPetStatusFetch, commitPetStatusFetch, getPetUiSnapshot, setPetStatus, subscribePetUi } from '../store'
 import { progressPercent, resolvePresetCardAction } from '../utils/preset-card'
-import { IconImport, IconPlus } from './icons'
 
 /** 预设宠物下载轮询间隔（ms）。 */
 const PRESET_DOWNLOAD_POLL_MS = 400

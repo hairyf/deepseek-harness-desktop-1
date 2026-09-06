@@ -10,10 +10,10 @@ import type { MenuEntry } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { ReactElement } from 'react'
 import type { TaskView, Translate } from '../types'
 import { IconWarningOutline16, Menu, Modal, Toast } from '@deepseek-ai/dsh-client-ui-primitives'
+import { CirclePause, CirclePlay, EllipsisVertical, Icon, TrashBin } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
 import { SCHEDULER_CLASSES as K } from '../constants'
 import { applyDeleteTask, applyRunTask, applyToggleTask } from '../store'
-import { IconMore, IconPause, IconPlay, IconTrash } from './icons'
 
 export interface TaskCardProps {
   task: TaskView
@@ -74,10 +74,10 @@ export function TaskCard({ task, t, describe, nextRun, paused, onEdit }: TaskCar
   }
 
   const items: MenuEntry[] = [
-    { id: 'run', label: t('runNow'), icon: <IconPlay /> },
-    { id: 'toggle', label: paused ? t('resume') : t('pause'), icon: <IconPause /> },
+    { id: 'run', label: t('runNow'), icon: <Icon as={CirclePlay} /> },
+    { id: 'toggle', label: paused ? t('resume') : t('pause'), icon: <Icon as={CirclePause} /> },
     { type: 'separator', id: 'sep' },
-    { id: 'delete', label: t('delete'), icon: <IconTrash />, danger: true },
+    { id: 'delete', label: t('delete'), icon: <Icon as={TrashBin} />, danger: true },
   ]
 
   return (
@@ -100,7 +100,7 @@ export function TaskCard({ task, t, describe, nextRun, paused, onEdit }: TaskCar
             void onToggle()
           }}
         >
-          {paused ? <IconPlay /> : <IconPause />}
+          {paused ? <Icon as={CirclePlay} /> : <Icon as={CirclePause} />}
         </span>
       </div>
       <div style={{ flex: 1 }}>
@@ -153,7 +153,7 @@ export function TaskCard({ task, t, describe, nextRun, paused, onEdit }: TaskCar
               setMenuOpen(openState => !openState)
             }}
           >
-            <IconMore size={12} />
+            <Icon as={EllipsisVertical} size={12} />
           </button>
         )}
       />

@@ -31,6 +31,7 @@ export const dshExternal = [
   'react-dom',
   'react-dom/client',
   'dsh-tauri/client',
+  'dsh-tauri-ui/client',
   /^@deepseek-ai\//,
 ]
 
@@ -47,9 +48,13 @@ export const dshExternal = [
  * 插件 dependencies 解析）。子路径（unstorage/drivers/*）一并覆盖。
  * date-fns 仅作为构建期 devDependency，并按实际使用导出 tree-shake 后内联。
  */
-const dshClientInline = [/^(unstorage|hookable|ofetch|pathe|date-fns)([/-].*)?$/]
+const dshClientInline = [
+  /^(unstorage|hookable|ofetch|pathe|date-fns)([/-].*)?$/,
+  /^@gravity-ui\/icons([/-].*)?$/,
+]
 
 export function defineDshConfig(options = {}) {
+  const { noExternal: clientNoExternal, ...clientOptions } = options.client ?? {}
   const common = {
     outDir: 'dist',
     format: 'esm',
@@ -74,7 +79,7 @@ export function defineDshConfig(options = {}) {
       // CJS output is required so its exports remain inside the loader factory.
       format: 'cjs',
       // UnJS 四库内联（模块表不认识的依赖不能留 require，见 dshClientInline 注释）。
-      noExternal: dshClientInline,
+      noExternal: [...dshClientInline, ...(clientNoExternal ?? [])],
       // CJS must not use `.js` in a `"type": "module"` package — publint would
       // flag the ESM/CJS mismatch. Emit `.cjs` (declarations pair as `.d.cts`).
       outExtensions: () => ({ js: '.cjs' }),
@@ -87,7 +92,7 @@ export function defineDshConfig(options = {}) {
       sourcemap: true,
       minify: !isWatchMode,
       clean: false,
-      ...options.client,
+      ...clientOptions,
     },
   ]
 }

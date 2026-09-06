@@ -22,9 +22,9 @@ import { installPanelService } from './register/panel-service'
 import { installSidebarRoot } from './register/sidebar'
 import { mountPanelStyles } from './styles'
 
-export type { IconProps } from './components/icons'
 export { PANEL_PROTOCOL_SERVICE } from './constants'
 export type { PanelActionItemProps, PanelContentSpec, SidebarRootProps } from './types'
+export type { IconProps } from 'dsh-tauri-ui/client'
 
 /** 插件显示名（诊断元数据）。 */
 export const name = 'dsh-tauri-panel'

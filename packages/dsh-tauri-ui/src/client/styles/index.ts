@@ -5,17 +5,59 @@ import {
   TURN_NAVIGATION_NARROW_SELECTOR,
   TURN_NAVIGATION_STYLE_ID,
 } from '../constants'
+import { styles as sharedStyles } from '../theme'
 
 const cssr = CssRender()
 const { c } = cssr
+const { primary, secondary, dimmed, borderL2, brand, layer1, hover, modulePlatform } = sharedStyles
 
 const settingsStyle = c([
+  // Shared MenuSelect trigger contract. Consumers may add stable plugin
+  // classes through triggerClassName without copying the interaction pattern.
+  c('.dsh-tu-menu-select', {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '10px',
+    minHeight: '36px',
+    padding: '0 14px',
+    border: 'none',
+    borderRadius: '18px',
+    background: modulePlatform,
+    color: primary,
+    cursor: 'pointer',
+    font: 'inherit',
+    whiteSpace: 'nowrap',
+  }, [
+    c('&:hover', { background: hover }),
+  ]),
+  c('.dsh-tu-menu-select-pill', {
+    minHeight: '28px',
+    height: '28px',
+    padding: '0 8px',
+    borderRadius: '8px',
+    background: 'transparent',
+    color: secondary,
+    fontSize: '13px',
+    fontWeight: '500',
+    gap: '6px',
+  }),
+  c('.dsh-tu-menu-select-pill:hover', {
+    background: hover,
+    color: primary,
+  }),
+  c('.dsh-tu-menu-select > span', {
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  }),
+  c('.dsh-tu-menu-select > svg', { flex: 'none' }),
   c('.dsh-tu-settingsTrigger', {
     boxSizing: 'border-box',
     cursor: 'pointer',
     width: 'calc(100% + 4px)',
     height: '42px',
-    color: 'var(--dsw-alias-label-primary)',
+    color: primary,
     background: 'none',
     border: 'none',
     borderRadius: '12px',
@@ -30,7 +72,7 @@ const settingsStyle = c([
     overflow: 'hidden',
     flex: 'none',
   }, [
-    c('&:hover', { background: 'var(--dsw-alias-interactive-bg-hover)' }),
+    c('&:hover', { background: hover }),
   ]),
   c('.dsh-tu-settingsTriggerRail', {
     borderRadius: '50%',
@@ -50,7 +92,7 @@ const settingsStyle = c([
     'zIndex': 1000,
     'display': 'flex',
     'background': 'var(--dsw-alias-bg-base)',
-    'color': 'var(--dsw-alias-label-primary)',
+    'color': primary,
   }),
   c('.dsh-tu-settingsRail', {
     flex: 'none',
@@ -78,9 +120,9 @@ const settingsStyle = c([
     width: '100%',
     fontSize: '14px',
     lineHeight: '22px',
-    color: 'var(--dsw-alias-label-primary)',
+    color: primary,
   }, [
-    c('&:hover', { background: 'var(--dsw-alias-interactive-bg-hover)' }),
+    c('&:hover', { background: hover }),
   ]),
   // 搜索框 = 官方 input 样式值（与 dsh-tauri-panel-scheduler 的 K.input 一致，
   // 复刻 ModelsSection.zGbnIq_input；令牌化，浅/深色自动适配）。
@@ -90,16 +132,16 @@ const settingsStyle = c([
     width: '100%',
     height: '32px',
     font: 'inherit',
-    background: 'var(--dsw-alias-bg-layer-1)',
-    color: 'var(--dsw-alias-label-primary)',
+    background: layer1,
+    color: primary,
     borderRadius: '8px',
     padding: '0 10px',
     fontSize: '14px',
     lineHeight: '22px',
     outline: 'none',
   }, [
-    c('&:focus', { borderColor: 'var(--dsw-alias-brand-primary)' }),
-    c('&::placeholder', { color: 'var(--dsw-alias-label-dimmed)' }),
+    c('&:focus', { borderColor: brand }),
+    c('&::placeholder', { color: dimmed }),
     c('&:disabled', { opacity: '.6', cursor: 'default' }),
   ]),
   c('.dsh-tu-settingsNav', {
@@ -123,7 +165,7 @@ const settingsStyle = c([
     fontSize: '14px',
     lineHeight: '22px',
     fontWeight: 400,
-    color: 'var(--dsw-alias-label-primary)',
+    color: primary,
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
@@ -160,7 +202,7 @@ const settingsStyle = c([
     borderRadius: '4px',
   }),
   c('.dsh-tu-settingsHandleDragging', {
-    background: 'var(--dsw-alias-border-l2)',
+    background: borderL2,
   }),
   c('.dsh-tu-settingsContentOuter', {
     flex: 1,

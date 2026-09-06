@@ -1,16 +1,19 @@
+import { styles as sharedStyles } from 'dsh-tauri-ui/client'
 import { CssRender } from 'dsh-tauri/client'
 import { STYLE_ID } from '../constants'
 
 const cssr = CssRender()
 const { c } = cssr
-const primary = 'var(--dsw-alias-label-primary)'
-const secondary = 'var(--dsw-alias-label-secondary)'
-const tertiary = 'var(--dsw-alias-label-tertiary)'
-const border = 'var(--dsw-alias-border-l2)'
-const business = 'var(--dsw-alias-state-business-primary)'
-const layer1 = 'var(--dsw-alias-bg-layer-1)'
-const layer3 = 'var(--dsw-alias-bg-layer-3)'
-const hover = 'var(--dsw-alias-interactive-bg-hover)'
+const {
+  primary,
+  secondary,
+  tertiary,
+  borderL2: border,
+  business,
+  layer1,
+  layer3,
+  hover,
+} = sharedStyles
 
 const styles = c([
   c('.dpte-section', { display: 'flex', flexDirection: 'column', gap: '14px', width: '100%', maxWidth: '760px', color: primary }),

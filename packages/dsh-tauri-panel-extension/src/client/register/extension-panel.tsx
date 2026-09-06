@@ -8,9 +8,9 @@
 import type { ClientContext } from 'dsh-tauri/client'
 import type { ReactElement } from 'react'
 import type { ExtensionRuntimeContext, McpInjected, PanelProtocol, SkillsInjected, Translate } from '../types'
+import { IconExtension } from 'dsh-tauri-ui/client'
 import { compat } from 'dsh-tauri/client'
 import { ExtensionPanel } from '../components/extension-panel'
-import { IconExtension } from '../components/icons'
 import { pendingPrefills } from '../config'
 import {
   LOCALE_NAMESPACE,
