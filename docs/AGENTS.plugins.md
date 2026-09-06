@@ -58,8 +58,8 @@ packages/<plugin>/
   - `ofetch`：宿主二进制下载（如 GitHub tarball 走 `$fetch.raw`）。
 - **客户端依赖统一由 `dsh-tauri` 承载**：`unstorage` / `hookable` / `ofetch` 只被 `dsh-tauri` 的 client bundle 加载并内联；**其他插件 client 禁止直接 import 这三个包**，一律从 `dsh-tauri/client` 导入：
   - `createHooks`（hookable 命名钩子）
-  - `createLocalStorage(base)`（unstorage localStorage driver；`base` 传插件名、不带冒号，driver 拼 `base:` 前缀防串扰）
-  - `requestJson` / `createJsonClient`（ofetch 统一 JSON 客户端）
+  - `createStorage` / `localStorageDriver`（unstorage；各插件自定义 `const storage = createStorage({ driver: localStorageDriver({ base: PLUGIN_ID }) })`，命名统一 `storage`，读写一律 `storage.getItem/setItem`，不使用 `store(xxx).setItem` 动态工厂）
+  - `fetch`（ofetch 统一 JSON 客户端；非 2xx 错误解析内置 dsh-tauri，调用方不手包 requestJson/createJsonClient）
   - `createLifecycleController`（生命周期控制器）
   - `createAtomicFsStorage(base)` 从 `dsh-tauri` 根导入（宿主侧 unstorage fs + tmp+rename 原子写）。
 - 后果：`dsh-tauri` 的 client bundle 是唯一内联三库的地方；其他插件 client 走外部 `dsh-tauri/client`，不重复内联。
@@ -189,8 +189,7 @@ ctx.effect(() => mountStyle(turnNavigationStyle, TURN_NAVIGATION_STYLE_ID), '…
 命名按职责区分：
 
 - `mount*Styles`：挂载 css-render 样式并返回 disposer。
-- `install*`：安装 locale、服务、observer、hydration 等运行时能力。
-- `register*`：注册 slot、组件或协议条目（经 `ctx.effect(() => register*(ctx))` 包装，卸载即释放 inject）。
+- `register*`：注册 slot、组件、协议条目、locale、observer、hydration 等运行时能力（**统一 `register*` 前缀，不保留 `install*`**；经 `ctx.effect(() => register*(ctx))` 包装，卸载即释放 inject）。
 - `apply`：插件唯一的总装配入口。
 
 **生命周期控制器（Controller 化）**：需要同时管理 observer / timer / listener / 订阅时，使用 `dsh-tauri/client` 的 `createLifecycleController()`：
