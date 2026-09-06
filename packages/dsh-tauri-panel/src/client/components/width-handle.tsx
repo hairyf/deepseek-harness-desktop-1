@@ -9,8 +9,10 @@
 
 import type { ReactElement } from 'react'
 import type { PanelWidthHandleCallbacks } from '../service/width'
+import { useMountStyle } from 'dsh-tauri-ui/client'
 import { useCallback, useRef, useState } from 'react'
-import { PANEL_DATA_ATTRIBUTES, PANEL_WIDTH_VARS } from '../constants'
+import { PANEL_DATA_ATTRIBUTES, PANEL_WIDTH_VARS, WIDTH_HANDLE_STYLE_ID } from '../constants'
+import widthHandleStyle from './width-handle.cssr'
 
 export interface WidthHandleProps {
   /** 手柄所在侧（决定外向拖拽方向）。 */
@@ -22,6 +24,7 @@ export interface WidthHandleProps {
 /** 自绘宽度手柄：pointer capture + rAF 节流的对称拖拽。 */
 export function WidthHandle({ side, handle }: WidthHandleProps): ReactElement {
   const [dragging, setDragging] = useState(false)
+  useMountStyle(widthHandleStyle, WIDTH_HANDLE_STYLE_ID)
   const baseRef = useRef(0)
   const originRef = useRef(0)
   const latestRef = useRef(0)

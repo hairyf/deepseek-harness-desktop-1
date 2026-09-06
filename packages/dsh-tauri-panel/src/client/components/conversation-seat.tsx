@@ -15,8 +15,10 @@
 import type { ReactElement } from 'react'
 import type { PanelWidthController } from '../service/width'
 import type { PanelContentSpec } from '../types'
+import { useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useRef } from 'react'
-import { PANEL_DATA_ATTRIBUTES } from '../constants'
+import { CONVERSATION_SEAT_STYLE_ID, PANEL_DATA_ATTRIBUTES } from '../constants'
+import conversationSeatStyle from './conversation-seat.cssr'
 import { WidthHandle } from './width-handle'
 
 export function ConversationSeat({
@@ -29,6 +31,7 @@ export function ConversationSeat({
   width: PanelWidthController
 }): ReactElement | null {
   const rootRef = useRef<HTMLDivElement | null>(null)
+  useMountStyle(conversationSeatStyle, CONVERSATION_SEAT_STYLE_ID)
 
   // 挂载根元素到宽度控制器：RO 发布列宽 + 偏好；卸载时 detach（disconnect）。
   useEffect(() => {

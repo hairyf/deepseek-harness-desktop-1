@@ -1,9 +1,10 @@
 import type { CSSProperties, ReactElement } from 'react'
 import type { SidebarRootProps } from '../types'
 import { SlotOutlet } from '@deepseek-ai/dsh-client-ui-renderer'
-import { CommentPlus, FishMark, Icon } from 'dsh-tauri-ui/client'
+import { CommentPlus, FishMark, Icon, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useRef, useState } from 'react'
-import { COLLAPSE_SETTLE_MS, PANEL_DATA_ATTRIBUTES, SCROLLBAR_LINGER_MS } from '../constants'
+import { COLLAPSE_SETTLE_MS, PANEL_DATA_ATTRIBUTES, SCROLLBAR_LINGER_MS, SIDEBAR_STYLE_ID } from '../constants'
+import sidebarStyle from './sidebar.cssr'
 
 /**
  * components/sidebar.tsx — sidebar 槽整槽替换的克隆组件（priority -1 shadow 官方
@@ -33,6 +34,7 @@ function cx(...parts: Array<string | false | undefined>): string {
 /** 克隆的 SidebarRoot：紧凑 logoRow + 面板区 + 官方子槽透传。 */
 export function SidebarRootClone({ collapsed, width, startSession, toggleSidebar, t }: SidebarRootProps): ReactElement {
   const [settled, setSettled] = useState(false)
+  useMountStyle(sidebarStyle, SIDEBAR_STYLE_ID)
   useEffect(() => {
     setSettled(false)
     const timer = window.setTimeout(() => {

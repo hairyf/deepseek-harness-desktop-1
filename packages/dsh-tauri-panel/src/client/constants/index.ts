@@ -5,6 +5,10 @@ export const PANEL_PROTOCOL_SERVICE = 'panel.protocol'
 export const PANEL_VIEW_SLOT = 'conversation'
 export const PANEL_VIEW_COMPONENT_ID = 'dsh-tauri-panel-conversation-seat'
 export const PANEL_STYLE_ID = 'dsh-tauri-panel-styles'
+export const SIDEBAR_STYLE_ID = 'dsh-tauri-panel-sidebar-styles'
+export const ACTION_ITEM_STYLE_ID = 'dsh-tauri-panel-action-item-styles'
+export const CONVERSATION_SEAT_STYLE_ID = 'dsh-tauri-panel-conversation-seat-styles'
+export const WIDTH_HANDLE_STYLE_ID = 'dsh-tauri-panel-width-handle-styles'
 export const COLLAPSE_SETTLE_MS = 150
 export const SCROLLBAR_LINGER_MS = 2000
 export const SIDEBAR_INTERACTIVE_SELECTOR = 'button,a[href],input,select,textarea,summary,[role="button"],[role="link"],[role="menuitem"],[role="option"],[role="tab"],[role="treeitem"][aria-selected]'

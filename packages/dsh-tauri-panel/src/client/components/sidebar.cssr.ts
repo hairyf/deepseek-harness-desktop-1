@@ -2,7 +2,7 @@ import { cssr } from 'dsh-tauri-ui/client'
 
 const { c, bem: { b, e, m } } = cssr
 
-/** 侧栏整槽克隆（sidebar root）：logo 行 + 面板区 + 官方子槽透传。 */
+/** 侧栏整槽克隆（sidebar.tsx）：root + logo 行 + 面板区 + 官方子槽透传 + 折叠态。 */
 export default b('panel', {
   '--dshp-padding': '12px',
   'height': '100%',
@@ -17,30 +17,6 @@ export default b('panel', {
   'display': 'flex',
   '--dsh-sidebar-inline-padding': 'var(--dshp-padding)',
 }, [
-  e('section-header', {
-    boxSizing: 'border-box',
-    height: '36px',
-    color: 'var(--dsw-alias-label-tertiary)',
-    borderRadius: '12px',
-    flex: 'none',
-    alignItems: 'center',
-    gap: '4px',
-    marginBottom: '4px',
-    paddingLeft: '8px',
-    display: 'flex',
-    overflow: 'hidden',
-  }),
-  e('section-header-title', {
-    whiteSpace: 'nowrap',
-    opacity: 1,
-    visibility: 'visible',
-    minWidth: 0,
-    maxWidth: '45%',
-    transition: 'max-width .18s var(--ds-ease-in-out), margin-right .18s var(--ds-ease-in-out), opacity .12s var(--ds-ease-in-out), transform .18s var(--ds-ease-in-out), visibility 0s linear',
-    flex: 'none',
-    lineHeight: '20px',
-    overflow: 'hidden',
-  }),
   e('logo-row', {
     boxSizing: 'border-box',
     flex: 'none',
@@ -126,36 +102,6 @@ export default b('panel', {
     paddingLeft: '4px',
     paddingRight: 'calc(var(--dsh-session-list-edge-inset) - var(--dsh-session-list-scrollbar-width) - var(--dsh-session-list-scrollbar-offset))',
   }),
-  e('menu-item', {
-    boxSizing: 'border-box',
-    appearance: 'none',
-    cursor: 'pointer',
-    userSelect: 'none',
-    width: '100%',
-    minWidth: 0,
-    height: '34px',
-    flex: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    padding: '0 8px',
-    border: 0,
-    borderRadius: '8px',
-    overflow: 'hidden',
-    background: 'transparent',
-    color: 'var(--dsw-alias-label-primary)',
-    fontFamily: 'inherit',
-    fontSize: '14px',
-    fontWeight: 400,
-    lineHeight: '22px',
-    textAlign: 'left',
-    whiteSpace: 'nowrap',
-    transition: 'background-color .12s var(--ds-ease-in-out), color .12s var(--ds-ease-in-out)',
-  }, [
-    c('&:hover', { background: 'var(--dsw-alias-interactive-bg-hover)' }),
-    c('&:focus-visible', { outline: '2px solid var(--dsw-alias-border-focus)', outlineOffset: '-2px' }),
-    m('selected', { background: 'var(--dsw-alias-interactive-bg-hover)' }),
-  ]),
   e('new-session', {
     width: '100%',
     height: '38px',
@@ -171,21 +117,6 @@ export default b('panel', {
   }, [
     c('&:hover', { background: 'var(--dsw-alias-button-floating-hover)' }),
   ]),
-  e('menu-item-icon', {
-    boxSizing: 'border-box',
-    flex: 'none',
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'inline-flex',
-    fontSize: '16px',
-  }),
-  e('menu-item-label', {
-    minWidth: 0,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    margin: '0 6px 0 0',
-  }),
   e('region-area', {
     minHeight: 0,
     marginRight: 'calc(-1 * var(--dshp-padding))',
@@ -211,57 +142,8 @@ export default b('panel', {
     width: '100%',
     minWidth: 0,
   }),
-  e('panel-view', {
-    'height': '100%',
-    'boxSizing': 'border-box',
-    'minWidth': 0,
-    'overflowY': 'auto',
-    'scrollbarGutter': 'stable',
-    'position': 'relative',
-    // 内容宽度派生（自给自足镜像 alpha）：有拖拽偏好用偏好，否则自适应
-    // clamp(680px, col*0.64, 920px)；列宽与偏好由 width 控制器发布。
-    '--dsh-chat-content-width': 'var(--dsh-chat-user-width, clamp(680px, calc(var(--dsh-conversation-column-width, 0px) * .64), 920px))',
-  }),
-  e('panel-view-column', {
-    maxWidth: 'var(--dsh-chat-content-width,780px)',
-    minHeight: '100%',
-    width: '100%',
-    margin: '0 auto',
-    flexDirection: 'column',
-    gap: '16px',
-    display: 'flex',
-  }),
-  // 内容宽度拖拽手柄（镜像 alpha WidthHandle）：绝对定位在内容列两侧 24px 外，
-  // 宽度自适应（列宽 − 内容宽的一半再减两个 24px inset，最多 40px）；
-  // hover/拖动时发光条跟随指针 Y（--dsh-width-handle-pointer-y）。
-  e('width-handle', {
-    zIndex: 8,
-    width: 'min(40px, calc((100% - var(--dsh-chat-content-width)) / 2 - 24px - 24px))',
-    cursor: 'col-resize',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-  }, [
-    c('&[data-side="left"]', { right: 'calc(50% + var(--dsh-chat-content-width) / 2 + 24px)' }),
-    c('&[data-side="right"]', { left: 'calc(50% + var(--dsh-chat-content-width) / 2 + 24px)' }),
-    c('&:after', {
-      content: '""',
-      background: 'linear-gradient(to bottom, transparent calc(var(--dsh-width-handle-pointer-y, 50%) - 52px), var(--dsw-alias-scrollbar-hover-l1) calc(var(--dsh-width-handle-pointer-y, 50%) - 12px), var(--dsw-alias-scrollbar-hover-l1) calc(var(--dsh-width-handle-pointer-y, 50%) + 12px), transparent calc(var(--dsh-width-handle-pointer-y, 50%) + 52px))',
-      opacity: 0,
-      pointerEvents: 'none',
-      borderRadius: '3px',
-      width: '3px',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-    }),
-    c('&[data-side="left"]:after', { right: '16px' }),
-    c('&[data-side="right"]:after', { left: '16px' }),
-    c('&:hover:after, &[data-dragging]:after', { opacity: 1 }),
-  ]),
   m('collapsed', [
     c('&', { padding: '18px 10px 6px' }),
-    c('& .dshp-panel__section-header-title', { opacity: 0, visibility: 'hidden', maxWidth: 0 }),
     c('& .dshp-panel__logo-row', { justifyContent: 'flex-start', height: '40px', marginBottom: '4px', padding: 0 }),
     c('& .dshp-panel__icon-button', { width: '36px', height: '36px', color: 'var(--dsw-alias-label-primary)' }),
     c('& .dshp-panel__panel-area', { alignItems: 'center', gap: '4px', marginBottom: '12px', paddingLeft: 0 }),

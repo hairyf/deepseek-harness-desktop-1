@@ -22,7 +22,7 @@ import { PANEL_STYLE_ID } from './constants'
 import { installPanelLocale } from './locales'
 import { installPanelService } from './register/panel-service'
 import { installSidebarRoot } from './register/sidebar'
-import panelStyle from './styles/panel.cssr'
+import panelIndexStyle from './styles/index.cssr'
 
 export { PANEL_PROTOCOL_SERVICE } from './constants'
 export type { PanelActionItemProps, PanelContentSpec, SidebarRootProps } from './types'
@@ -46,7 +46,7 @@ export const inject = ['slots', 'layout', 'locale']
  */
 export function apply(ctx: ClientContext): void {
   ctx.effect(
-    () => mountStyle(panelStyle, PANEL_STYLE_ID),
+    () => mountStyle(panelIndexStyle, PANEL_STYLE_ID),
     'dsh-tauri-panel: styles',
   )
   installPanelLocale(ctx)
