@@ -45,8 +45,8 @@ import {
   settingsStore,
   useSettingsUi,
 } from '../store'
-import { ArrowRight } from './icons'
 import { Icon } from './icon'
+import { ArrowRight } from './icons'
 import { SettingsNavIcon } from './nav-icon'
 
 /**

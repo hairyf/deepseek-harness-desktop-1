@@ -43,12 +43,6 @@ export interface SettingsRow {
 /** Keys in the settings UI translation dictionary. */
 export type SettingsUiKey = 'back' | 'search' | 'settings' | 'noResults'
 
-/** Common SVG props accepted by shared icon adapters. */
-export interface IconProps {
-  size?: number
-  className?: string
-}
-
 /** One option displayed by the shared primitives Menu select. */
 export interface MenuSelectOption {
   id: string

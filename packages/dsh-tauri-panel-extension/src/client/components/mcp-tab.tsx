@@ -11,7 +11,7 @@
 import type { ReactElement } from 'react'
 import type { McpEditorMode, McpEditorState, McpImportItem, McpRow, McpTabProps } from '../types'
 import { Button, Modal, StateDot } from '@deepseek-ai/dsh-client-ui-primitives'
-import { IconMcp, IconRefresh } from 'dsh-tauri-ui/client'
+import { ArrowRotateRight, Icon, PlugConnection } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
 import { MCP_RESTART_INITIAL_DELAY_MS, MCP_RESTART_POLL_INTERVAL_MS, MCP_RESTART_TIMEOUT_MS } from '../constants'
 import { useTimers } from '../hooks/use-timers'
@@ -297,7 +297,7 @@ export function McpTab(props: McpTabProps): ReactElement {
   return (
     <div className="dpte-section">
       <div className="dpte-head">
-        <IconMcp />
+        <Icon as={PlugConnection} />
         <h3>{t('mcpTitle')}</h3>
         <span className="dpte-spacer" />
         <Button variant="ghost" size="sm" disabled={restarting} onClick={() => setRestartConfirm(true)}>{t('restart')}</Button>
@@ -319,7 +319,7 @@ export function McpTab(props: McpTabProps): ReactElement {
         {servers !== null && <span className="dpte-count">{servers.length}</span>}
         <span className="dpte-spacer" />
         <button type="button" className="dpte-refresh" aria-label={t('view')} title={t('view')} disabled={busy} onClick={() => setReload(value => value + 1)}>
-          <IconRefresh />
+          <Icon as={ArrowRotateRight} />
         </button>
       </div>
 

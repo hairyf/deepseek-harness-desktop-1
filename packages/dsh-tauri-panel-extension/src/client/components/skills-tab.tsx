@@ -9,7 +9,7 @@
 import type { ReactElement } from 'react'
 import type { OpenTarget, SkillEditorState, SkillRowView, SkillsTabProps } from '../types'
 import { Button, Modal, StateDot } from '@deepseek-ai/dsh-client-ui-primitives'
-import { IconGitHub, IconRefresh, IconSkill } from 'dsh-tauri-ui/client'
+import { ArrowRotateRight, GraduationCap, Icon, LogoGithub } from 'dsh-tauri-ui/client'
 import { useEffect, useMemo, useState } from 'react'
 import { MarkdownPreview } from '../components/markdown'
 import { IMPORT_REFRESH_DELAYS_MS, SKILL_REFRESH_INTERVAL_MS, SKILL_REFRESH_TIMEOUT_MS, SOURCE_LOCALE_KEYS } from '../constants'
@@ -194,7 +194,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
   return (
     <div className="dpte-section">
       <div className="dpte-head">
-        <IconSkill />
+        <Icon as={GraduationCap} />
         <h3>{t('skillsTitle')}</h3>
         <span className="dpte-spacer" />
         <Button variant="ghost" size="sm" onClick={() => void doOpen({ target: 'user-skills' })}>{t('openUserSkills')}</Button>
@@ -230,7 +230,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
         )}
         <span className="dpte-spacer" />
         <input className="dpte-search" type="search" placeholder={t('searchSkills')} aria-label={t('searchSkills')} value={query} onChange={event => setQuery(event.target.value)} />
-        <button type="button" className="dpte-refresh" aria-label={t('refresh')} title={t('refresh')} disabled={busy} onClick={() => void doRefresh()}><IconRefresh /></button>
+        <button type="button" className="dpte-refresh" aria-label={t('refresh')} title={t('refresh')} disabled={busy} onClick={() => void doRefresh()}><Icon as={ArrowRotateRight} /></button>
       </div>
       {sources.length > 1 && <div className="dpte-chips" role="group" aria-label={t('source')}>{[{ id: 'all', label: t('filterAll') }, ...sources.map(source => ({ id: source, label: t(SOURCE_LOCALE_KEYS[source] ?? 'sourceCustom') }))].map(chip => <button key={chip.id} type="button" className="dpte-chip" data-active={sourceFilter === chip.id ? 'true' : undefined} onClick={() => setSourceFilter(chip.id)}>{chip.label}</button>)}</div>}
       {skills === null && <p className="dpte-empty">{t('loading')}</p>}
@@ -251,7 +251,7 @@ export function SkillsTab({ t, injected, createSkill }: SkillsTabProps): ReactEl
                   {skill.policyEditable && <button type="button" className="dpte-switch" role="switch" aria-checked={skill.invocation.modelInvocable || skill.invocation.userInvocable} aria-label={t('toggleSkill')} title={t('toggleSkillHint')} disabled={busy} onClick={() => void doToggle(skill)}><span className="dpte-switchKnob" /></button>}
                   {skill.dir && <button type="button" className="dpte-link" onClick={() => void doOpen({ target: 'skill', name: skill.name })}>{t('openFolder')}</button>}
                   <span className="dpte-spacer" />
-                  {skill.repository?.githubUrl && <a className="dpte-iconLink" href={skill.repository.githubUrl} target="_blank" rel="noreferrer" aria-label={t('githubRepository')} title={t('githubRepository')}><IconGitHub /></a>}
+                  {skill.repository?.githubUrl && <a className="dpte-iconLink" href={skill.repository.githubUrl} target="_blank" rel="noreferrer" aria-label={t('githubRepository')} title={t('githubRepository')}><Icon as={LogoGithub} /></a>}
                   <Button variant="ghost" size="sm" disabled={busy} onClick={() => void openExisting(skill)}>{skill.editable ? t('edit') : t('view')}</Button>
                   {skill.removable && <Button variant="ghost" size="sm" disabled={busy} onClick={() => setConfirmName(skill.name)}>{t('delete')}</Button>}
                 </div>

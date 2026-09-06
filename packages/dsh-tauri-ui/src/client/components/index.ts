@@ -1,7 +1,5 @@
 export { Icon } from './icon'
 export type { IconComponent, IconProps, SharedIconProps } from './icon'
-export { MenuSelect } from './menu-select'
-export { FishMark, IconPlaceholder, PanelLeftOutline, circleTreeSvg, clockSvg } from './special-icons'
 export {
   ArrowDownToLine,
   ArrowRight,
@@ -11,6 +9,7 @@ export {
   CirclePlay,
   CircleTree,
   Clock,
+  ChatOutline,
   CommentPlus,
   Ellipsis,
   EllipsisVertical,
@@ -23,3 +22,5 @@ export {
   Puzzle,
   TrashBin,
 } from './icons'
+export { MenuSelect } from './menu-select'
+export { circleTreeSvg, clockSvg, FishMark, IconPlaceholder, PanelLeftOutline } from './special-icons'

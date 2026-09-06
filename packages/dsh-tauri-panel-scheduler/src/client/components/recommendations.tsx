@@ -1,6 +1,7 @@
+import type { IconComponent } from 'dsh-tauri-ui/client'
 import type { ReactElement } from 'react'
 import type { ScheduleForm, TaskFormState, TaskView, Translate } from '../types'
-import { IconCalendar } from 'dsh-tauri-ui/client'
+import { Calendar, Icon } from 'dsh-tauri-ui/client'
 import { SCHEDULER_CLASSES as K } from '../constants'
 import { applyCreateTask } from '../store'
 import { recommendationMatchesTask } from '../utils/recommendations'
@@ -13,9 +14,7 @@ import { describeSchedule } from '../utils/schedule'
  * 仍用名称、计划和指令做兼容匹配。这样刷新页面或重新打开面板时，已添加项不会回到列表。
  */
 
-interface IconLike {
-  (props: { className?: string }): ReactElement
-}
+type IconLike = IconComponent
 
 export interface Recommendation {
   id: string
@@ -35,7 +34,7 @@ export const RECOMMENDATIONS: Recommendation[] = [
     promptKey: 'recReviewPrompt',
     schedule: { kind: 'weekly', weekdays: ['FR'], time: '16:00' },
     accent: '#8B6FF0',
-    icon: IconCalendar,
+    icon: Calendar,
     form: t => ({ name: t('recReviewName'), schedule: { kind: 'weekly', weekdays: ['FR'], time: '16:00' }, prompt: t('recReviewPrompt'), workspaceId: '', permission: 'read-only', provider: '', model: '', reasoningEffort: '' }),
   },
   {
@@ -44,7 +43,7 @@ export const RECOMMENDATIONS: Recommendation[] = [
     promptKey: 'recWeekdayBriefingPrompt',
     schedule: { kind: 'workdays', time: '08:00' },
     accent: '#3D9A80',
-    icon: IconCalendar,
+    icon: Calendar,
     form: t => ({ name: t('recWeekdayBriefingName'), schedule: { kind: 'workdays', time: '08:00' }, prompt: t('recWeekdayBriefingPrompt'), workspaceId: '', permission: 'read-only', provider: '', model: '', reasoningEffort: '' }),
   },
 ]
@@ -81,7 +80,7 @@ export function Recommendations({ t, tasks }: RecommendationsProps): ReactElemen
                 <li key={rec.id}>
                   <button type="button" className={K.recItem} onClick={() => void add(rec)}>
                     <span className={K.recIcon} style={{ color: rec.accent }}>
-                      <rec.icon />
+                      <Icon as={rec.icon} />
                     </span>
                     <span className={K.recBody}>
                       <span className={K.recName}>

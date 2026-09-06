@@ -1,6 +1,6 @@
 import type { ChangeEvent, ReactElement } from 'react'
 import type { PetListItem, PetSettingsProps, PresetDownloadProgress, PresetPetItem } from '../types'
-import { IconImport, IconPlus } from 'dsh-tauri-ui/client'
+import { ArrowDownToLine, Icon, Plus } from 'dsh-tauri-ui/client'
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { BUILTIN_PET_ID, PET_DEFAULT_SIZE, PET_SIZE_MAX, PET_SIZE_MIN, PET_SIZE_STEP } from '../constants'
 import { text, usePetLocale } from '../locales'
@@ -458,7 +458,7 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
             ? (
                 <>
                   <button type="button" className="dshpet-toolBtn" disabled={busy} onClick={() => { void createPet() }}>
-                    <IconPlus />
+                    <Icon as={Plus} />
                     {text('create')}
                   </button>
                   <button type="button" className="dshpet-toolBtn" disabled={busy} onClick={() => { void toggleVisibility() }}>
@@ -468,7 +468,7 @@ export function PetSettings(props: PetSettingsProps): ReactElement {
               )
             : (
                 <label className="dshpet-toolBtn" aria-disabled={busy}>
-                  <IconImport />
+                  <Icon as={ArrowDownToLine} />
                   {text('import')}
                   <input
                     type="file"
