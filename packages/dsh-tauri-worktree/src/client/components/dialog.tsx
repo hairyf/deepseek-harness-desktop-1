@@ -17,7 +17,8 @@ import type { WorkspacesRuntime, WorktreeDialogProps } from '../types'
  */
 import { useEffect } from 'react'
 import { text, useLocale } from '../locales'
-import { applyCheckout, applyDiscard, patchSession, useWorktreeSession } from '../store'
+import { applyCheckout, applyDiscard } from '../service/actions'
+import { patchSession, useWorktreeSession } from '../store'
 import { worktreeStyles } from '../styles'
 import { resolveWorkspaceTopInsertion } from '../utils/worktree'
 

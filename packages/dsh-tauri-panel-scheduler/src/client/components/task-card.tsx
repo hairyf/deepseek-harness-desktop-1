@@ -13,7 +13,7 @@ import { Menu, Modal, Toast, IconWarningOutline16 as Warning } from '@deepseek-a
 import { CirclePause, CirclePlay, EllipsisVertical, Icon, TrashBin } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
 import { SCHEDULER_CLASSES as K } from '../constants'
-import { applyDeleteTask, applyRunTask, applyToggleTask } from '../store'
+import { applyDeleteTask, applyRunTask, applyToggleTask } from '../service/scheduler'
 
 export interface TaskCardProps {
   task: TaskView

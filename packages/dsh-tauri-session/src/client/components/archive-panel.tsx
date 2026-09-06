@@ -23,19 +23,21 @@ import type { ArchivePanelProps, ArchiveSort } from '../types'
 import { Button, Input, Menu, Modal, Toast } from '@deepseek-ai/dsh-client-ui-primitives'
 import { Ellipsis, FolderOpen, Icon, Magnifier, MenuSelect, TrashBin } from 'dsh-tauri-ui/client'
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
-import { postOpenSessionDir } from '../apis'
 import { SESSION_CLASSES as K } from '../constants'
 import { text, useLocale } from '../locales'
 import {
-  archiveStore,
   clearArchive,
   deleteSession,
   deleteWorkspaceSessions,
+  postOpenSessionDir,
   refreshArchived,
+  unarchiveSession,
+} from '../service/archive'
+import {
+  archiveStore,
   setQuery,
   setSort,
   setWorkspaceFilter,
-  unarchiveSession,
   useArchiveUi,
 } from '../store'
 import { buildRows, formatTime, projectOptions, unionIds } from '../utils/archive-rows'

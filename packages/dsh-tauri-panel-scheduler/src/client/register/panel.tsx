@@ -22,7 +22,7 @@ import {
   PROTOCOL_RETRY_MS,
 } from '../constants'
 import { setChatPrefill } from '../prefill'
-import { hydrateScheduler } from '../store'
+import { hydrateScheduler } from '../service/scheduler'
 
 export function installSchedulerPanel(ctx: ClientContext, t: Translate): void {
   ctx.slots.inject(PANEL_SLOT_NAME as never, () => {

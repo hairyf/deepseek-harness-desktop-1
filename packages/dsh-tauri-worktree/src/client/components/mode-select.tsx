@@ -22,9 +22,8 @@ import {
   MODE_SELECT_CLASSES,
 } from '../constants'
 import { text, useLocale } from '../locales'
+import { attachWorktreeSession, createWorktree } from '../service/actions'
 import {
-  attachWorktreeSession,
-  createWorktree,
   patchSession,
   rememberNewSessionMode,
   useWorktreeSession,

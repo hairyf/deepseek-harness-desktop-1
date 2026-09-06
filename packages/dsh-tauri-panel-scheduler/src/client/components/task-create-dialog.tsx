@@ -15,7 +15,7 @@ import { Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import { MenuSelect } from 'dsh-tauri-ui/client'
 import { useRef, useState } from 'react'
 import { SCHEDULER_CLASSES as K } from '../constants'
-import { applyCreateTask, applyUpdateTask } from '../store'
+import { applyCreateTask, applyUpdateTask } from '../service/scheduler'
 import { MenuHostProvider } from './menu'
 import { ModelPicker } from './model-picker'
 

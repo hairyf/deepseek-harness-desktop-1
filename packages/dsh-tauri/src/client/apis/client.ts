@@ -51,8 +51,8 @@ function withJsonContentType(headersInit: HeadersInit | undefined, body: unknown
 }
 
 /** 模块级 ofetch 实例（关闭自动重试；重试策略由各插件显式决定）。 */
-const jsonFetch = createFetch({ 
-  defaults: { retry: 0 }
+const jsonFetch = createFetch({
+  defaults: { retry: 0 },
 })
 
 /**

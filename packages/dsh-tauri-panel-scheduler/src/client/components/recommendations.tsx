@@ -3,7 +3,7 @@ import type { ReactElement } from 'react'
 import type { ScheduleForm, TaskFormState, TaskView, Translate } from '../types'
 import { Calendar, Icon } from 'dsh-tauri-ui/client'
 import { SCHEDULER_CLASSES as K } from '../constants'
-import { applyCreateTask } from '../store'
+import { applyCreateTask } from '../service/scheduler'
 import { recommendationMatchesTask } from '../utils/recommendations'
 import { describeSchedule } from '../utils/schedule'
 

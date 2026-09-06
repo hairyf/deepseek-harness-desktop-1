@@ -8,11 +8,12 @@
 
 import type { ExtensionClientContext, Translate } from './types'
 import { compat } from 'dsh-tauri/client'
-import { createMcpInjected, createSkillsInjected } from './apis'
 import { LOCALE_NAMESPACE, PLUGIN_ID } from './constants'
 import { installExtensionLocale } from './locales'
 import { installExtensionPanel } from './register/extension-panel'
 import { registerSkillCreatorPrefill } from './register/skill-creator-prefill'
+import { createMcpInjected } from './service/mcp'
+import { createSkillsInjected } from './service/skills'
 import { mountExtensionStyles } from './styles'
 
 export const name = PLUGIN_ID
