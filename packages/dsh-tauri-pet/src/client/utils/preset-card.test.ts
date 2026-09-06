@@ -10,9 +10,12 @@ type PresetDownloadPhase = 'idle' | 'downloading' | 'extracting' | 'done' | 'fai
 describe('resolvePresetCardAction', () => {
   const maid = { id: 'maid-deepseek-whale', installed: false, phase: 'idle' as const }
 
-  it('已选优先于下载/启用状态', () => {
-    expect(resolvePresetCardAction(maid, 'maid-deepseek-whale', progress('downloading'))).toBe('selected')
+  it('已选仅限已安装的当前宠物；未安装的当前宠物（默认预设）给出下载入口', () => {
+    // 内置归一 id 与预设卡 id 相同：新装环境默认宠物未下载，卡片不能显示已选（issue #401）。
+    expect(resolvePresetCardAction(maid, 'maid-deepseek-whale', progress('downloading'))).toBe('downloading')
+    expect(resolvePresetCardAction(maid, 'maid-deepseek-whale', null)).toBe('download')
     expect(resolvePresetCardAction({ ...maid, installed: true }, 'maid-deepseek-whale', null)).toBe('selected')
+    expect(resolvePresetCardAction({ ...maid, installed: true }, 'maid-deepseek-whale', progress('downloading'))).toBe('selected')
   })
 
   it('下载/解压中显示 downloading，不因已安装而跳到 enable', () => {
