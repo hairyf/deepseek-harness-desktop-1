@@ -43,7 +43,7 @@ import { holdRegistryLease, registry } from './registry'
  * 安装右键菜单。返回卸载函数（关闭菜单并 dispose 生命周期控制器）。
  * @param ctx - 客户端根上下文（须已注入 sessions/workspaces）。
  */
-export function installContextMenu(ctx: ClientContext): () => void {
+export function registerContextMenu(ctx: ClientContext): () => void {
   const cx = compat(ctx)
   const sessions = cx.sessions as unknown as SessionsRuntimeLike
   const workspaces = cx.workspaces as unknown as WorkspacesRuntimeLike

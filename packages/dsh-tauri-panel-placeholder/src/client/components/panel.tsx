@@ -6,7 +6,7 @@ import { Content } from './content'
 
 /**
  * components/panel.tsx — 面板区（sidebar.panel.action 槽）样板条目组件：
- * 「定时任务」。槽位注册在 register/panel.ts（installPanel）。
+ * 「定时任务」。槽位注册在 register/panel.ts（registerPanel）。
  */
 
 export function PlaceholderPanel(props: PlaceholderPanelProps): ReactElement {

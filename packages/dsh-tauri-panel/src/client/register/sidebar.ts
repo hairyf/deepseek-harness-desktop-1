@@ -13,7 +13,7 @@ import { NS } from '../locales'
  * sidebar.panel.action 协议槽。
  * @param ctx - 客户端根上下文。
  */
-export function installSidebarRoot(ctx: Context): void {
+export function registerSidebarRoot(ctx: Context): void {
   ctx.slots.inject('sidebar' as never, () =>
     ctx.slots.register(
       {

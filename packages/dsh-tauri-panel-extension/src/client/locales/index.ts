@@ -205,7 +205,7 @@ const en: Record<string, string> = {
   pasteTransportMismatch: 'The row transport is locked and differs from the pasted config.',
 }
 
-export function installExtensionLocale(ctx: ExtensionClientContext): void {
+export function registerExtensionLocale(ctx: ExtensionClientContext): void {
   ctx.effect(() => [
     ctx.locale.register(LOCALE_NAMESPACE, 'zh', zh),
     ctx.locale.register(LOCALE_NAMESPACE, 'en', en),

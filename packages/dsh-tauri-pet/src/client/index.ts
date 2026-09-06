@@ -17,9 +17,9 @@
 import type { ClientContext } from 'dsh-tauri/client'
 import { mountStyle } from 'dsh-tauri-ui/client'
 import { PET_CLIENT_PLUGIN, PET_STYLES_EFFECT } from './constants'
-import { installLocale } from './locales'
-import { installPetIconPatch, registerPetPrefill, registerPetSection } from './register/pet'
-import { installPetSessionForwarder } from './service/activity'
+import { registerLocale } from './locales'
+import { registerPetIconPatch, registerPetPrefill, registerPetSection } from './register/pet'
+import { registerPetSessionForwarder } from './service/activity'
 import petEntryStyle from './styles/index.cssr'
 
 /** 插件显示名（诊断元数据）。 */
@@ -35,10 +35,10 @@ export const inject = ['slots', 'locale', 'sessions', 'workspaces']
 export function apply(ctx: ClientContext): void {
   ctx.effect(() => mountStyle(petEntryStyle, `${PET_CLIENT_PLUGIN}-styles`), PET_STYLES_EFFECT)
 
-  installLocale(ctx)
+  registerLocale(ctx)
 
   registerPetSection(ctx)
-  installPetIconPatch(ctx)
+  registerPetIconPatch(ctx)
   registerPetPrefill(ctx)
-  installPetSessionForwarder(ctx)
+  registerPetSessionForwarder(ctx)
 }

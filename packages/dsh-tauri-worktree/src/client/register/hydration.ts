@@ -19,7 +19,7 @@ import { attachWorktreeSession, discardWorktree, fetchStatus } from '../service/
 import { openWorktreeSession } from '../service/handoff'
 import { patchSession, selectSessionState, worktreeStore } from '../store'
 
-export function installWorktreeHydration(ctx: ClientContext): () => void {
+export function registerWorktreeHydration(ctx: ClientContext): () => void {
   // HARDCODE: SessionRuntime.binding() is an internal DSH 0.1.1-rc.2 API.
   // The public session-list source does not emit every tool-event mutation, so
   // live checkout/discard reconciliation subscribes to the bound Session source.

@@ -25,7 +25,7 @@ import sessionIconStyle from '../styles/index.cssr'
  * 安装会话行时钟图标（CSS + DOM 观察器）。返回卸载函数。
  * @returns 卸载函数。
  */
-export function installSessionIcons(): () => void {
+export function registerSessionIcons(): () => void {
   if (typeof document === 'undefined')
     return () => {}
   const controller = createLifecycleController()

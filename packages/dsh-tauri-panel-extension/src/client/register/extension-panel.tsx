@@ -24,7 +24,7 @@ import {
 } from '../constants'
 import { chooseWorkspace } from '../utils/workspace'
 
-export function installExtensionPanel(ctx: ClientContext, t: Translate, skills: SkillsInjected, mcp: McpInjected): void {
+export function registerExtensionPanel(ctx: ClientContext, t: Translate, skills: SkillsInjected, mcp: McpInjected): void {
   ctx.slots.inject(PANEL_SLOT_NAME as never, () => {
     let registration: (() => void) | undefined
     let retryTimer: number | undefined

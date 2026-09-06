@@ -9,10 +9,10 @@
 import type { SchedulerClientContext, Translate } from './types'
 import { mountStyle } from 'dsh-tauri-ui/client'
 import { LOCALE_NAMESPACE, PLUGIN_ID, SESSION_ICONS_EFFECT, STYLE_ID, STYLES_EFFECT } from './constants'
-import { installSchedulerLocale } from './locales'
-import { installSchedulerPanel } from './register/panel'
+import { registerSchedulerLocale } from './locales'
+import { registerSchedulerPanel } from './register/panel'
 import { registerSchedulerPrefill } from './register/prefill'
-import { installSessionIcons } from './register/session-icons'
+import { registerSessionIcons } from './register/session-icons'
 import schedulerIndexStyle from './styles/index.cssr'
 
 export { SCHEDULER_API_PREFIX } from '../shared/constants'
@@ -29,10 +29,10 @@ export const inject = ['slots', 'layout', 'locale', 'sessions', 'workspaces']
  * @param ctx - 客户端根上下文。
  */
 export function apply(ctx: SchedulerClientContext): void {
-  installSchedulerLocale(ctx)
+  registerSchedulerLocale(ctx)
   ctx.effect(() => mountStyle(schedulerIndexStyle, STYLE_ID), STYLES_EFFECT)
   const t = ctx.locale.bind(LOCALE_NAMESPACE) as Translate
-  installSchedulerPanel(ctx, t)
+  registerSchedulerPanel(ctx, t)
   registerSchedulerPrefill(ctx)
-  ctx.effect(() => installSessionIcons(), SESSION_ICONS_EFFECT)
+  ctx.effect(() => registerSessionIcons(), SESSION_ICONS_EFFECT)
 }

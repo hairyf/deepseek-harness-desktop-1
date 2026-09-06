@@ -31,7 +31,7 @@ import { createPanelConversationController } from '../service/controller'
  * 核心时降级为不提供该字段）。
  * @param ctx - 客户端根上下文。
  */
-export function installPanelService(ctx: Context): void {
+export function registerPanelService(ctx: Context): void {
   const controller = createPanelConversationController()
   const api: PanelProtocol = {
     ActionItem: PanelActionItem,

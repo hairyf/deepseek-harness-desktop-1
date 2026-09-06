@@ -213,7 +213,7 @@ const en: Record<string, string> = {
   'perWeek': 'Weekly',
 }
 
-export function installSchedulerLocale(ctx: SchedulerClientContext): void {
+export function registerSchedulerLocale(ctx: SchedulerClientContext): void {
   ctx.effect(() => [
     ctx.locale.register(LOCALE_NAMESPACE, 'zh', zh),
     ctx.locale.register(LOCALE_NAMESPACE, 'en', en),

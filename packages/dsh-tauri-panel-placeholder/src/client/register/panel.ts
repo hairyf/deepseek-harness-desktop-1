@@ -18,7 +18,7 @@ import {
  * renderPanelContent 切换会话区替换——本插件零机制代码。
  * @param ctx - 客户端根上下文。
  */
-export function installPanel(ctx: Context): void {
+export function registerPanel(ctx: Context): void {
   ctx.slots.inject(PANEL_SLOT_NAME as never, () => {
     // 宿主协议服务经反射注册（dsh-tauri-panel apply 先于本条目声明执行）；
     // 缺失时降级：不注册条目（旧核心/宿主未装）。

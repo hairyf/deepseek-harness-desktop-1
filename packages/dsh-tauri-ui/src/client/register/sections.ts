@@ -5,7 +5,7 @@ import type { SlotRegistry } from '@deepseek-ai/dsh-client-ui-renderer/client'
  * 安装器半区：持有槽注册中心的模块引用（slotsRef），供 hooks/sections.ts
  * 的只读投影 hooks 在 render 期经 getSettingsSlots() 订阅。
  *
- * 引用所有权与卸载清理只存在本文件：installSettingsSections 在 apply 时把
+ * 引用所有权与卸载清理只存在本文件：registerSettingsSections 在 apply 时把
  * ctx.slots 写入，返回的卸载函数在插件卸载后清除模块引用，避免跨实例残留。
  */
 
@@ -19,7 +19,7 @@ let slotsRef: SettingsSlots | undefined
  * @param slots - 客户端 slota 注册中心（ctx.slots）。
  * @returns 卸载函数（插件卸载后清除模块引用，避免跨实例残留）。
  */
-export function installSettingsSections(slots: SettingsSlots): () => void {
+export function registerSettingsSections(slots: SettingsSlots): () => void {
   slotsRef = slots
   return () => {
     if (slotsRef === slots)

@@ -19,7 +19,7 @@ import {
   PET_SECTION_ID,
   PET_SECTION_ORDER,
 } from '../constants'
-import { installSidebarPetIcon } from '../dom/sidebar-icon'
+import { registerSidebarPetIcon } from '../dom/sidebar-icon'
 import { text } from '../locales'
 import { chooseWorkspace } from '../utils/workspace'
 
@@ -37,8 +37,8 @@ export function registerPetSection(ctx: ClientContext): void {
   )
 }
 
-export function installPetIconPatch(ctx: Context): void {
-  ctx.effect(() => installSidebarPetIcon(), PET_ICON_PATCH_EFFECT)
+export function registerPetIconPatch(ctx: Context): void {
+  ctx.effect(() => registerSidebarPetIcon(), PET_ICON_PATCH_EFFECT)
 }
 
 export function registerPetPrefill(ctx: ClientContext): void {

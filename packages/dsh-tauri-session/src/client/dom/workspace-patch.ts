@@ -81,7 +81,7 @@ export function collectWorkspaceSessionIds(
  * @param workspacesRuntime - 客户端 ctx.workspaces（归档目标与会话清单来源）。
  * @param sessionsRuntime - 客户端 ctx.sessions（仅兜底 DOM 收集用）。
  */
-export function installWorkspaceArchivePatch(workspacesRuntime: WorkspacesRuntimeLike, sessionsRuntime: SessionsRuntimeLike): () => void {
+export function registerWorkspaceArchivePatch(workspacesRuntime: WorkspacesRuntimeLike, sessionsRuntime: SessionsRuntimeLike): () => void {
   if (typeof document === 'undefined')
     return () => {}
 

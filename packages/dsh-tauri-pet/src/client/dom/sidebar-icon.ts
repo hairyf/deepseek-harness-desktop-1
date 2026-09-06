@@ -93,7 +93,7 @@ function syncIconState(button: HTMLButtonElement): void {
  * 安装侧栏入口补丁。返回卸载函数（移除按钮、断开观察器与订阅）。
  * 桌宠状态缓存在这里初始化拉取一次；此后由设置页与按钮自身的切换写入。
  */
-export function installSidebarPetIcon(): () => void {
+export function registerSidebarPetIcon(): () => void {
   if (typeof document === 'undefined')
     return () => {}
 

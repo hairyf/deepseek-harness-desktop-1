@@ -37,8 +37,8 @@ import {
   SETTINGS_UI_PLUGIN,
   TURN_NAVIGATION_STYLE_ID,
 } from './constants'
-import { installSettingsLocale } from './locales'
-import { installSettingsSections } from './register/sections'
+import { registerSettingsLocale } from './locales'
+import { registerSettingsSections } from './register/sections'
 import { registerSettingsSidebar } from './register/sidebar'
 import { registerSettingsTrigger } from './register/trigger'
 import { mountStyle } from './style'
@@ -92,10 +92,10 @@ export function apply(ctx: ClientContext): void {
     () => mountStyle(turnNavigationStyle, TURN_NAVIGATION_STYLE_ID),
     'dsh-tauri-ui: turn navigation styles',
   )
-  installSettingsLocale(ctx)
+  registerSettingsLocale(ctx)
   // 设置分区投影：引用清理也走 effect（插件卸载后 slotsRef 复位，避免跨实例残留）。
   ctx.effect(
-    () => installSettingsSections(ctx.slots as never),
+    () => registerSettingsSections(ctx.slots as never),
     'dsh-tauri-ui: settings sections projection',
   )
   if (typeof SlotOutlet === 'function') {

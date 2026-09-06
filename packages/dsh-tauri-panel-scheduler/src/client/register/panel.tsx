@@ -24,7 +24,7 @@ import {
 import { setChatPrefill } from '../prefill'
 import { hydrateScheduler } from '../service/scheduler'
 
-export function installSchedulerPanel(ctx: ClientContext, t: Translate): void {
+export function registerSchedulerPanel(ctx: ClientContext, t: Translate): void {
   ctx.slots.inject(PANEL_SLOT_NAME as never, () => {
     let registration: (() => void) | undefined
     let retryTimer: number | undefined
