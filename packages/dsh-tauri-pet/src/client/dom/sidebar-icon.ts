@@ -2,9 +2,9 @@
  * dom/sidebar-icon.ts — 侧栏「桌宠入口」DOM 补丁。
  *
  * 像 dataelement/dsh-desktop 一样往侧栏塞图标：入口是 `.sidebar.settings`
- * 容器（dsh-tauri-ui 的设置触发器所在处）的子元素——紧贴 `.dsh-tu-settingsTrigger`
+ * 容器（dsh-tauri-ui 的设置触发器所在处）的子元素——紧贴 `.dshp-settings-trigger`
  * 右侧的原生按钮，样式复刻官方 `.rtSEdW_iconButton`（见 styles 的
- * .dshpet-iconButton）。按钮有「未选择/激活」两态：未选择任何宠物时（桌宠尚未
+ * .dshp-pet__icon-button）。按钮有「未选择/激活」两态：未选择任何宠物时（桌宠尚未
  * 启用）点击只提示「未选择宠物，请在设置页选择你的宠物」，不改变启用状态；
  * 已选择宠物后点击即在桌面端切换桌宠启用状态，不弹任何面板（设置走
  * settings.section 页）。
@@ -54,9 +54,9 @@ async function togglePetEnabled(): Promise<void> {
 function flashNoPetHint(button: HTMLButtonElement): void {
   const previous = button.getAttribute('data-tip') ?? ''
   button.setAttribute('data-tip', text('noPetSelected'))
-  button.classList.add('dshpet-iconHint')
+  button.classList.add('dshp-pet__icon-hint')
   window.setTimeout(() => {
-    button.classList.remove('dshpet-iconHint')
+    button.classList.remove('dshp-pet__icon-hint')
     button.setAttribute('data-tip', previous)
   }, NO_PET_HINT_MS)
 }
@@ -65,11 +65,11 @@ function flashNoPetHint(button: HTMLButtonElement): void {
 function createPetIconButton(): HTMLButtonElement {
   const button = document.createElement('button')
   button.type = 'button'
-  button.className = 'dshpet-iconButton'
+  button.className = 'dshp-pet__icon-button'
   button.setAttribute(PET_ICON_ATTRIBUTE, '1')
   button.setAttribute('data-tip', text('name'))
   button.setAttribute('aria-label', text('name'))
-  button.innerHTML = `${PET_ICON_SVG}<span class="dshpet-iconDot" aria-hidden="true" />`
+  button.innerHTML = `${PET_ICON_SVG}<span class="dshp-pet__icon-dot" aria-hidden="true" />`
   button.addEventListener('click', () => {
     // 未选择宠物：只提示，不改变启用状态（选择走设置页）。
     if (!petSelected()) {
@@ -85,7 +85,7 @@ function createPetIconButton(): HTMLButtonElement {
 function syncIconState(button: HTMLButtonElement): void {
   const status = getPetUiSnapshot().status
   const active = Boolean(status?.enabled && status?.visible)
-  button.classList.toggle('dshpet-iconOn', active)
+  button.classList.toggle('dshp-pet__icon--on', active)
   button.setAttribute('aria-pressed', String(active))
 }
 
@@ -93,7 +93,7 @@ function syncIconState(button: HTMLButtonElement): void {
  * 安装侧栏入口补丁。返回卸载函数（移除按钮、断开观察器与订阅）。
  * 桌宠状态缓存在这里初始化拉取一次；此后由设置页与按钮自身的切换写入。
  */
-export function installSidebarPetIcon(): () => void {
+export function registerSidebarPetIcon(): () => void {
   if (typeof document === 'undefined')
     return () => {}
 
@@ -122,7 +122,7 @@ export function installSidebarPetIcon(): () => void {
    * 内联样式；折叠态（Rail 圆形按钮）保持定宽，不做拉伸修正。
    */
   function applyRowStyles(host: HTMLElement, trigger: HTMLElement): void {
-    const rail = trigger.classList.contains('dsh-tu-settingsTriggerRail')
+    const rail = trigger.classList.contains('dshp-settings-triggerRail')
     if (host === rowHost && trigger === patchedTrigger && rail === patchedRail)
       return
     host.classList.add(PET_SETTINGS_ROW_CLASS)

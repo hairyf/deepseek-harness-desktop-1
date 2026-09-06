@@ -6,8 +6,8 @@
  * 创建/管理定时任务（「通过 Chat 创建」入口）。
  */
 
-import type { SchedulerEngine } from '../service/scheduler.js'
-import { createTask, deleteTask, listTasks, setTaskEnabled } from '../service/manager.js'
+import type { SchedulerEngine } from '../service/scheduler'
+import { createTask, deleteTask, getAllTask, setTaskEnabled } from '../service/task'
 
 /** 文本渲染助手。 */
 function textBlock(text: string): Array<{ type: 'text', text: string }> {
@@ -94,7 +94,7 @@ export function createToolSet(engine: SchedulerEngine): any[] {
         },
       },
       async execute() {
-        return { ok: true, tasks: listTasks() }
+        return { ok: true, tasks: getAllTask() }
       },
     },
     {

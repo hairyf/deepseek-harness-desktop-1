@@ -11,16 +11,19 @@
 import type { ReactElement } from 'react'
 import type { McpEditorMode, McpEditorState, McpImportItem, McpRow, McpTabProps } from '../types'
 import { Button, Modal, StateDot } from '@deepseek-ai/dsh-client-ui-primitives'
+import { ArrowRotateRight, Icon, PlugConnection, useMountStyle } from 'dsh-tauri-ui/client'
 import { useEffect, useState } from 'react'
-import { IconMcp, IconRefresh } from '../components/icons'
-import { MCP_RESTART_INITIAL_DELAY_MS, MCP_RESTART_POLL_INTERVAL_MS, MCP_RESTART_TIMEOUT_MS } from '../constants'
+import { getMcp, getMcpImportScan, postMcpImportApply, postMcpRemove, postMcpSave, postMcpToggle } from '../apis'
+import { MCP_RESTART_INITIAL_DELAY_MS, MCP_RESTART_POLL_INTERVAL_MS, MCP_RESTART_TIMEOUT_MS, MCP_TAB_STYLE_ID } from '../constants'
 import { useTimers } from '../hooks/use-timers'
+import { handlePostMcpRestart, isMcpDesktop } from '../service/handle-post-mcp-restart'
 import { mapToPairs, parseMcpJson, parsePairs } from '../utils/mcp'
 import { McpEditorForm } from './mcp-editor-form'
 import { McpImportDialog } from './mcp-import-dialog'
+import mcpTabStyle from './mcp-tab.cssr'
 
-export function McpTab(props: McpTabProps): ReactElement {
-  const { t, injected } = props
+export function McpTab({ t }: McpTabProps): ReactElement {
+  useMountStyle(mcpTabStyle, MCP_TAB_STYLE_ID)
   const [servers, setServers] = useState<McpRow[] | null>(null)
   const [editor, setEditor] = useState<McpEditorState | null>(null)
   const [confirmId, setConfirmId] = useState<string | null>(null)
@@ -40,7 +43,7 @@ export function McpTab(props: McpTabProps): ReactElement {
 
   useEffect(() => {
     let current = true
-    void injected.list().then(
+    void getMcp().then(
       (body) => {
         if (current)
           setServers(body.servers)
@@ -55,13 +58,13 @@ export function McpTab(props: McpTabProps): ReactElement {
     return () => {
       current = false
     }
-  }, [injected, reload, t])
+  }, [reload, t])
 
   const openImport = async (): Promise<void> => {
     setImportOpen(true)
     setImportItems(null)
     try {
-      const body = await injected.scanImport()
+      const body = await getMcpImportScan()
       const existing = new Set(body.existing)
       setImportItems(body.servers.map(server => ({
         server,
@@ -81,7 +84,7 @@ export function McpTab(props: McpTabProps): ReactElement {
     const items = importItems.filter(item => item.checked && !item.existing).map(item => ({ agent: item.server.agent, name: item.server.name }))
     setBusy(true)
     try {
-      const body = await injected.applyImport(items)
+      const body = await postMcpImportApply({ items })
       const failed = body.results.filter(item => !item.ok)
       setOutcome(failed.length === 0
         ? null
@@ -205,7 +208,7 @@ export function McpTab(props: McpTabProps): ReactElement {
     setFormError(null)
     setPasteError(null)
     try {
-      await injected.save(input)
+      await postMcpSave(input)
       setEditor(null)
       setOutcome(null)
       reloadList(true)
@@ -221,7 +224,7 @@ export function McpTab(props: McpTabProps): ReactElement {
   const doToggle = async (row: McpRow): Promise<void> => {
     setBusy(true)
     try {
-      await injected.toggle(row.id, !row.disabled)
+      await postMcpToggle({ id: row.id, disabled: !row.disabled })
       setOutcome(null)
       reloadList(true)
     }
@@ -238,7 +241,7 @@ export function McpTab(props: McpTabProps): ReactElement {
       return
     setBusy(true)
     try {
-      await injected.remove(confirmId)
+      await postMcpRemove({ id: confirmId })
       setOutcome(null)
       reloadList(true)
     }
@@ -254,16 +257,16 @@ export function McpTab(props: McpTabProps): ReactElement {
   const doRestart = (): void => {
     setRestartConfirm(false)
     setRestarting(true)
-    void injected.restart()
+    void handlePostMcpRestart()
     // 桌面模式：壳层重启完成后会重载窗口。独立模式：轮询本源，恢复即刷新。
-    if (injected.desktop)
+    if (isMcpDesktop())
       return
     const deadline = Date.now() + MCP_RESTART_TIMEOUT_MS
     const poll = (): void => {
       if (Date.now() > deadline)
         return
       later(() => {
-        void injected.list().then(
+        void getMcp().then(
           () => { window.location.reload() },
           () => { poll() },
         )
@@ -273,14 +276,14 @@ export function McpTab(props: McpTabProps): ReactElement {
   }
 
   const restartBanner = (
-    <div className="dpte-banner" data-kind="info" role="status">
+    <div className="dshp-extension__banner" data-kind="info" role="status">
       <StateDot state="ongoing" size={10} />
-      <div className="dpte-bannerBody">
+      <div className="dshp-extension__bannerBody">
         <span>{restarting ? t('restarting') : t('restartNeeded')}</span>
-        <span className="dpte-bannerHint">
+        <span className="dshp-extension__bannerHint">
           {restarting
-            ? (!injected.desktop && t('restartPortHint'))
-            : injected.desktop
+            ? (!isMcpDesktop() && t('restartPortHint'))
+            : isMcpDesktop()
               ? (
                   <>
                     {t('restartDesktopHint')}
@@ -295,50 +298,50 @@ export function McpTab(props: McpTabProps): ReactElement {
   )
 
   return (
-    <div className="dpte-section">
-      <div className="dpte-head">
-        <IconMcp />
+    <div className="dshp-extension__section">
+      <div className="dshp-extension__head">
+        <Icon as={PlugConnection} />
         <h3>{t('mcpTitle')}</h3>
-        <span className="dpte-spacer" />
+        <span className="dshp-extension__spacer" />
         <Button variant="ghost" size="sm" disabled={restarting} onClick={() => setRestartConfirm(true)}>{t('restart')}</Button>
         <Button variant="ghost" size="sm" onClick={() => void openImport()}>{t('importServers')}</Button>
         <Button variant="primary" size="sm" onClick={openCreate}>{t('addServer')}</Button>
       </div>
-      <p className="dpte-intro">{t('mcpIntro')}</p>
+      <p className="dshp-extension__intro">{t('mcpIntro')}</p>
 
       {outcome !== null && (
-        <div className="dpte-banner" data-kind={outcome.ok ? 'ok' : 'error'} role="status">
+        <div className="dshp-extension__banner" data-kind={outcome.ok ? 'ok' : 'error'} role="status">
           <StateDot state={outcome.ok ? 'done' : 'error'} size={10} />
-          <div className="dpte-bannerBody"><span>{outcome.text}</span></div>
+          <div className="dshp-extension__bannerBody"><span>{outcome.text}</span></div>
         </div>
       )}
       {(pending || restarting) && restartBanner}
 
-      <div className="dpte-listHead">
+      <div className="dshp-extension__list-head">
         <h3>{t('mcpTab')}</h3>
-        {servers !== null && <span className="dpte-count">{servers.length}</span>}
-        <span className="dpte-spacer" />
-        <button type="button" className="dpte-refresh" aria-label={t('view')} title={t('view')} disabled={busy} onClick={() => setReload(value => value + 1)}>
-          <IconRefresh />
+        {servers !== null && <span className="dshp-extension__count">{servers.length}</span>}
+        <span className="dshp-extension__spacer" />
+        <button type="button" className="dshp-extension__refresh" aria-label={t('view')} title={t('view')} disabled={busy} onClick={() => setReload(value => value + 1)}>
+          <Icon as={ArrowRotateRight} />
         </button>
       </div>
 
-      {servers === null && <p className="dpte-empty">{t('loading')}</p>}
-      {servers !== null && servers.length === 0 && <p className="dpte-empty">{t('emptyMcp')}</p>}
+      {servers === null && <p className="dshp-extension__empty">{t('loading')}</p>}
+      {servers !== null && servers.length === 0 && <p className="dshp-extension__empty">{t('emptyMcp')}</p>}
       {servers !== null && servers.length > 0 && (
-        <ul className="dpte-cards">
+        <ul className="dshp-extension__cards">
           {servers.map(row => (
-            <li className="dpte-card" key={row.id}>
-              <div className="dpte-cardTop">
-                <strong className="dpte-cardTitle" title={row.id}>{row.serverName}</strong>
-                <span className="dpte-tag">{row.transport}</span>
-                <span className="dpte-tag" data-kind={row.disabled ? 'off' : undefined}>{row.disabled ? t('disabled') : t('enabled')}</span>
+            <li className="dshp-extension__card" key={row.id}>
+              <div className="dshp-extension__card-top">
+                <strong className="dshp-extension__card-title" title={row.id}>{row.serverName}</strong>
+                <span className="dshp-extension__tag">{row.transport}</span>
+                <span className="dshp-extension__tag" data-kind={row.disabled ? 'off' : undefined}>{row.disabled ? t('disabled') : t('enabled')}</span>
               </div>
-              <p className="dpte-cardDesc">
+              <p className="dshp-extension__card-desc">
                 {row.transport === 'stdio' ? `${row.command ?? ''} ${(row.args ?? []).join(' ')}` : row.url ?? ''}
               </p>
-              <div className="dpte-cardRow">
-                <span className="dpte-spacer" />
+              <div className="dshp-extension__card-row">
+                <span className="dshp-extension__spacer" />
                 <Button variant="ghost" size="sm" disabled={busy} onClick={() => void doToggle(row)}>{t('toggle')}</Button>
                 <Button variant="ghost" size="sm" disabled={busy} onClick={() => openEdit(row)}>{t('edit')}</Button>
                 <Button variant="ghost" size="sm" disabled={busy} onClick={() => setConfirmId(row.id)}>{t('delete')}</Button>
@@ -353,8 +356,8 @@ export function McpTab(props: McpTabProps): ReactElement {
         onClose={() => setEditor(null)}
         closeLabel={t('close')}
         title={editor !== null && editor.id !== '' ? t('editServer') : t('addServer')}
-        className="dpte-modalForm"
-        contentClassName="dpte-modalScroll"
+        className="dshp-extension__modal-form"
+        contentClassName="dshp-extension__modal-scroll"
       >
         {editor !== null && (
           <McpEditorForm

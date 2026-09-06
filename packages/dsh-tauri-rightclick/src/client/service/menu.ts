@@ -19,7 +19,6 @@ import type {
 import { compat, createLifecycleController } from 'dsh-tauri/client'
 import {
   CONTEXT_MENU_EVENT,
-  RIGHTCLICK_CLASSES as K,
 } from '../constants'
 import { editableFrom, externalUrl, officialAction, resolveSession, rowFrom, selectedText, selectedUrl, ungroupedRowFrom, workspaceForSession, workspaceFrom } from '../dom/locate'
 import { createMenuItem, createMenuRoot, createSeparator, positionMenu } from '../dom/menu-item'
@@ -44,7 +43,7 @@ import { holdRegistryLease, registry } from './registry'
  * 安装右键菜单。返回卸载函数（关闭菜单并 dispose 生命周期控制器）。
  * @param ctx - 客户端根上下文（须已注入 sessions/workspaces）。
  */
-export function installContextMenu(ctx: ClientContext): () => void {
+export function registerContextMenu(ctx: ClientContext): () => void {
   const cx = compat(ctx)
   const sessions = cx.sessions as unknown as SessionsRuntimeLike
   const workspaces = cx.workspaces as unknown as WorkspacesRuntimeLike
@@ -79,7 +78,7 @@ export function installContextMenu(ctx: ClientContext): () => void {
   }
   /** 追加分隔线（已有条目且末项不是分隔线时才加）。 */
   const split = (root: HTMLElement): void => {
-    if (!root.childElementCount || root.lastElementChild?.classList.contains(K.separator))
+    if (!root.childElementCount || root.lastElementChild?.classList.contains('dshp-menu__separator'))
       return
     root.appendChild(createSeparator())
   }
@@ -157,7 +156,7 @@ export function installContextMenu(ctx: ClientContext): () => void {
     }
     else if (workspaceTarget) {
       const workspace = workspaceTarget.workspace
-      add(root, text('newSession'), () => workspaces.startSession(workspace.workspaceId))
+      add(root, text('newSession'), () => workspaces.startSession?.(workspace.workspaceId as unknown as Parameters<NonNullable<typeof workspaces.startSession>>[0]))
       add(root, text('openInExplorer'), () => openInExplorer(workspace.path))
       split(root)
       add(root, text('renameWorkspace'), () => officialSelect(

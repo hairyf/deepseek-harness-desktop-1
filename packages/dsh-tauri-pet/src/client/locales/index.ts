@@ -75,7 +75,7 @@ const DICT_EN: Record<LocaleKey, string> = {
 let activeLocale = 'en'
 const localeRevision = createExternalStore({ revision: 0 })
 
-export function installLocale(ctx: ClientContext): void {
+export function registerLocale(ctx: ClientContext): void {
   activeLocale = ctx.locale.getLocale().active
   ctx.locale.register(NS, 'zh', DICT_ZH)
   ctx.locale.register(NS, 'en', DICT_EN)

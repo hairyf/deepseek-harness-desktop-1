@@ -7,7 +7,7 @@
  * （schedule.timeZone 仅作展示记录，执行统一用宿主本地钟面时间）。返回 ms 时间戳。
  */
 
-import type { SchedulerSchedule, Weekday } from '../types/index.js'
+import type { SchedulerSchedule, Weekday } from '../types'
 import { parseCronExpression } from 'cron-schedule'
 
 const MINUTE_MS = 60 * 1000

@@ -18,16 +18,16 @@ import type { ModelSelection } from '@deepseek-ai/dsh-agent'
 import type {} from '@deepseek-ai/dsh-agent-default-model'
 import type {} from '@deepseek-ai/dsh-agent-presets'
 import type { ToolExecution } from '@deepseek-ai/dsh-tools'
-import type { HostContext, RunTrigger, SchedulerTask } from '../types/index.js'
-import type { PermissionPresetService } from './permission-presets.js'
+import type { HostContext, RunTrigger, SchedulerTask } from '../types'
+import type { PermissionPresetService } from './permission-presets'
 import { randomUUID } from 'node:crypto'
 import { mkdir } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import process from 'node:process'
 import { join } from 'pathe'
-import { RUNS_HISTORY_LIMIT } from '../constants/index.js'
-import { loadState, saveRuns, withStateLock } from '../storage/index.js'
-import { schedulerSessionTitle } from './run-title.js'
+import { createRun, updateRun } from './run'
+
+import { schedulerSessionTitle } from './run-title'
 
 /** 单次执行结果（scheduler.ts / 路由消费）。 */
 export interface ExecuteOutcome {
@@ -245,35 +245,24 @@ export async function executeTask(
   const sessionId = `task-${randomUUID()}`
 
   // 1. 初始化并持久化运行记录
-  await withStateLock(() => {
-    const state = loadState()
-    state.runs.push({
-      id: runId,
-      taskId: task.id,
-      taskName: task.name,
-      trigger,
-      status: 'running',
-      scheduledFor,
-      startedAt: scheduledFor,
-      sessionId,
-    })
-    return saveRuns(state.runs)
+  await createRun({
+    id: runId,
+    taskId: task.id,
+    taskName: task.name,
+    trigger,
+    status: 'running',
+    scheduledFor,
+    startedAt: scheduledFor,
+    sessionId,
   })
 
   // 辅助内联函数：把某次执行更新为终态并持久化（保留最近 RUNS_HISTORY_LIMIT 条）
   const finalizeRun = (status: 'succeeded' | 'failed' | 'cancelled', outcome: ExecuteOutcome) =>
-    withStateLock(() => {
-      const state = loadState()
-      const run = state.runs.find(r => r.id === runId)
-      if (run) {
-        run.status = status
-        run.finishedAt = new Date().toISOString()
-        run.error = outcome.error
-        if (outcome.sessionId)
-          run.sessionId = outcome.sessionId
-        state.runs = state.runs.slice(-RUNS_HISTORY_LIMIT)
-        return saveRuns(state.runs)
-      }
+    updateRun(runId, {
+      status,
+      finishedAt: new Date().toISOString(),
+      error: outcome.error,
+      ...(outcome.sessionId ? { sessionId: outcome.sessionId } : {}),
     })
 
   try {

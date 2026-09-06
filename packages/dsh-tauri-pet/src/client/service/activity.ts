@@ -52,7 +52,7 @@ interface SessionWatch {
  * 按会话做 trailing 节流，到期时按当前窗口重算实时活动（进行中的工具调用 /
  * 思考流）并以 liveActivity 字段并入快照；alpha 缺失事件窗口时退级为纯快照转发。
  */
-export function installPetSessionForwarder(ctx: ClientContext): void {
+export function registerPetSessionForwarder(ctx: ClientContext): void {
   ctx.effect(() => {
     const controller = createLifecycleController()
     const watches = new Map<string, SessionWatch>()

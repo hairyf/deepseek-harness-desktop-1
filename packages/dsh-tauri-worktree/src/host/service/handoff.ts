@@ -14,11 +14,11 @@ import type {
   OperationResult,
   PendingHandoff,
   WorktreeParams,
-} from '../types/index.js'
+} from '../types'
 import { randomUUID } from 'node:crypto'
-import { setPendingCheckoutContext } from '../storage/index.js'
-import { checkoutToLocal, discardWorktree } from './operation.js'
-import { findSession } from './session.js'
+import { setPendingCheckoutContext } from '../storage'
+import { checkoutToLocal, discardWorktree } from './operation'
+import { findSession } from './session'
 
 /**
  * 用源会话的完整事件创建继承会话（cwd 指向目标路径），供「检出本地」「正在新建工作树」

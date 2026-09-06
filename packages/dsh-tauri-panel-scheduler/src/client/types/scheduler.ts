@@ -129,17 +129,3 @@ export interface SchedulerPanelProps {
   /** 「通过 Chat 创建」：关闭面板内容区回到会话区，引导用户直接对 Agent 描述任务。 */
   onViaChat: () => void
 }
-
-/** 客户端注入的能力面（由 apis 装配）。 */
-export interface SchedulerInjected {
-  listTasks: (search?: string) => Promise<{ tasks: TaskView[] }>
-  createTask: (input: Record<string, unknown>) => Promise<{ ok: boolean, task?: TaskView, error?: string }>
-  updateTask: (id: string, input: Record<string, unknown>) => Promise<{ ok: boolean, task?: TaskView, error?: string }>
-  toggleTask: (id: string, enabled: boolean) => Promise<{ ok: boolean, task?: TaskView, error?: string }>
-  deleteTask: (id: string) => Promise<{ ok: boolean, error?: string }>
-  runTask: (id: string) => Promise<{ ok: boolean, error?: string }>
-  listRuns: (taskId?: string) => Promise<{ runs: RunView[] }>
-  deleteRun: (id: string) => Promise<{ ok: boolean, error?: string }>
-  fetchOptions: () => Promise<SchedulerOptions>
-  recover: () => Promise<void>
-}
